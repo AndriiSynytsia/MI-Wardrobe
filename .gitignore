@@ -255,3 +255,8 @@ private/
 *.agent.log
 *.agent.tmp
 *.prompt-history
+
+# Nested duplicate folder & local scratch scripts
+MI-Wardrobe/
+*.cjs
+test_write.txt
