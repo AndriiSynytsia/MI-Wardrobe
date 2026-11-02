@@ -147,3 +147,111 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# ==========================================
+# AI AGENTS — LOCAL CONFIGURATION
+# ==========================================
+
+# General agent instructions
+AGENTS.md
+AGENTS.override.md
+**/AGENTS.md
+**/AGENTS.override.md
+
+# OpenAI Codex
+.codex/
+.codex*
+.codex.md
+
+# Claude Code
+.claude/
+.claude*
+CLAUDE.md
+
+# Cursor
+.cursor/
+.cursor*
+.cursorrules
+
+# GitHub Copilot
+.github/copilot-instructions.md
+.github/instructions/
+
+# Windsurf
+.windsurf/
+.windsurfrules
+
+# Aider
+.aider*
+.aider/
+
+# Cline
+.cline/
+.clinerules/
+
+# Roo Code
+.roo/
+.roo-code/
+
+# Continue
+.continue/
+
+# OpenCode
+.opencode/
+opencode.json
+
+# Other AI coding assistants
+.junie/
+.trae/
+.kiro/
+.zed/
+.factory/
+.mcp/
+.mcp.json
+
+# ==========================================
+# API KEYS & SECRETS
+# ==========================================
+
+.env
+.env.*
+!.env.example
+!.env.template
+
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+credentials.json
+client_secret.json
+service-account.json
+serviceAccountKey.json
+
+secrets/
+.secret/
+.secrets/
+private/
+
+# ==========================================
+# AI GENERATED / LOCAL DATA
+# ==========================================
+
+.ai/
+.ai-cache/
+.agent/
+.agent-cache/
+.agent-memory/
+.agent-state/
+.agent-sessions/
+.agent-workspace/
+
+.ai-history/
+.ai-logs/
+.ai-cache/
+
+*.agent.log
+*.agent.tmp
+*.prompt-history

@@ -1,0 +1,6 @@
+{
+  "name": "MI Wardrobe — Google Sites Prototype",
+  "description": "Interactive Google Sites prototype and landing page for MI Wardrobe featuring paper design aesthetics, precision mechanical exploded-view technical animation, interface demonstration, and enquiry system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
