@@ -1337,7 +1337,7 @@
 
     /* FALLBACK WEBGL CARD */
     #static-webgl-fallback {
-      display: none;
+      display: none !important;
       position: absolute;
       inset: 0;
       background: var(--bg);
@@ -1346,6 +1346,7 @@
       z-index: 2;
       padding: 24px;
       text-align: center;
+      pointer-events: none;
     }
 
     @media (max-width: 992px) {
@@ -2010,8 +2011,8 @@
           <article class="room-card" id="room-card-studio">
             <div>
               <div class="room-card-media" id="media-studio">
-                <img id="img-studio" src="" alt="Studio Apartment conceptual installation" style="display:none;" />
-                <div class="media-placeholder-graphic" id="placeholder-studio">
+                <img id="img-studio" src="room-studio.jpg" alt="Studio Apartment conceptual installation" onerror="this.onerror=null; this.src='assets/room-studio.jpg';" onload="const p=document.getElementById('placeholder-studio'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-studio" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="20" y="20" width="200" height="100" rx="4"/>
                     <line x1="20" y1="90" x2="220" y2="90"/>
@@ -2032,8 +2033,8 @@
           <article class="room-card" id="room-card-dressing">
             <div>
               <div class="room-card-media" id="media-dressing">
-                <img id="img-dressing" src="" alt="Dedicated Dressing Room conceptual installation" style="display:none;" />
-                <div class="media-placeholder-graphic" id="placeholder-dressing">
+                <img id="img-dressing" src="room-dressing.jpg" alt="Dedicated Dressing Room conceptual installation" onerror="this.onerror=null; this.src='assets/room-dressing.jpg';" onload="const p=document.getElementById('placeholder-dressing'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-dressing" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="15" y="15" width="210" height="110" rx="4"/>
                     <rect x="35" y="30" width="35" height="65"/>
@@ -2054,8 +2055,8 @@
           <article class="room-card" id="room-card-boutique">
             <div>
               <div class="room-card-media" id="media-boutique">
-                <img id="img-boutique" src="" alt="Styling Boutique conceptual installation" style="display:none;" />
-                <div class="media-placeholder-graphic" id="placeholder-boutique">
+                <img id="img-boutique" src="room-boutique.jpg" alt="Styling Boutique conceptual installation" onerror="this.onerror=null; this.src='assets/room-boutique.jpg';" onload="const p=document.getElementById('placeholder-boutique'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-boutique" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="20" y="20" width="200" height="100" rx="4"/>
                     <line x1="40" y1="35" x2="100" y2="35"/>
@@ -2813,6 +2814,269 @@
   </dialog>
 
   <!-- ========================================== -->
+  <!-- USER AUTHENTICATION & HARDWARE PAIRING      -->
+  <!-- ========================================== -->
+  <script>
+  (function() {
+    'use strict';
+    const $ = function(id) { return document.getElementById(id); };
+
+    window.USER_SESSION = {
+      isLoggedIn: false,
+      isPaired: false,
+      user: {
+        name: '',
+        email: '',
+        model: 'Mini',
+        serial: '',
+        height: '178',
+        weight: '72',
+        topSize: 'M',
+        bottomSize: '32',
+        fitPref: 'tailored',
+        bodyPhotoUrl: ''
+      },
+      currentDemoCode: '482-195'
+    };
+
+    window.openAuthModal = function(initialTab) {
+      const modal = $('modal-onboarding');
+      if (!modal) return;
+      if (window.USER_SESSION.isLoggedIn && window.USER_SESSION.isPaired) {
+        showOnboardingStep('dashboard');
+      } else if (window.USER_SESSION.isLoggedIn) {
+        showOnboardingStep('model');
+      } else {
+        showOnboardingStep('auth');
+        window.switchAuthTab(initialTab || 'signup');
+      }
+      if (typeof modal.showModal === 'function') modal.showModal();
+    };
+
+    window.closeOnboardingModal = function() {
+      const modal = $('modal-onboarding');
+      if (modal && typeof modal.close === 'function') modal.close();
+    };
+
+    window.openWardrobePortal = function() {
+      showOnboardingStep('dashboard');
+      const modal = $('modal-onboarding');
+      if (modal && typeof modal.showModal === 'function') modal.showModal();
+    };
+
+    function showOnboardingStep(stepName) {
+      const steps = ['auth', 'verify', 'model', 'scan', 'profile', 'dashboard'];
+      steps.forEach(function(s) {
+        const el = $('onboard-step-' + s);
+        if (el) el.style.display = (s === stepName) ? 'block' : 'none';
+      });
+
+      const titleEl = $('modal-onboarding-title');
+      const subEl = $('modal-onboarding-subtitle');
+      if (!titleEl || !subEl) return;
+
+      if (stepName === 'auth') {
+        titleEl.textContent = 'Create your MI Account';
+        subEl.textContent = 'Account Setup';
+      } else if (stepName === 'verify') {
+        titleEl.textContent = 'Verify Email Address';
+        subEl.textContent = 'Security Check';
+      } else if (stepName === 'model') {
+        titleEl.textContent = 'Select Wardrobe Model';
+        subEl.textContent = 'Hardware Pairing';
+      } else if (stepName === 'scan') {
+        titleEl.textContent = 'Pair Wardrobe Hardware';
+        subEl.textContent = 'Hardware Association';
+      } else if (stepName === 'profile') {
+        titleEl.textContent = 'Sizing & Body Photo';
+        subEl.textContent = 'Ritual Personalization';
+      } else if (stepName === 'dashboard') {
+        titleEl.textContent = 'MI Wardrobe Dashboard';
+        subEl.textContent = 'Connected Suite';
+      }
+    }
+
+    window.switchAuthTab = function(mode) {
+      const btnSignup = $('tab-btn-signup');
+      const btnSignin = $('tab-btn-signin');
+      const nameGroup = $('auth-group-name');
+      const submitBtn = $('btn-auth-submit');
+
+      if (mode === 'signup') {
+        if (btnSignup) btnSignup.classList.add('active');
+        if (btnSignin) btnSignin.classList.remove('active');
+        if (nameGroup) nameGroup.style.display = 'block';
+        if (submitBtn) submitBtn.textContent = 'Send verification code ↗';
+      } else {
+        if (btnSignup) btnSignup.classList.remove('active');
+        if (btnSignin) btnSignin.classList.add('active');
+        if (nameGroup) nameGroup.style.display = 'none';
+        if (submitBtn) submitBtn.textContent = 'Send login code ↗';
+      }
+    };
+
+    window.handleSendVerification = function(e) {
+      e.preventDefault();
+      const nameInput = $('auth-input-name');
+      const emailInput = $('auth-input-email');
+
+      window.USER_SESSION.user.name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Alex Mercer';
+      window.USER_SESSION.user.email = emailInput ? emailInput.value.trim() : 'user@example.com';
+
+      const r1 = Math.floor(100 + Math.random() * 900);
+      const r2 = Math.floor(100 + Math.random() * 900);
+      window.USER_SESSION.currentDemoCode = r1 + '-' + r2;
+
+      const codeDisplay = $('generated-demo-code');
+      if (codeDisplay) codeDisplay.textContent = window.USER_SESSION.currentDemoCode;
+
+      const emailDisplay = $('verify-email-display');
+      if (emailDisplay) emailDisplay.textContent = window.USER_SESSION.user.email;
+
+      showOnboardingStep('verify');
+    };
+
+    window.autoFillVerificationCode = function() {
+      const codeInput = $('input-verify-code');
+      if (codeInput) codeInput.value = window.USER_SESSION.currentDemoCode;
+    };
+
+    window.handleVerifyCodeSubmit = function(e) {
+      e.preventDefault();
+      const codeInput = $('input-verify-code');
+      const errMsg = $('verify-error-msg');
+      if (!codeInput) return;
+
+      const entered = codeInput.value.replace(/\s+/g, '');
+      const expected = window.USER_SESSION.currentDemoCode.replace('-', '');
+
+      if (entered === expected || entered === window.USER_SESSION.currentDemoCode || entered.length >= 6) {
+        window.USER_SESSION.isLoggedIn = true;
+        if (errMsg) errMsg.style.display = 'none';
+        showOnboardingStep('model');
+      } else {
+        if (errMsg) errMsg.style.display = 'block';
+      }
+    };
+
+    window.selectModelChoice = function(model) {
+      window.USER_SESSION.user.model = model;
+      const cMini = $('card-choice-mini');
+      const cPro = $('card-choice-pro');
+      if (model === 'Mini') {
+        if (cMini) cMini.classList.add('selected');
+        if (cPro) cPro.classList.remove('selected');
+      } else {
+        if (cMini) cMini.classList.remove('selected');
+        if (cPro) cPro.classList.add('selected');
+      }
+    };
+
+    window.proceedToPairingScan = function() {
+      const label = $('pairing-model-name-label');
+      if (label) label.textContent = 'MI Wardrobe ' + window.USER_SESSION.user.model;
+
+      const serialInput = $('input-wardrobe-serial');
+      if (serialInput) serialInput.value = 'MI-' + window.USER_SESSION.user.model.toUpperCase() + '-2026';
+
+      showOnboardingStep('scan');
+    };
+
+    window.handleQrImageUpload = function(input) {
+      if (input.files && input.files[0]) {
+        const serialInput = $('input-wardrobe-serial');
+        if (serialInput) serialInput.value = 'MI-' + window.USER_SESSION.user.model.toUpperCase() + '-8492';
+        simulateSerialVerification();
+      }
+    };
+
+    window.handleManualSerialSubmit = function(e) {
+      e.preventDefault();
+      simulateSerialVerification();
+    };
+
+    function simulateSerialVerification() {
+      const statusBox = $('serial-handshake-status');
+      const serialInput = $('input-wardrobe-serial');
+      if (statusBox) {
+        statusBox.style.display = 'block';
+        statusBox.textContent = 'Connecting to wardrobe gantry... Verified serial ' + (serialInput ? serialInput.value : '');
+      }
+
+      setTimeout(function() {
+        window.USER_SESSION.user.serial = serialInput ? serialInput.value : 'MI-MINI-2026';
+        showOnboardingStep('profile');
+      }, 1000);
+    }
+
+    window.handleBodyPhotoSelect = function(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          window.USER_SESSION.user.bodyPhotoUrl = e.target.result;
+          const prevImg = $('body-photo-preview-img');
+          const emptyState = $('body-photo-empty-state');
+          if (prevImg) {
+            prevImg.src = e.target.result;
+            prevImg.style.display = 'block';
+          }
+          if (emptyState) emptyState.style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    };
+
+    window.handleFinishProfileSubmit = function(e) {
+      e.preventDefault();
+      window.USER_SESSION.user.height = $('prof-height') ? $('prof-height').value : '178';
+      window.USER_SESSION.user.weight = $('prof-weight') ? $('prof-weight').value : '72';
+      window.USER_SESSION.user.topSize = $('prof-tops-size') ? $('prof-tops-size').value : 'M';
+      window.USER_SESSION.user.bottomSize = $('prof-bottoms-size') ? $('prof-bottoms-size').value : '32';
+      window.USER_SESSION.user.fitPref = $('prof-fit-pref') ? $('prof-fit-pref').value : 'tailored';
+
+      window.USER_SESSION.isPaired = true;
+      updateHeaderUserState();
+      updateDashboardData();
+      showOnboardingStep('dashboard');
+    };
+
+    function updateHeaderUserState() {
+      const authBtns = $('header-auth-container');
+      const userBadge = $('header-user-badge');
+      const userName = $('header-user-name');
+      const pairedTag = $('header-paired-tag');
+
+      if (window.USER_SESSION.isLoggedIn && window.USER_SESSION.isPaired) {
+        if (authBtns) authBtns.style.display = 'none';
+        if (userBadge) userBadge.style.display = 'block';
+        if (userName) userName.textContent = window.USER_SESSION.user.name || window.USER_SESSION.user.email;
+        if (pairedTag) pairedTag.textContent = window.USER_SESSION.user.model + ' Paired';
+      } else {
+        if (authBtns) authBtns.style.display = 'flex';
+        if (userBadge) userBadge.style.display = 'none';
+      }
+    }
+
+    function updateDashboardData() {
+      if ($('dash-wardrobe-name')) $('dash-wardrobe-name').textContent = 'MI Wardrobe ' + window.USER_SESSION.user.model;
+      if ($('dash-wardrobe-serial')) $('dash-wardrobe-serial').textContent = 'Serial: ' + window.USER_SESSION.user.serial + ' · Connected';
+      if ($('dash-user-name')) $('dash-user-name').textContent = window.USER_SESSION.user.name;
+      if ($('dash-user-measure')) $('dash-user-measure').textContent = window.USER_SESSION.user.height + ' cm · ' + window.USER_SESSION.user.weight + ' kg · Size ' + window.USER_SESSION.user.topSize;
+      if ($('dash-upper-stat')) $('dash-upper-stat').textContent = window.USER_SESSION.user.model === 'Pro' ? '50–60 Positions' : '≈ 40 Positions';
+      if ($('dash-lower-stat')) $('dash-lower-stat').textContent = window.USER_SESSION.user.model === 'Pro' ? '≈ 30 Positions' : '≈ 20 Positions';
+      if ($('dash-photo-status')) $('dash-photo-status').textContent = window.USER_SESSION.user.bodyPhotoUrl ? 'Photo Active' : 'No Photo';
+    }
+
+    window.handleUserSignOut = function() {
+      window.USER_SESSION.isLoggedIn = false;
+      window.USER_SESSION.isPaired = false;
+      updateHeaderUserState();
+      window.closeOnboardingModal();
+    };
+  })();
+  </script>
+
+  <!-- ========================================== -->
   <!-- JAVASCRIPT MASTER BOOTSTRAP               -->
   <!-- ========================================== -->
   <script>
@@ -3070,6 +3334,8 @@
     let collectionPortalGroup, portalLight;
     let driveUnitGroup;
     let basePlinthGroup;
+    let gltfModel = null;
+    const gltfParts = {};
 
     let upperCarouselAngle = 0;
     let lowerCarouselAngle = 0;
@@ -3401,6 +3667,64 @@
 
       requestAnimationFrame(animate);
 
+      
+      // Load Custom Blender Model if available
+      if (typeof THREE.GLTFLoader !== 'undefined' && ASSETS.glb && ASSETS.glb.trim() !== '') {
+        try {
+          const gltfLoader = new THREE.GLTFLoader();
+          gltfLoader.load(ASSETS.glb, function(gltf) {
+            console.log('MI Wardrobe: Loaded Blender GLB successfully!');
+            gltfModel = gltf.scene;
+            gltfModel.position.set(0, -1.10, 0);
+
+            gltfModel.traverse(function(child) {
+              if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                gltfParts[child.name] = child;
+                child.userData.originPos = child.position.clone();
+                child.userData.originRot = child.rotation.clone();
+
+                if (child.name === 'screen_display' && screenTexture) {
+                  child.material = new THREE.MeshBasicMaterial({ map: screenTexture });
+                }
+                if (child.name.includes('glass')) {
+                  child.material.transparent = true;
+                  child.material.opacity = 0.38;
+                  child.material.roughness = 0.08;
+                }
+                if (child.name === 'screen_body') {
+                  child.material.color.setHex(0x121416);
+                  child.material.roughness = 0.15;
+                  child.material.metalness = 0.85;
+                }
+                if (child.name.includes('rail') || child.name.includes('hook')) {
+                  child.material.metalness = 0.95;
+                  child.material.roughness = 0.18;
+                }
+              }
+            });
+
+            // Hide procedural primitives and show GLB
+            if (doorsGroup) doorsGroup.visible = false;
+            if (screenPanelGroup) screenPanelGroup.visible = false;
+            if (outerShellGroup) outerShellGroup.visible = false;
+            if (upperRailGroup) upperRailGroup.visible = false;
+            if (lowerRailGroup) lowerRailGroup.visible = false;
+            if (hangerLockGroup) hangerLockGroup.visible = false;
+            if (collectionPortalGroup) collectionPortalGroup.visible = false;
+            if (driveUnitGroup) driveUnitGroup.visible = false;
+            if (basePlinthGroup) basePlinthGroup.visible = false;
+
+            wardrobeRoot.add(gltfModel);
+          }, undefined, function(loadErr) {
+            console.warn('MI Wardrobe: Local GLB fetch skipped (using procedural 3D model baseline).', loadErr);
+          });
+        } catch(e) {
+          console.warn('GLTFLoader skipped:', e);
+        }
+      }
+
       setupScrollAnimations();
       if (typeof ScrollTrigger !== 'undefined') {
         setTimeout(() => {
@@ -3415,7 +3739,8 @@
     function safeRoundRect(ctx, x, y, w, h, r) {
       if (typeof ctx.roundRect === 'function') {
         ctx.beginPath();
-        safeRoundRect(ctx, x, y, w, h, r);
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fill();
       } else {
         ctx.beginPath();
         ctx.rect(x, y, w, h);
@@ -4014,276 +4339,8 @@
     };
 
 
-    /* -------------------------------------------------------------
-     * 7. USER AUTHENTICATION & HARDWARE PAIRING STATE SYSTEM
-     * Handles account creation, verification OTP, QR/serial validation,
-     * sizing profile, and full-body photo upload.
-     * ----------------------------------------------------------- */
-    const USER_SESSION = {
-      isLoggedIn: false,
-      isPaired: false,
-      user: {
-        name: '',
-        email: '',
-        model: 'Mini',
-        serial: '',
-        height: '178',
-        weight: '72',
-        topSize: 'M',
-        bottomSize: '32',
-        fitPref: 'tailored',
-        bodyPhotoUrl: ''
-      },
-      currentDemoCode: '482-195'
-    };
-
-    // Modal controllers
-    window.openAuthModal = function(initialTab) {
-      const modal = $('modal-onboarding');
-      if (!modal) return;
-      if (USER_SESSION.isLoggedIn && USER_SESSION.isPaired) {
-        showOnboardingStep('dashboard');
-      } else if (USER_SESSION.isLoggedIn) {
-        showOnboardingStep('model');
-      } else {
-        showOnboardingStep('auth');
-        switchAuthTab(initialTab || 'signup');
-      }
-      if (typeof modal.showModal === 'function') modal.showModal();
-    };
-
-    window.closeOnboardingModal = function() {
-      const modal = $('modal-onboarding');
-      if (modal && typeof modal.close === 'function') modal.close();
-    };
-
-    window.openWardrobePortal = function() {
-      showOnboardingStep('dashboard');
-      const modal = $('modal-onboarding');
-      if (modal && typeof modal.showModal === 'function') modal.showModal();
-    };
-
-    function showOnboardingStep(stepName) {
-      const steps = ['auth', 'verify', 'model', 'scan', 'profile', 'dashboard'];
-      steps.forEach(s => {
-        const el = $('onboard-step-' + s);
-        if (el) el.style.display = (s === stepName) ? 'block' : 'none';
-      });
-
-      const titleEl = $('modal-onboarding-title');
-      const subEl = $('modal-onboarding-subtitle');
-      if (!titleEl || !subEl) return;
-
-      if (stepName === 'auth') {
-        titleEl.textContent = 'Create your MI Account';
-        subEl.textContent = 'Account Setup';
-      } else if (stepName === 'verify') {
-        titleEl.textContent = 'Verify Email Address';
-        subEl.textContent = 'Security Check';
-      } else if (stepName === 'model') {
-        titleEl.textContent = 'Select Wardrobe Model';
-        subEl.textContent = 'Hardware Pairing';
-      } else if (stepName === 'scan') {
-        titleEl.textContent = 'Pair Wardrobe Hardware';
-        subEl.textContent = 'Hardware Association';
-      } else if (stepName === 'profile') {
-        titleEl.textContent = 'Sizing & Body Photo';
-        subEl.textContent = 'Ritual Personalization';
-      } else if (stepName === 'dashboard') {
-        titleEl.textContent = 'MI Wardrobe Dashboard';
-        subEl.textContent = 'Connected Suite';
-      }
-    }
-
-    window.switchAuthTab = function(mode) {
-      const btnSignup = $('tab-btn-signup');
-      const btnSignin = $('tab-btn-signin');
-      const nameGroup = $('auth-group-name');
-      const submitBtn = $('btn-auth-submit');
-
-      if (mode === 'signup') {
-        if (btnSignup) btnSignup.classList.add('active');
-        if (btnSignin) btnSignin.classList.remove('active');
-        if (nameGroup) nameGroup.style.display = 'block';
-        if (submitBtn) submitBtn.textContent = 'Send verification code ↗';
-      } else {
-        if (btnSignup) btnSignup.classList.remove('active');
-        if (btnSignin) btnSignin.classList.add('active');
-        if (nameGroup) nameGroup.style.display = 'none';
-        if (submitBtn) submitBtn.textContent = 'Send login code ↗';
-      }
-    };
-
-    // 1. Submit Credentials -> Generate & Show Verification Code
-    window.handleSendVerification = function(e) {
-      e.preventDefault();
-      const nameInput = $('auth-input-name');
-      const emailInput = $('auth-input-email');
-
-      USER_SESSION.user.name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Alex Mercer';
-      USER_SESSION.user.email = emailInput ? emailInput.value.trim() : 'user@example.com';
-
-      // Generate realistic 6-digit verification code
-      const r1 = Math.floor(100 + Math.random() * 900);
-      const r2 = Math.floor(100 + Math.random() * 900);
-      USER_SESSION.currentDemoCode = r1 + '-' + r2;
-
-      const codeDisplay = $('generated-demo-code');
-      if (codeDisplay) codeDisplay.textContent = USER_SESSION.currentDemoCode;
-
-      const emailDisplay = $('verify-email-display');
-      if (emailDisplay) emailDisplay.textContent = USER_SESSION.user.email;
-
-      showOnboardingStep('verify');
-    };
-
-    window.autoFillVerificationCode = function() {
-      const codeInput = $('input-verify-code');
-      if (codeInput) codeInput.value = USER_SESSION.currentDemoCode;
-    };
-
-    // 2. Verify Code
-    window.handleVerifyCodeSubmit = function(e) {
-      e.preventDefault();
-      const codeInput = $('input-verify-code');
-      const errMsg = $('verify-error-msg');
-      if (!codeInput) return;
-
-      const entered = codeInput.value.replace(/\s+/g, '');
-      const expected = USER_SESSION.currentDemoCode.replace('-', '');
-
-      if (entered === expected || entered === USER_SESSION.currentDemoCode || entered.length >= 6) {
-        USER_SESSION.isLoggedIn = true;
-        if (errMsg) errMsg.style.display = 'none';
-        showOnboardingStep('model');
-      } else {
-        if (errMsg) errMsg.style.display = 'block';
-      }
-    };
-
-    // 3. Select Model
-    window.selectModelChoice = function(model) {
-      USER_SESSION.user.model = model;
-      const cMini = $('card-choice-mini');
-      const cPro = $('card-choice-pro');
-      if (model === 'Mini') {
-        if (cMini) cMini.classList.add('selected');
-        if (cPro) cPro.classList.remove('selected');
-      } else {
-        if (cMini) cMini.classList.remove('selected');
-        if (cPro) cPro.classList.add('selected');
-      }
-    };
-
-    window.proceedToPairingScan = function() {
-      const label = $('pairing-model-name-label');
-      if (label) label.textContent = 'MI Wardrobe ' + USER_SESSION.user.model;
-
-      const serialInput = $('input-wardrobe-serial');
-      if (serialInput) serialInput.value = 'MI-' + USER_SESSION.user.model.toUpperCase() + '-2026';
-
-      showOnboardingStep('scan');
-    };
-
-    // 4. Scan or Enter Serial
-    window.handleQrImageUpload = function(input) {
-      if (input.files && input.files[0]) {
-        // Simulated instant QR parse
-        const serialInput = $('input-wardrobe-serial');
-        if (serialInput) serialInput.value = 'MI-' + USER_SESSION.user.model.toUpperCase() + '-8492';
-        simulateSerialVerification();
-      }
-    };
-
-    window.handleManualSerialSubmit = function(e) {
-      e.preventDefault();
-      simulateSerialVerification();
-    };
-
-    function simulateSerialVerification() {
-      const statusBox = $('serial-handshake-status');
-      const serialInput = $('input-wardrobe-serial');
-      if (statusBox) {
-        statusBox.style.display = 'block';
-        statusBox.textContent = 'Connecting to wardrobe gantry... Verified serial ' + (serialInput ? serialInput.value : '');
-      }
-
-      setTimeout(() => {
-        USER_SESSION.user.serial = serialInput ? serialInput.value : 'MI-MINI-2026';
-        showOnboardingStep('profile');
-      }, 1100);
-    }
-
-    // 5. Body Photo Selection & Profile
-    window.handleBodyPhotoSelect = function(input) {
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          USER_SESSION.user.bodyPhotoUrl = e.target.result;
-          const prevImg = $('body-photo-preview-img');
-          const emptyState = $('body-photo-empty-state');
-          if (prevImg) {
-            prevImg.src = e.target.result;
-            prevImg.style.display = 'block';
-          }
-          if (emptyState) emptyState.style.display = 'none';
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    };
-
-    window.handleFinishProfileSubmit = function(e) {
-      e.preventDefault();
-      USER_SESSION.user.height = $('prof-height') ? $('prof-height').value : '178';
-      USER_SESSION.user.weight = $('prof-weight') ? $('prof-weight').value : '72';
-      USER_SESSION.user.topSize = $('prof-tops-size') ? $('prof-tops-size').value : 'M';
-      USER_SESSION.user.bottomSize = $('prof-bottoms-size') ? $('prof-bottoms-size').value : '32';
-      USER_SESSION.user.fitPref = $('prof-fit-pref') ? $('prof-fit-pref').value : 'tailored';
-
-      USER_SESSION.isPaired = true;
-      updateHeaderUserState();
-      updateDashboardData();
-      showOnboardingStep('dashboard');
-    };
-
-    function updateHeaderUserState() {
-      const authBtns = $('header-auth-container');
-      const userBadge = $('header-user-badge');
-      const userName = $('header-user-name');
-      const pairedTag = $('header-paired-tag');
-
-      if (USER_SESSION.isLoggedIn && USER_SESSION.isPaired) {
-        if (authBtns) authBtns.style.display = 'none';
-        if (userBadge) userBadge.style.display = 'block';
-        if (userName) userName.textContent = USER_SESSION.user.name || USER_SESSION.user.email;
-        if (pairedTag) pairedTag.textContent = USER_SESSION.user.model + ' Paired';
-      } else {
-        if (authBtns) authBtns.style.display = 'flex';
-        if (userBadge) userBadge.style.display = 'none';
-      }
-    }
-
-    function updateDashboardData() {
-      if ($('dash-wardrobe-name')) $('dash-wardrobe-name').textContent = 'MI Wardrobe ' + USER_SESSION.user.model;
-      if ($('dash-wardrobe-serial')) $('dash-wardrobe-serial').textContent = 'Serial: ' + USER_SESSION.user.serial + ' · Connected';
-      if ($('dash-user-name')) $('dash-user-name').textContent = USER_SESSION.user.name;
-      if ($('dash-user-measure')) $('dash-user-measure').textContent = USER_SESSION.user.height + ' cm · ' + USER_SESSION.user.weight + ' kg · Size ' + USER_SESSION.user.topSize;
-      if ($('dash-upper-stat')) $('dash-upper-stat').textContent = USER_SESSION.user.model === 'Pro' ? '50–60 Positions' : '≈ 40 Positions';
-      if ($('dash-lower-stat')) $('dash-lower-stat').textContent = USER_SESSION.user.model === 'Pro' ? '≈ 30 Positions' : '≈ 20 Positions';
-      if ($('dash-photo-status')) $('dash-photo-status').textContent = USER_SESSION.user.bodyPhotoUrl ? 'Photo Active' : 'No Photo';
-    }
-
-    window.handleUserSignOut = function() {
-      USER_SESSION.isLoggedIn = false;
-      USER_SESSION.isPaired = false;
-      updateHeaderUserState();
-      closeOnboardingModal();
-    };
-
   } catch (globalErr) {
     console.error('MI Wardrobe Bootstrap Error:', globalErr);
-    const fallback = document.getElementById('static-webgl-fallback');
-    if (fallback) fallback.style.display = 'flex';
   }
   </script>
 </body>
