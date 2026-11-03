@@ -358,27 +358,13 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
                 <h4>Browse your digital collection</h4>
                 <p>View registered garments on screen without opening every door.</p>
 
-                <!-- Live Touchscreen Video Showcase Frame -->
-                <div class="screen-video-frame-container" id="screen-video-frame">
-                  <div class="screen-frame-bezel">
-                    <div class="screen-frame-top-bar">
-                      <span class="screen-live-tag"><span class="screen-live-dot"></span> LIVE DEMO</span>
-                      <span>Capacitive Touchscreen &middot; MI OS</span>
-                      <span>08:24</span>
-                    </div>
-                    <div class="screen-frame-video-wrapper" title="Click to mute/unmute audio">
-                      <video id="touchscreen-video" src="interface-demo.mp4" muted playsinline loop autoplay preload="auto" crossorigin="anonymous">
-                        <source src="interface-demo.mp4" type="video/mp4">
-                        <source src="assets/interface-demo.mp4" type="video/mp4">
-                        <source src="public/interface-demo.mp4" type="video/mp4">
-                        <source src="screen-video.mp4" type="video/mp4">
-                      </video>
-                      <div class="screen-frame-video-overlay-hint" id="video-sound-hint">Muted</div>
-                    </div>
-                    <div class="screen-frame-caption">Showing real-time outfit preview on wardrobe display</div>
-                  </div>
-                </div>
+                <video id="touchscreen-video" src="interface-demo.mp4?v=3" muted playsinline loop preload="auto" style="position:fixed;bottom:0;right:0;width:1px;height:1px;opacity:0.01;pointer-events:none;z-index:-1;">
+                  <source src="interface-demo.mp4?v=3" type="video/mp4">
+                  <source src="public/interface-demo.mp4?v=3" type="video/mp4">
+                  <source src="assets/interface-demo.mp4?v=3" type="video/mp4">
+                </video>
               </div>
+            </div>
             </div>
 
             <div class="zoom-step" id="zoom-step-2">
@@ -1861,6 +1847,7 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
     let doorsGroup, leftDoorGroup, rightDoorGroup;
     let screenPanelGroup, screenMesh, screenCanvas, screenCtx, screenTexture;
     let gltfScreenDisplay = null;
+    let gltfScreenPlane = null;
     let touchscreenVideo = null;
     let screenVideoTexture = null;
     let screenTextureMat = null;
@@ -1980,15 +1967,18 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
 
       screenTexture = new THREE.CanvasTexture(screenCanvas);
       screenTexture.minFilter = THREE.LinearFilter;
+      screenTexture.magFilter = THREE.LinearFilter;
       screenTextureMat = new THREE.MeshBasicMaterial({
-        map: screenTexture
+        map: screenTexture,
+        side: THREE.DoubleSide,
+        toneMapped: false
       });
 
-      // Video texture for live touchscreen demo
+      // Video element for 3D wardrobe touchscreen display
       touchscreenVideo = $('touchscreen-video') || (function() {
         const v = document.createElement('video');
         v.id = 'touchscreen-video';
-        v.src = 'interface-demo.mp4';
+        v.src = 'interface-demo.mp4?v=3';
         v.muted = true;
         v.loop = true;
         v.playsInline = true;
@@ -1998,29 +1988,23 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
         return v;
       })();
 
+      touchscreenVideo.addEventListener('loadeddata', function() {
+        if (screenCtx && touchscreenVideo.readyState >= 2) {
+          screenCtx.drawImage(touchscreenVideo, 0, 0, screenCanvas.width, screenCanvas.height);
+          if (screenTexture) screenTexture.needsUpdate = true;
+        }
+      });
+
       screenVideoTexture = new THREE.VideoTexture(touchscreenVideo);
       screenVideoTexture.minFilter = THREE.LinearFilter;
       screenVideoTexture.magFilter = THREE.LinearFilter;
-      screenVideoTexture.format = THREE.RGBAFormat;
-      screenVideoTexture.repeat.set(0.315, 1.0);
-      screenVideoTexture.offset.set(0.3425, 0.0);
-
       screenVideoMat = new THREE.MeshBasicMaterial({
-        map: screenVideoTexture
+        map: screenTexture,
+        side: THREE.DoubleSide,
+        toneMapped: false
       });
 
       const screenMat = screenTextureMat;
-
-      const vWrapper = document.querySelector('.screen-frame-video-wrapper');
-      const soundHint = $('video-sound-hint');
-      if (vWrapper && touchscreenVideo) {
-        vWrapper.addEventListener('click', function() {
-          touchscreenVideo.muted = !touchscreenVideo.muted;
-          if (soundHint) {
-            soundHint.textContent = touchscreenVideo.muted ? 'Muted' : 'Audio On';
-          }
-        });
-      }
 
       // Build Master Assembly (1.80m wide, 2.20m high, 0.95m deep)
       wardrobeRoot = new THREE.Group();
@@ -2313,6 +2297,13 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
             if (driveUnitGroup) driveUnitGroup.visible = false;
             if (basePlinthGroup) basePlinthGroup.visible = false;
 
+            // Add dedicated front-facing 3D display plane on the wardrobe touchscreen bezel
+            const screenPlaneGeo = new THREE.PlaneGeometry(0.28, 0.50);
+            gltfScreenPlane = new THREE.Mesh(screenPlaneGeo, screenTextureMat);
+            gltfScreenPlane.position.set(-0.41, 1.26, 0.491);
+            gltfScreenPlane.userData.originPos = gltfScreenPlane.position.clone();
+            gltfModel.add(gltfScreenPlane);
+
             wardrobeRoot.add(gltfModel);
           }, undefined, function(loadErr) {
             console.warn('MI Wardrobe: Local GLB fetch skipped (using procedural 3D model baseline).', loadErr);
@@ -2345,31 +2336,30 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
       }
     }
 
+    let videoStopTimer = null;
     function showTouchscreenVideo() {
       if (isVideoShowing) return;
       isVideoShowing = true;
-      if (gltfScreenDisplay) gltfScreenDisplay.material = screenVideoMat;
-      if (screenMesh) screenMesh.material = screenVideoMat;
-      const vFrame = $('screen-video-frame');
-      if (vFrame) vFrame.classList.add('visible');
+      if (videoStopTimer) { clearTimeout(videoStopTimer); videoStopTimer = null; }
       if (touchscreenVideo) {
         touchscreenVideo.currentTime = 0;
         const playPromise = touchscreenVideo.play();
         if (playPromise !== undefined) {
-          playPromise.catch(function(err) {
-            console.log('Video autoplay notice:', err);
-          });
+          playPromise.catch(function() {});
         }
+        // Show video for a few seconds while zoomed in, or until user scrolls away
+        videoStopTimer = setTimeout(function() {
+          if (touchscreenVideo && !touchscreenVideo.paused) {
+            touchscreenVideo.pause();
+          }
+        }, 10000);
       }
     }
 
     function hideTouchscreenVideo() {
       if (!isVideoShowing) return;
       isVideoShowing = false;
-      if (gltfScreenDisplay) gltfScreenDisplay.material = screenTextureMat;
-      if (screenMesh) screenMesh.material = screenTextureMat;
-      const vFrame = $('screen-video-frame');
-      if (vFrame) vFrame.classList.remove('visible');
+      if (videoStopTimer) { clearTimeout(videoStopTimer); videoStopTimer = null; }
       if (touchscreenVideo && !touchscreenVideo.paused) {
         touchscreenVideo.pause();
       }
@@ -2377,6 +2367,11 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
 
     function drawScreenTexture(state) {
       if (!screenCtx) return;
+      if (touchscreenVideo && touchscreenVideo.readyState >= 2 && (isVideoShowing || state === 1)) {
+        screenCtx.drawImage(touchscreenVideo, 0, 0, screenCanvas.width, screenCanvas.height);
+        if (screenTexture) screenTexture.needsUpdate = true;
+        return;
+      }
       const ctx = screenCtx;
       const w = 512, h = 800;
 
@@ -2495,8 +2490,9 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
 
     function animate() {
       requestAnimationFrame(animate);
-      if (isVideoShowing && touchscreenVideo && !touchscreenVideo.paused && screenVideoTexture) {
-        screenVideoTexture.needsUpdate = true;
+      if (touchscreenVideo && !touchscreenVideo.paused && touchscreenVideo.readyState >= 2 && screenCtx) {
+        screenCtx.drawImage(touchscreenVideo, 0, 0, screenCanvas.width, screenCanvas.height);
+        if (screenTexture) screenTexture.needsUpdate = true;
       }
 
       // Continuous Conveyor Movement (Carousel Mechanism)
@@ -2576,6 +2572,10 @@ dialog.onboarding-sheet::backdrop { background: rgba(18, 20, 22, 0.45); backdrop
             gltfParts[k].position.x = getOrig(k).x - pScr * 0.18;
           }
         });
+        if (gltfScreenPlane && gltfScreenPlane.userData.originPos) {
+          gltfScreenPlane.position.z = gltfScreenPlane.userData.originPos.z + pScr * 0.72;
+          gltfScreenPlane.position.x = gltfScreenPlane.userData.originPos.x - pScr * 0.18;
+        }
 
         // (3) Outer Shell & Roof Architrave
         const pSh = easeVal(p, 0.15, 0.45);
