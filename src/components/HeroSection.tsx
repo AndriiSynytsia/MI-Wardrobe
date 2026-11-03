@@ -81,7 +81,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick, onVisi
               <div className="relative overflow-hidden bg-[#F6F5F1] flex items-center justify-center p-4">
                 <img
                   id="product-source"
-                  src="/assets/wardrobe-idea.png"
+                  src={`${import.meta.env.BASE_URL}assets/wardrobe-idea.png`}
                   alt="MI Wardrobe with white full-height panels, an embedded outfit display, and an illuminated vertical garment opening"
                   className="w-full max-h-[540px] object-contain select-none transition-transform duration-500 hover:scale-[1.01]"
                   width={882}

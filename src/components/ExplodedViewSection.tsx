@@ -241,7 +241,7 @@ export const ExplodedViewSection: React.FC = () => {
               <defs>
                 <image
                   id="wardrobe-source-img"
-                  href="/assets/wardrobe-idea.png"
+                  href={`${import.meta.env.BASE_URL}assets/wardrobe-idea.png`}
                   width="882"
                   height="845"
                   preserveAspectRatio="xMidYMid slice"
