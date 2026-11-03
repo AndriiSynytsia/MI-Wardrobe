@@ -1,20 +1,4393 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MI Wardrobe — Google Sites Prototype</title>
-    <meta name="description" content="Interactive Google Sites prototype and landing page for MI Wardrobe featuring paper design aesthetics, precision mechanical exploded-view technical animation, interface demonstration, and enquiry system." />
-    <meta property="og:title" content="MI Wardrobe — Google Sites Prototype" />
-    <meta property="og:description" content="Interactive Google Sites prototype and landing page for MI Wardrobe featuring paper design aesthetics, precision mechanical exploded-view technical animation, interface demonstration, and enquiry system." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=PT+Mono&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet" />
-  </head>
-  <body class="bg-[#F6F5F1] text-[#111827] antialiased selection:bg-[#111111] selection:text-[#FFFFFF]">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MI Wardrobe ÔÇö A Wardrobe That Helps You Decide What to Wear</title>
+  <meta name="description" content="MI Wardrobe is an intelligent smart wardrobe prototype featuring automated two-tier conveyor storage, digital collection management, and interactive outfit assistance.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Core Libraries (Pinned CDN versions: GSAP 3 + ScrollTrigger, Lenis, Three.js classic non-module) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <style>
+    /* CSS RESET & CUSTOM PROPERTIES */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #F4F0E9;
+      --bg-alt: #EBE6DC;
+      --surface: #FFFFFF;
+      --surface-subtle: #F9F7F3;
+      --text: #1E1E1E;
+      --text-muted: #666A65;
+      --text-light: #8E928D;
+      --accent: #3F7D58;
+      --accent-hover: #326546;
+      --accent-subtle: rgba(63, 125, 88, 0.12);
+      --border: #DDD8CE;
+      --border-dark: #B8B2A6;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    html {
+      width: 100%;
+      min-height: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: scroll; /* Force vertical scrollbar for reliable document height */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Lenis official recommended CSS for smooth scrolling */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-smooth iframe {
+      pointer-events: none;
+    }
+
+    /* TYPOGRAPHY */
+    h1, h2, h3, h4, .font-heading {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+      color: var(--text);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+      max-width: 16ch;
+      text-wrap: balance;
+    }
+
+    h2 {
+      font-size: clamp(1.85rem, 3.8vw, 3rem);
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    h3 {
+      font-size: clamp(1.25rem, 2vw, 1.75rem);
+    }
+
+    p {
+      color: var(--text-muted);
+      font-weight: 400;
+      max-width: 65ch;
+    }
+
+    .lead {
+      font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .badge-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+    }
+
+    .badge-label::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 26px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: all 0.22s var(--transition-smooth);
+      cursor: pointer;
+      border: 1px solid transparent;
+      outline: none;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--surface);
+      border-color: var(--text);
+    }
+
+    .btn-primary:hover {
+      background: #333333;
+      border-color: #333333;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border-dark);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0,0,0,0.03);
+      border-color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    /* FIXED BACKGROUND CANVAS */
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    #webgl-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* TOP PROGRESS BAR */
+    #scroll-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--accent);
+      z-index: 100;
+      pointer-events: none;
+      transition: width 0.05s linear;
+    }
+
+    /* BRAND WORDMARK HEADER */
+    .brand-header {
+      position: fixed;
+      top: 24px;
+      left: 32px;
+      right: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .brand-wordmark {
+      font-family: var(--font-sans);
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      pointer-events: auto;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .brand-wordmark:hover .brand-logo-img {
+      transform: scale(1.05);
+    }
+
+    .footer-logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      flex-shrink: 0;
+    }
+
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text-muted);
+    }
+
+    /* MAIN CONTENT WRAPPER */
+    .site-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .container {
+      width: min(100% - 48px, 1200px);
+      margin-inline: auto;
+    }
+
+    section {
+      position: relative;
+      width: 100%;
+    }
+
+    /* SCENE 1: HERO */
+    .scene-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 100px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 40px;
+      align-items: center;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .hero-content {
+      max-width: 580px;
+      background: rgba(244, 240, 233, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 32px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(221, 216, 206, 0.7);
+    }
+
+    .hero-content h1 {
+      margin-bottom: 20px;
+    }
+
+    .hero-content .lead {
+      margin-bottom: 32px;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 28px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .hero-bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .scroll-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scroll-indicator svg {
+      width: 14px;
+      height: 14px;
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
+    /* SCENE 2: TOUCHSCREEN ZOOM */
+    .scene-zoom {
+      height: 180vh;
+      position: relative;
+    }
+
+    .scene-zoom-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      pointer-events: none;
+    }
+
+    .scene-zoom-card {
+      pointer-events: auto;
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+      margin-left: max(24px, calc((100vw - 1200px) / 2));
+    }
+
+    .zoom-steps-container {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .zoom-step {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 14px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+      opacity: 0.45;
+    }
+
+    .zoom-step.active {
+      opacity: 1;
+      background: var(--surface-subtle);
+      border-color: var(--border);
+    }
+
+    .zoom-step-num {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      padding-top: 2px;
+    }
+
+    .zoom-step-text h4 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .zoom-step-text p {
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+
+    /* SCENE 3: THE EXPLODED VIEW */
+    .scene-explosion {
+      height: 380vh;
+      position: relative;
+    }
+
+    .explosion-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .explosion-hud {
+      position: absolute;
+      top: 90px;
+      left: 32px;
+      max-width: 380px;
+      background: rgba(244, 240, 233, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 24px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .explosion-hud h2 {
+      font-size: 1.75rem;
+      margin-bottom: 8px;
+    }
+
+    .explosion-hud p {
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .explosion-progress-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    /* LEADER LINES & 3D LABELS */
+    #leader-lines-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .leader-line {
+      stroke: var(--accent);
+      stroke-width: 1.5;
+      stroke-dasharray: 4 3;
+      fill: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .leader-line-circle {
+      fill: var(--accent);
+    }
+
+    .leader-labels-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    .part-label-card {
+      position: absolute;
+      width: 250px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      pointer-events: auto;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    .part-label-card.active {
+      opacity: 1;
+      transform: translateY(0);
+      border-left: 3px solid var(--accent);
+    }
+
+    .part-label-title {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .part-label-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* ARTIFACT MEDIA CARDS (Scene 3 end) */
+    .artifact-cards-wrapper {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      width: min(90vw, 440px);
+      pointer-events: auto;
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .artifact-cards-wrapper.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .artifact-card-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      margin-bottom: 12px;
+    }
+
+    .artifact-tab-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .artifact-tab-btn {
+      padding: 6px 14px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .artifact-tab-btn.active {
+      background: var(--text);
+      color: var(--surface);
+      border-color: var(--text);
+    }
+
+    .mechanism-media-box {
+      width: 100%;
+      height: 200px;
+      background: var(--bg-alt);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .mechanism-media-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #FFFFFF;
+    }
+
+    .media-placeholder-graphic {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 16px;
+    }
+
+    /* SCENE 4: ROOM PLACEMENT */
+    .scene-placement {
+      min-height: 120vh;
+      padding: 120px 0;
+    }
+
+    .placement-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 50px;
+    }
+
+    .rooms-tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .room-tab-btn {
+      padding: 10px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .room-tab-btn.active, .room-tab-btn:hover {
+      background: var(--text);
+      color: var(--surface);
+      border-color: var(--text);
+    }
+
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .room-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .room-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .room-card-media {
+      height: 190px;
+      background: var(--surface-subtle);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .room-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .room-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .room-card p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .room-card-caption {
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-light);
+    }
+
+    /* SCENE 5: OPERATION & VIDEO */
+    .scene-operation {
+      padding: 120px 0;
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .operation-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 48px;
+      align-items: start;
+    }
+
+    .video-display-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .video-frame-aspect {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      background: #111;
+    }
+
+    .video-frame-aspect iframe,
+    .video-frame-aspect video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      object-fit: contain;
+    }
+
+    /* SIMULATED UI */
+    .simulated-ui-shell {
+      position: absolute;
+      inset: 0;
+      background: #181A1B;
+      color: #FFF;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      font-family: var(--font-sans);
+    }
+
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .sim-wardrobe-display {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .sim-collection-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .sim-item {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 10px;
+      text-align: center;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sim-item.selected, .sim-item:hover {
+      border-color: var(--accent);
+      background: rgba(63, 125, 88, 0.25);
+    }
+
+    .sim-item svg {
+      width: 24px;
+      height: 24px;
+      stroke: #CCC;
+      margin-bottom: 4px;
+    }
+
+    .sim-preview-box {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .sim-status-banner {
+      font-size: 0.75rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sim-status-banner::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .video-caption-bar {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .video-transcript-box {
+      padding: 16px 20px;
+      background: var(--surface-subtle);
+      border-top: 1px solid var(--border);
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+
+    .steps-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 16px;
+    }
+
+    .step-card-num {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .step-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+
+    /* EXPANDABLE SETUP ACCORDION */
+    .setup-accordion {
+      margin-top: 32px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .setup-accordion summary {
+      padding: 18px 24px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      background: var(--surface);
+      transition: background 0.2s ease;
+    }
+
+    .setup-accordion summary:hover {
+      background: var(--surface-subtle);
+    }
+
+    .setup-accordion-content {
+      padding: 0 24px 24px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-subtle);
+    }
+
+    .setup-steps-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .setup-steps-list li {
+      display: flex;
+      gap: 14px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .setup-steps-list li strong {
+      color: var(--text);
+    }
+
+    .setup-step-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 3px;
+      height: fit-content;
+      color: var(--text);
+    }
+
+    /* SCENE 6: MODELS */
+    .scene-models {
+      padding: 120px 0;
+    }
+
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .model-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .model-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.05);
+    }
+
+    .model-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .model-card h3 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .model-spec-table {
+      margin: 32px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .model-spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .model-spec-label {
+      color: var(--text-muted);
+    }
+
+    .model-spec-value {
+      font-weight: 500;
+      color: var(--text);
+      text-align: right;
+    }
+
+    .capacity-highlight {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+      background: var(--surface-subtle);
+      padding: 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .cap-num {
+      font-family: var(--font-sans);
+      font-size: 1.85rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.1;
+      display: block;
+    }
+
+    .cap-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* SCENE 7: VISIT US */
+    .scene-visit {
+      padding: 120px 0;
+      background: var(--surface-subtle);
+      border-top: 1px solid var(--border);
+    }
+
+    .visit-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    .visit-details-card {
+      background: var(--surface);
+      border: 2px dashed var(--border-dark);
+      border-radius: var(--radius-md);
+      padding: 36px;
+    }
+
+    .placeholder-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      background: #FFF9E6;
+      border: 1px solid #FFE082;
+      color: #8C6D1F;
+      border-radius: var(--radius-sm);
+      margin-bottom: 18px;
+    }
+
+    .visit-fields-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .visit-field-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .visit-field-key {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .visit-field-val {
+      font-family: var(--font-mono);
+      color: var(--text);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .map-frame-placeholder {
+      margin-top: 24px;
+      height: 180px;
+      background: var(--bg);
+      border: 1px dashed var(--border-dark);
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* SCENE 8: CONTACT FORM */
+    .scene-contact {
+      padding: 120px 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 56px;
+    }
+
+    .form-container-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 36px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.03);
+    }
+
+    .contact-form-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      transition: border-color 0.2s ease;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-subtle);
+    }
+
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .form-checkbox-row input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--accent);
+    }
+
+    .privacy-notice-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .privacy-notice-text a {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    .google-form-iframe-wrap {
+      width: 100%;
+      min-height: 580px;
+      border: none;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      padding: 60px 0 40px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-links-group {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+
+    .footer-link:hover {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-light);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* ACCESSIBLE MODALS */
+    dialog.modal-sheet {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 36px;
+      background: var(--surface);
+      color: var(--text);
+      max-width: 620px;
+      width: 90vw;
+      margin: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    dialog.modal-sheet::backdrop {
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+    }
+
+    dialog.modal-sheet h3 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    dialog.modal-sheet p {
+      font-size: 0.92rem;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    dialog.modal-sheet .btn {
+      margin-top: 18px;
+    }
+
+    /* FALLBACK WEBGL CARD */
+    #static-webgl-fallback {
+      display: none !important;
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      padding: 24px;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    @media (max-width: 992px) {
+      .hero-grid,
+      .operation-grid,
+      .visit-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .rooms-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .models-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .explosion-hud {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+      }
+
+      .scene-zoom-card {
+        margin-left: 20px;
+        margin-right: 20px;
+        max-width: none;
+      }
+
+      .artifact-cards-wrapper {
+        left: 20px;
+        right: 20px;
+        width: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .part-label-card {
+        display: none !important;
+      }
+      #leader-lines-svg {
+        display: none !important;
+      }
+      .mobile-part-tracker {
+        display: block !important;
+      }
+    }
+
+    .mobile-part-tracker {
+      display: none;
+      margin-top: 14px;
+      padding: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      #canvas-container {
+        opacity: 0.4;
+      }
+    }
+  
+    /* AUTH & ONBOARDING UI STYLES */
+    .header-right-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      pointer-events: auto;
+    }
+
+    .btn-sm {
+      padding: 7px 15px;
+      font-size: 0.82rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .user-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.2s ease;
+    }
+
+    .user-pill-btn:hover {
+      border-color: var(--accent);
+      background: var(--surface-subtle);
+    }
+
+    .user-avatar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .paired-tag {
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      padding: 2px 6px;
+      background: var(--accent-subtle);
+      color: var(--accent);
+      border-radius: 3px;
+      font-weight: 500;
+    }
+
+    /* ONBOARDING MODAL */
+    dialog.onboarding-sheet {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0;
+      background: var(--surface);
+      color: var(--text);
+      max-width: 600px;
+      width: 92vw;
+      margin: auto;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+
+    dialog.onboarding-sheet::backdrop {
+      background: rgba(18, 20, 22, 0.45);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-head-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-subtle);
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text);
+    }
+
+    .onboarding-body {
+      padding: 28px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    /* STEP INDICATOR */
+    .step-progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step-pip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .step-pip.active {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .step-pip.completed {
+      color: var(--text);
+    }
+
+    .step-pip-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-alt);
+      font-size: 0.72rem;
+    }
+
+    .step-pip.active .step-pip-num {
+      background: var(--accent);
+      color: #FFF;
+    }
+
+    /* AUTH TABS */
+    .auth-tab-row {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 12px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .auth-tab-btn.active {
+      color: var(--text);
+      border-bottom-color: var(--accent);
+    }
+
+    /* MODEL CARDS INSIDE MODAL */
+    .pair-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .pair-model-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      background: var(--surface);
+    }
+
+    .pair-model-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    .pair-model-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+    }
+
+    .pair-model-card svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      stroke: var(--text);
+    }
+
+    /* QR SCANNER & MANUAL CODE BOX */
+    .qr-scanner-box {
+      border: 2px dashed var(--border-dark);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      text-align: center;
+      background: var(--surface-subtle);
+      margin: 16px 0;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .qr-scanner-box:hover {
+      border-color: var(--accent);
+    }
+
+    .qr-scanner-box input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .otp-inputs-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .otp-input-box {
+      width: 48px;
+      height: 54px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 600;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-sm);
+      outline: none;
+    }
+
+    .otp-input-box:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-subtle);
+    }
+
+    /* DEMO CODE CALLOUT */
+    .demo-code-callout {
+      background: #E8F4EC;
+      border: 1px solid #C1E1CD;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: #205735;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* FULL BODY PREVIEW UPLOAD */
+    .body-upload-preview-wrap {
+      width: 140px;
+      height: 200px;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-sm);
+      background: var(--bg-alt);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 0 auto 16px;
+    }
+
+    .body-upload-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div id="scroll-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <!-- Brand Wordmark Header -->
+  <header class="brand-header">
+    <a href="#hero" class="brand-wordmark" id="brand-wordmark-link">
+      <img src="logo.png" alt="MI Wardrobe Logo" class="brand-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';" />
+      <span id="cfg-brand-name">MI Wardrobe</span>
+      <span class="brand-tag">Prototype 2026</span>
+    </a>
+    <div class="header-right-group">
+      <div class="badge-label" id="header-showcase-badge">Showcase Concept</div>
+      <div id="header-auth-container">
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-header-login" onclick="openAuthModal('signin')">Log in</button>
+        <button type="button" class="btn btn-primary btn-sm" id="btn-header-signup" onclick="openAuthModal('signup')">Create account</button>
+      </div>
+      <div id="header-user-badge" style="display: none;">
+        <button type="button" class="user-pill-btn" onclick="openWardrobePortal()">
+          <span class="user-avatar-dot"></span>
+          <span id="header-user-name">Alex Mercer</span>
+          <span class="paired-tag" id="header-paired-tag">Mini Paired</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3D Fixed Canvas Container -->
+  <div id="canvas-container" aria-hidden="true">
+    <canvas id="webgl-canvas"></canvas>
+    
+    <div id="static-webgl-fallback">
+      <div style="max-width: 440px; background: #fff; padding: 32px; border-radius: 8px; border: 1px solid var(--border);">
+        <p class="eyebrow">MI Wardrobe Prototype</p>
+        <h3>Two-Tier Storage & Outfit Assistant</h3>
+        <p style="margin: 12px 0 20px;">Explore the next chapter of smart wardrobes with automated upper and lower garment rails.</p>
+        <span class="badge-label">Hardware & Concept Prototype</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Site Scrollable Flow -->
+  <div class="site-wrapper">
+
+    <!-- ========================================== -->
+    <!-- SCENE 1: HERO (Scroll 0%)                  -->
+    <!-- ========================================== -->
+    <section class="scene-hero" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="eyebrow">A new everyday ritual</span>
+          <h1 id="hero-heading">Meet your wardrobe's next chapter.</h1>
+          <p class="lead" id="cfg-positioning">A wardrobe that helps you decide what to wear.</p>
+          <p style="font-size: 0.95rem; margin-bottom: 28px;" id="cfg-supporting">
+            Explore a new way to organise your clothes, plan your look and bring your chosen pieces within reach.
+          </p>
+
+          <div class="btn-group">
+            <a href="#contact" class="btn btn-primary" id="hero-btn-contact">Contact sales ÔćŚ</a>
+            <a href="#visit" class="btn btn-secondary" id="hero-btn-visit">Visit us Ôćô</a>
+          </div>
+
+          <div class="hero-meta">
+            <span class="badge-label">Concept render</span>
+            <span>Two-tier conveyor storage & outfit preview</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="container hero-bottom-bar">
+        <span>Prototype showcase ┬Ě 01</span>
+        <div class="scroll-indicator">
+          <span>Scroll to explore</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 10l5 5 5-5"/>
+          </svg>
+        </div>
+        <span>University project prototype</span>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 2: TOUCHSCREEN ZOOM (Scroll 8% - 22%)-->
+    <!-- ========================================== -->
+    <section class="scene-zoom" id="scene-zoom">
+      <div class="scene-zoom-sticky">
+        <div class="scene-zoom-card">
+          <span class="eyebrow">01 / Central Interface</span>
+          <h2>Your collection. Your daily look. Within reach.</h2>
+          <p style="margin-top: 8px;">A built-in touchscreen beside the central collection aperture connects your physical wardrobe with a considered digital view.</p>
+
+          <div class="zoom-steps-container">
+            <div class="zoom-step active" id="zoom-step-1">
+              <span class="zoom-step-num">01</span>
+              <div class="zoom-step-text">
+                <h4>Browse your digital collection</h4>
+                <p>View registered garments on screen without opening every door.</p>
+              </div>
+            </div>
+
+            <div class="zoom-step" id="zoom-step-2">
+              <span class="zoom-step-num">02</span>
+              <div class="zoom-step-text">
+                <h4>Explore outfit suggestions</h4>
+                <p>Explore recommended combinations using pieces from your own collection.</p>
+              </div>
+            </div>
+
+            <div class="zoom-step" id="zoom-step-3">
+              <span class="zoom-step-num">03</span>
+              <div class="zoom-step-text">
+                <h4>Retrieve selected garments</h4>
+                <p>Selected pieces travel on automated conveyor rails directly to the collection opening.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 18px; display: flex; justify-content: space-between; align-items: center;">
+            <span class="badge-label">Simulated interface</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-light);">No camera ┬Ě privacy by design</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 3: THE EXPLODED VIEW (Scroll 22% - 58%)-->
+    <!-- ========================================== -->
+    <section class="scene-explosion" id="scene-explosion">
+      <div class="explosion-sticky">
+        <div class="explosion-hud">
+          <span class="eyebrow">02 / Mechanical Architecture</span>
+          <h2>See what happens behind the doors.</h2>
+          <p>A calm, precision separation revealing two automated conveyor levels, capacitive touch column, and optical garment identification.</p>
+          <div class="explosion-progress-badge">
+            <span id="explosion-percent-text">Exploded View: 0%</span>
+            <span>┬Ě</span>
+            <span>Rails in motion</span>
+          </div>
+          
+          <div class="mobile-part-tracker" id="mobile-part-tracker">
+            <strong id="mobile-tracker-title" style="display:block; font-size:0.85rem;">Assembled View</strong>
+            <span id="mobile-tracker-desc" style="font-size:0.75rem; color:var(--text-muted);">Scroll to reveal internal engineering.</span>
+          </div>
+        </div>
+
+        <!-- Projected SVG Leader Lines -->
+        <svg id="leader-lines-svg">
+          <line id="line-doors" class="leader-line" />
+          <circle id="circle-doors" class="leader-line-circle" r="3" />
+
+          <line id="line-mirror" class="leader-line" />
+          <circle id="circle-mirror" class="leader-line-circle" r="3" />
+
+          <line id="line-shell" class="leader-line" />
+          <circle id="circle-shell" class="leader-line-circle" r="3" />
+
+          <line id="line-upper-rail" class="leader-line" />
+          <circle id="circle-upper-rail" class="leader-line-circle" r="3" />
+
+          <line id="line-lower-rail" class="leader-line" />
+          <circle id="circle-lower-rail" class="leader-line-circle" r="3" />
+
+          <line id="line-hanger-lock" class="leader-line" />
+          <circle id="circle-hanger-lock" class="leader-line-circle" r="3" />
+
+          <line id="line-portal" class="leader-line" />
+          <circle id="circle-portal" class="leader-line-circle" r="3" />
+
+          <line id="line-drive" class="leader-line" />
+          <circle id="circle-drive" class="leader-line-circle" r="3" />
+
+          <line id="line-base" class="leader-line" />
+          <circle id="circle-base" class="leader-line-circle" r="3" />
+        </svg>
+
+        <!-- Dynamic Projected 3D Labels (Exact match to concept sketch key 1-9) -->
+        <div class="leader-labels-container">
+          <!-- 1. Outer doors -->
+          <div class="part-label-card" id="card-doors">
+            <div class="part-label-title">01 / Front Panels & Doors</div>
+            <div class="part-label-desc">Bi-parting protective panels in warm lacquered finish with left screen mount.</div>
+          </div>
+
+          <!-- 2. Touchscreen Display (sketch #3) -->
+          <div class="part-label-card" id="card-mirror">
+            <div class="part-label-title">02 / Capacitive Screen (Ôëł30 cm)</div>
+            <div class="part-label-desc">Built-in display for digital wardrobe browsing & outfit preview ritual.</div>
+          </div>
+
+          <!-- 3. Outer Body Shell & Architrave (sketch #4 & #9) -->
+          <div class="part-label-card" id="card-shell">
+            <div class="part-label-title">03 / Outer Shell & Top Power Bus</div>
+            <div class="part-label-desc">Top architrave housing master gantry power supply and interior LED rails.</div>
+          </div>
+
+          <!-- 4. Upper Rail (sketch #5) -->
+          <div class="part-label-card" id="card-upper-rail">
+            <div class="part-label-title">04 / Upper Rail Conveyor</div>
+            <div class="part-label-desc">Continuous oval loop for dresses, suits, and long coats (~40 positions).</div>
+          </div>
+
+          <!-- 5. Lower Rail (sketch #6) -->
+          <div class="part-label-card" id="card-lower-rail">
+            <div class="part-label-title">05 / Lower Rail Conveyor</div>
+            <div class="part-label-desc">Independent medium-height loop for shirts and trousers (~20 positions).</div>
+          </div>
+
+          <!-- 6. Hanger Lock & Barcode (sketch #7) -->
+          <div class="part-label-card" id="card-hanger-lock">
+            <div class="part-label-title">06 / Hangers & Barcode Scanner</div>
+            <div class="part-label-desc">Automated hanger engagement with optical registration.</div>
+          </div>
+
+          <!-- 7. Collection Opening (sketch #1 & #2) -->
+          <div class="part-label-card" id="card-portal">
+            <div class="part-label-title">07 / Collection Opening (Ôëł32 cm)</div>
+            <div class="part-label-desc">Central dual-tier illuminated aperture presenting selected items.</div>
+          </div>
+
+          <!-- 8. Drive Motor & Controller (sketch [M]) -->
+          <div class="part-label-card" id="card-drive">
+            <div class="part-label-title">08 / Rear Stepper Motor & Unit</div>
+            <div class="part-label-desc">Center-rear drive motor controlling smooth continuous carousel rotation.</div>
+          </div>
+
+          <!-- 9. Base & Plinth (sketch #8) -->
+          <div class="part-label-card" id="card-base">
+            <div class="part-label-title">09 / Plinth & Adjustable Feet</div>
+            <div class="part-label-desc">Heavy structural plinth with vibration dampening and leveling feet.</div>
+          </div>
+        </div>
+
+        <!-- Technical Artifact Cards (Sketch & Mechanism Photo) -->
+        <div class="artifact-cards-wrapper" id="artifact-card-wrap">
+          <div class="artifact-card-box">
+            <div class="artifact-tab-nav">
+              <button class="artifact-tab-btn active" id="btn-show-sketch" onclick="switchArtifactTab('sketch')">Concept Sketch</button>
+              <button class="artifact-tab-btn" id="btn-show-photo" onclick="switchArtifactTab('photo')">Mechanism Photo</button>
+            </div>
+
+            <!-- Sketch View -->
+            <div id="artifact-sketch-view">
+              <div class="mechanism-media-box">
+                <img id="sketch-img" src="sketch.jpeg" alt="Technical concept sketch" onerror="this.src='sketch.png'" />
+              </div>
+              <div style="font-weight:600; font-size:0.88rem; margin-bottom:4px;">Technical Engineering Layout</div>
+              <p style="font-size:0.78rem; line-height:1.4; color:var(--text-muted); margin-bottom:6px;">
+                Front, section, and top-down carousel loop diagram (180 cm ├Ś 220 cm ├Ś 95 cm).
+              </p>
+              <div class="badge-label">Concept sketch</div>
+            </div>
+
+            <!-- Photo View -->
+            <div id="artifact-photo-view" style="display:none;">
+              <div class="mechanism-media-box">
+                <img id="mechanism-img" src="mechanism.jpg" alt="Mechanism and development photograph" style="display:none;" />
+                <div class="media-placeholder-graphic" id="mechanism-placeholder">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
+                  <span>mechanism.jpg</span>
+                  <span class="badge-label">Place in HTML folder</span>
+                </div>
+              </div>
+              <div style="font-weight:600; font-size:0.88rem; margin-bottom:4px;">Conveyor Hardware Evidence</div>
+              <p style="font-size:0.78rem; line-height:1.4; color:var(--text-muted); margin-bottom:6px;">
+                Continuous conveyor rails guide garments to the central opening beside the screen.
+              </p>
+              <div class="badge-label">Mechanism and development photograph</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 4: ROOM PLACEMENT (Scroll 58% - 72%) -->
+    <!-- ========================================== -->
+    <section class="scene-placement" id="placement">
+      <div class="container">
+        <div class="placement-header">
+          <span class="eyebrow">03 / Environments</span>
+          <h2>Imagine it in your space.</h2>
+          <p class="lead" style="margin-top: 12px;">
+            Designed to integrate quietly into modern domestic and styling interiors.
+          </p>
+        </div>
+
+        <div class="rooms-tab-nav" role="tablist">
+          <button class="room-tab-btn active" data-room="studio" role="tab" aria-selected="true">City Apartment</button>
+          <button class="room-tab-btn" data-room="dressing" role="tab" aria-selected="false">Dedicated Dressing Room</button>
+          <button class="room-tab-btn" data-room="boutique" role="tab" aria-selected="false">Styling Boutique</button>
+        </div>
+
+        <div class="rooms-grid">
+          <article class="room-card" id="room-card-studio">
+            <div>
+              <div class="room-card-media" id="media-studio">
+                <img id="img-studio" src="room-studio.jpg" alt="Studio Apartment conceptual installation" onerror="this.onerror=null; this.src='assets/room-studio.jpg';" onload="const p=document.getElementById('placeholder-studio'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-studio" style="display:none;">
+                  <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
+                    <rect x="20" y="20" width="200" height="100" rx="4"/>
+                    <line x1="20" y1="90" x2="220" y2="90"/>
+                    <rect x="40" y="45" width="45" height="45"/>
+                    <line x1="120" y1="35" x2="180" y2="35"/>
+                    <rect x="135" y="45" width="50" height="45"/>
+                  </svg>
+                  <span>room-studio.jpg</span>
+                </div>
+              </div>
+              <span class="eyebrow">Individual living</span>
+              <h3>The City Apartment</h3>
+              <p>Consolidates daily attire into a compact footprint, eliminating clutter while keeping essentials organized.</p>
+            </div>
+            <div class="room-card-caption">Conceptual installation</div>
+          </article>
+
+          <article class="room-card" id="room-card-dressing">
+            <div>
+              <div class="room-card-media" id="media-dressing">
+                <img id="img-dressing" src="room-dressing.jpg" alt="Dedicated Dressing Room conceptual installation" onerror="this.onerror=null; this.src='assets/room-dressing.jpg';" onload="const p=document.getElementById('placeholder-dressing'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-dressing" style="display:none;">
+                  <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
+                    <rect x="15" y="15" width="210" height="110" rx="4"/>
+                    <rect x="35" y="30" width="35" height="65"/>
+                    <rect x="80" y="30" width="80" height="65"/>
+                    <rect x="170" y="30" width="35" height="65"/>
+                    <circle cx="120" cy="55" r="12"/>
+                  </svg>
+                  <span>room-dressing.jpg</span>
+                </div>
+              </div>
+              <span class="eyebrow">Dedicated space</span>
+              <h3>The Dressing Room</h3>
+              <p>Provides a comprehensive digital view of your collection, making planning complex seasonal looks fluid.</p>
+            </div>
+            <div class="room-card-caption">Conceptual installation</div>
+          </article>
+
+          <article class="room-card" id="room-card-boutique">
+            <div>
+              <div class="room-card-media" id="media-boutique">
+                <img id="img-boutique" src="room-boutique.jpg" alt="Styling Boutique conceptual installation" onerror="this.onerror=null; this.src='assets/room-boutique.jpg';" onload="const p=document.getElementById('placeholder-boutique'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-boutique" style="display:none;">
+                  <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
+                    <rect x="20" y="20" width="200" height="100" rx="4"/>
+                    <line x1="40" y1="35" x2="100" y2="35"/>
+                    <circle cx="50" cy="55" r="8"/>
+                    <circle cx="70" cy="55" r="8"/>
+                    <circle cx="90" cy="55" r="8"/>
+                    <rect x="130" y="35" width="70" height="60"/>
+                  </svg>
+                  <span>room-boutique.jpg</span>
+                </div>
+              </div>
+              <span class="eyebrow">Curated craft</span>
+              <h3>Boutique & Styling Space</h3>
+              <p>Supports client consultations with swift automated garment retrieval and digital ensemble staging.</p>
+            </div>
+            <div class="room-card-caption">Conceptual installation</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 5: OPERATION & VIDEO (Scroll 72% - 86%) -->
+    <!-- ========================================== -->
+    <section class="scene-operation" id="operation">
+      <div class="container">
+        <div style="max-width: 640px; margin-bottom: 50px;">
+          <span class="eyebrow">04 / Daily Interaction</span>
+          <h2>From your collection to today's outfit.</h2>
+          <p class="lead" style="margin-top: 12px;">
+            Browse your collection on the built-in display. Explore a look using your saved garments. Select your pieces and collect them at the wardrobe opening.
+          </p>
+        </div>
+
+        <div class="operation-grid">
+          <div class="video-display-card">
+            <div class="video-frame-aspect" id="video-frame-wrapper">
+              <video id="video-local" controls playsinline preload="metadata" style="display:none;">
+                <source id="video-local-source" src="" type="video/mp4">
+              </video>
+
+              <iframe id="video-iframe" src="" title="MI Wardrobe Interface Demonstration" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:none;"></iframe>
+              
+              <div class="simulated-ui-shell" id="simulated-ui">
+                <div class="sim-header">
+                  <span style="font-weight:600; font-size:0.85rem;">MI Wardrobe Interface</span>
+                  <span class="badge-label">Simulated interface</span>
+                </div>
+                <div class="sim-wardrobe-display">
+                  <div>
+                    <div style="font-size:0.75rem; color:#888; margin-bottom:8px;">1. Tap to select items:</div>
+                    <div class="sim-collection-grid">
+                      <div class="sim-item selected" onclick="toggleSimItem(this, 'Linen Overcoat')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v16H4z"/></svg>
+                        <div>Linen Coat</div>
+                      </div>
+                      <div class="sim-item selected" onclick="toggleSimItem(this, 'Tailored Trousers')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 4l2 16h6l2-16z"/></svg>
+                        <div>Trousers</div>
+                      </div>
+                      <div class="sim-item" onclick="toggleSimItem(this, 'Cashmere Knit')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 8l7-4 7 4v10H5z"/></svg>
+                        <div>Cashmere Knit</div>
+                      </div>
+                      <div class="sim-item" onclick="toggleSimItem(this, 'Oxford Shirt')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 4h12v16H6z"/></svg>
+                        <div>Oxford Shirt</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="sim-preview-box">
+                    <div>
+                      <div style="font-size:0.72rem; color:#888; text-transform:uppercase;">Proposed Ensemble</div>
+                      <div id="sim-ensemble-name" style="font-weight:600; font-size:0.95rem; margin:4px 0 10px;">Daytime Tailored</div>
+                      <div id="sim-selected-list" style="font-size:0.75rem; color:#CCC;">ÔÇó Linen Coat<br>ÔÇó Tailored Trousers</div>
+                    </div>
+                    <button class="btn btn-primary" style="padding:8px 12px; font-size:0.78rem;" onclick="simulateRetrieve()">
+                      Request Garments Ôć│
+                    </button>
+                    <div class="sim-status-banner" id="sim-status-msg">Ready on upper & lower rails</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="video-caption-bar">
+              <span>Interface demonstration & ritual storyboard</span>
+              <span class="badge-label">Concept Interface</span>
+            </div>
+
+            <div class="video-transcript-box">
+              <strong style="display:block; margin-bottom:4px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em;">Video Transcript & Interaction Steps</strong>
+              <p style="font-size:0.8rem; margin:0;">
+                The user approaches the wardrobe's integrated touchscreen column. Browsing the digital archive shows all pieces registered to upper and lower conveyor positions. Selecting an outfit prompts the motorized rails to rotate the corresponding hangers to the collection aperture, where soft internal illumination confirms delivery.
+              </p>
+            </div>
+          </div>
+
+          <div class="steps-stack">
+            <div class="step-card">
+              <span class="step-card-num">01</span>
+              <div>
+                <h3>Browse your collection</h3>
+                <p>Scroll through your digitized garments directly on the capacitive screen beside the collection opening without manual sorting.</p>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <span class="step-card-num">02</span>
+              <div>
+                <h3>Create or select a look</h3>
+                <p>Explore recommended combinations or assemble your own outfit. (AI outfit preview is a concept; fit and sizing are not modeled).</p>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <span class="step-card-num">03</span>
+              <div>
+                <h3>Request garments at the opening</h3>
+                <p>The motorized conveyor rails rotate into position, presenting chosen pieces directly at the illuminated collection opening.</p>
+              </div>
+            </div>
+
+            <details class="setup-accordion">
+              <summary>
+                <span>First-time setup workflow</span>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem;">[ Expand + ]</span>
+              </summary>
+              <div class="setup-accordion-content">
+                <ol class="setup-steps-list">
+                  <li>
+                    <span class="setup-step-badge">Step 1</span>
+                    <div><strong>Connect & Create Account:</strong> Set up a secure user account via mobile pairing.</div>
+                  </li>
+                  <li>
+                    <span class="setup-step-badge">Step 2</span>
+                    <div><strong>Register Clothes One by One:</strong> Hang item on smart hanger lock, scan or type barcode, and fetch product details from store page.</div>
+                  </li>
+                  <li>
+                    <span class="setup-step-badge">Step 3</span>
+                    <div><strong>Add Personal Photo:</strong> Upload a standing photo to enable the outfit preview concept (visualisation only; no body measurements).</div>
+                  </li>
+                  <li>
+                    <span class="setup-step-badge">Step 4</span>
+                    <div><strong>Review & Finish:</strong> Verify rail assignments (upper rail for long pieces, lower rail for tops/trousers).</div>
+                  </li>
+                </ol>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 6: MODELS (Scroll 86% - 92%)         -->
+    <!-- ========================================== -->
+    <section class="scene-models" id="models">
+      <div class="container">
+        <div style="max-width: 600px;">
+          <span class="eyebrow">05 / Specifications</span>
+          <h2>Find your MI Wardrobe.</h2>
+          <p class="lead" style="margin-top: 12px;">
+            Two prototype configurations engineered for different collection sizes.
+          </p>
+        </div>
+
+        <div class="models-grid">
+          <article class="model-card">
+            <div>
+              <div class="model-badge-row">
+                <span class="badge-label">Concept Model MI-01</span>
+                <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">Compact Profile</span>
+              </div>
+              <h3>MI Wardrobe Mini</h3>
+              <p style="margin-bottom: 24px;">Tailored for personal suites, studios, and individual curation.</p>
+
+              <div class="capacity-highlight">
+                <div>
+                  <span class="cap-num">Ôëł 40</span>
+                  <span class="cap-label">Upper rail positions (dresses, suits, long items)</span>
+                </div>
+                <div>
+                  <span class="cap-num">Ôëł 20</span>
+                  <span class="cap-label">Lower rail positions (shirts, trousers, folded pieces)</span>
+                </div>
+              </div>
+
+              <div class="model-spec-table">
+                <div class="model-spec-row">
+                  <span class="model-spec-label">Suggested use</span>
+                  <span class="model-spec-value">Apartments, students, individuals</span>
+                </div>
+                <div class="model-spec-row">
+                  <span class="model-spec-label">Internal rails</span>
+                  <span class="model-spec-value">2 automated motorized loops</span>
+                </div>
+                <div class="model-spec-row">
+                  <span class="model-spec-label">Touchscreen interface</span>
+                  <span class="model-spec-value">Built-in optical mirror column</span>
+                </div>
+                <div class="model-spec-row">
+                  <span class="model-spec-label">Price</span>
+                  <span class="model-spec-value">Pricing to be announced</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Capacity figures are indicative.</p>
+              <a href="#contact" class="btn btn-primary" style="width:100%;" onclick="selectModelInForm('Mini')">
+                Contact sales ÔćŚ
+              </a>
+            </div>
+          </article>
+
+          <article class="model-card">
+            <div>
+              <div class="model-badge-row">
+                <span class="badge-label">Concept Model MI-02</span>
+                <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">Expanded Capacity</span>
+              </div>
+              <h3>MI Wardrobe Pro</h3>
+              <p style="margin-bottom: 24px;">Engineered for expansive wardrobes, shared residences, and styling boutiques.</p>
+
+              <div class="capacity-highlight">
+                <div>
+                  <span class="cap-num">50ÔÇô60</span>
+                  <span class="cap-label">Upper rail positions (dresses, coats, full suits)</span>
+                </div>
+                <div>
+                  <span class="cap-num">Ôëł 30</span>
+                  <span class="cap-label">Lower rail positions (shirts, trousers, knitwear)</span>
+                </div>
+              </div>
+
+              <div class="model-spec-table">
+                <div class="model-spec-row">
+                  <span class="model-spec-label">Suggested use</span>
+                  <span class="model-spec-value">Families, boutiques, hotels, stylists</span>
+                </div>
+                <div class="model-spec-row">
+                  <span class="model-spec-label">Internal rails</span>
+                  <span class="model-spec-value">2 heavy-duty synchronized loops</span>
+                </div>
+                <div class="model-spec-row">
+                  <span class="model-spec-label">Touchscreen interface</span>
+                  <span class="model-spec-value">Built-in optical mirror column</span>
+                </div>
+                <div class="model-spec-row">
+                  <span class="model-spec-label">Price</span>
+                  <span class="model-spec-value">Pricing to be announced</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Capacity figures are indicative.</p>
+              <a href="#contact" class="btn btn-primary" style="width:100%;" onclick="selectModelInForm('Pro')">
+                Contact sales ÔćŚ
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 7: VISIT US (Scroll 92% - 96%)        -->
+    <!-- ========================================== -->
+    <section class="scene-visit" id="visit">
+      <div class="container visit-grid">
+        <div>
+          <span class="eyebrow">06 / Showcase</span>
+          <h2>Experience MI Wardrobe in person.</h2>
+          <p class="lead" style="margin: 16px 0 24px;">
+            Join our engineering and design team at our upcoming university prototype exposition to experience the automated mechanism and touchscreen ritual first-hand.
+          </p>
+          <a href="#contact" class="btn btn-secondary">Register showcase interest Ôćô</a>
+        </div>
+
+        <div class="visit-details-card">
+          <div class="placeholder-banner">
+            <span>ÔÜá</span>
+            <span>EXHIBITION VENUE TO BE CONFIRMED</span>
+          </div>
+
+          <h3 style="font-size:1.4rem; margin-bottom:4px;" id="cfg-venue-name">[EXPO / SHOWROOM NAME]</h3>
+          <p style="font-size:0.86rem; color:var(--text-muted);">Please check back for confirmed booth registration.</p>
+
+          <div class="visit-fields-list">
+            <div class="visit-field-row">
+              <span class="visit-field-key">Full Address</span>
+              <span class="visit-field-val" id="cfg-address">[FULL ADDRESS]</span>
+            </div>
+            <div class="visit-field-row">
+              <span class="visit-field-key">Dates</span>
+              <span class="visit-field-val" id="cfg-dates">[DATES]</span>
+            </div>
+            <div class="visit-field-row">
+              <span class="visit-field-key">Opening Hours</span>
+              <span class="visit-field-val" id="cfg-hours">[HOURS]</span>
+            </div>
+            <div class="visit-field-row">
+              <span class="visit-field-key">Hall / Stand</span>
+              <span class="visit-field-val" id="cfg-hall">[HALL / STAND]</span>
+            </div>
+            <div class="visit-field-row">
+              <span class="visit-field-key">Appointment Needed</span>
+              <span class="visit-field-val" id="cfg-appointment">[APPOINTMENT NEEDED: YES/NO]</span>
+            </div>
+            <div class="visit-field-row">
+              <span class="visit-field-key">Demonstrated Model</span>
+              <span class="visit-field-val" id="cfg-demo-proto">[WHICH PROTOTYPE IS DEMONSTRATED]</span>
+            </div>
+          </div>
+
+          <div class="map-frame-placeholder" id="map-frame-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:6px;">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>Google Maps Location Embed</span>
+            <span style="font-size:0.68rem; color:var(--text-light); margin-top:4px;">Map pin will activate upon venue announcement</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 8: CONTACT FORM (Scroll 96% - 100%)   -->
+    <!-- ========================================== -->
+    <section class="scene-contact" id="contact">
+      <div class="container contact-grid">
+        <div>
+          <span class="eyebrow">07 / Enquiries</span>
+          <h2>Let's find the right wardrobe for you.</h2>
+          <p class="lead" style="margin: 16px 0 24px;">
+            Submit an enquiry to explore prototype deployment, commercial partnerships, or request an invitation to our demonstration.
+          </p>
+          
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:20px; margin-bottom:24px;">
+            <div style="font-weight:600; font-size:0.88rem; margin-bottom:6px;">Direct Communication</div>
+            <p style="font-size:0.84rem; margin-bottom:12px;">For academic or technical questions regarding the MI Wardrobe prototype:</p>
+            <a href="mailto:contact@miwardrobe-prototype.example" id="cfg-email-link" class="btn btn-secondary" style="padding:8px 16px; font-size:0.84rem;">
+              Email Project Team Ôťë
+            </a>
+          </div>
+
+          <p class="privacy-notice-text">
+            Enquiry data is strictly processed to respond to your specific demonstration or product questions. Learn more in our <a href="#" onclick="openModal('modal-privacy'); return false;">Privacy information</a>.
+          </p>
+        </div>
+
+        <div class="form-container-card">
+          <div id="google-form-container" style="display:none;">
+            <iframe id="google-form-iframe" class="google-form-iframe-wrap" src="" title="Google Forms Contact Enquiry">LoadingÔÇŽ</iframe>
+            <div style="text-align:right; margin-top:8px;">
+              <a href="#" id="google-form-fallback-link" target="_blank" rel="noopener" style="font-size:0.75rem; color:var(--text-muted); text-decoration:underline;">
+                Open form in a new tab ÔćŚ
+              </a>
+            </div>
+          </div>
+
+          <div id="native-form-preview-container">
+            <div class="placeholder-banner">
+              <span>Ôôś</span>
+              <span>GOOGLE FORM EMBED PLACEHOLDER</span>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:20px;">
+              Connect your Google Form embed URL in <code style="font-family:var(--font-mono); background:#EEE; padding:2px 4px;">CONFIG.formEmbedUrl</code>. Preview of required form fields:
+            </p>
+
+            <form class="contact-form-inner" id="preview-contact-form" onsubmit="handlePreviewSubmit(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="input-name">Name (required)</label>
+                  <input type="text" id="input-name" class="form-control" required placeholder="Alex Mercer">
+                </div>
+                <div class="form-group">
+                  <label for="input-email">Email (required)</label>
+                  <input type="email" id="input-email" class="form-control" required placeholder="alex@example.com">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="select-interest">Interest</label>
+                  <select id="select-interest" class="form-control">
+                    <option value="home">Home use</option>
+                    <option value="business">Business use</option>
+                    <option value="expo">Expo demonstration</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="select-model">Model</label>
+                  <select id="select-model" class="form-control">
+                    <option value="not-sure">Not sure yet</option>
+                    <option value="Mini">MI Wardrobe Mini</option>
+                    <option value="Pro">MI Wardrobe Pro</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="input-company">Company (optional)</label>
+                  <input type="text" id="input-company" class="form-control" placeholder="Studio / Architecture firm">
+                </div>
+                <div class="form-group">
+                  <label for="input-phone">Phone (optional)</label>
+                  <input type="tel" id="input-phone" class="form-control" placeholder="+1 555 0192">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="input-message">Message (optional)</label>
+                <textarea id="input-message" class="form-control" rows="3" placeholder="Tell us about your project or showroom inquiry..."></textarea>
+              </div>
+
+              <div class="form-checkbox-row">
+                <input type="checkbox" id="check-updates">
+                <label for="check-updates">Receive occasional project development milestones (optional).</label>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top:8px;">
+                Send enquiry ÔćŚ
+              </button>
+
+              <div id="preview-form-status" style="display:none; padding:14px; background:var(--accent-subtle); border:1px solid var(--accent); border-radius:var(--radius-sm); font-size:0.85rem; color:var(--accent);" role="status" aria-live="polite">
+                Thank you. We have received your enquiry and will contact you using the details provided.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- FOOTER                                     -->
+    <!-- ========================================== -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-top">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <img src="logo.png" alt="MI Wardrobe Logo" class="footer-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';" />
+            <div>
+              <div style="font-weight:600; font-size:1.15rem; margin-bottom:2px;">MI Wardrobe</div>
+              <p style="font-size:0.84rem; margin:0;">A wardrobe that helps you decide what to wear.</p>
+            </div>
+          </div>
+
+          <div class="footer-links-group">
+            <button type="button" class="footer-link" onclick="openModal('modal-privacy')">Privacy information</button>
+            <button type="button" class="footer-link" onclick="openModal('modal-terms')">Terms of use</button>
+            <button type="button" class="footer-link" onclick="openModal('modal-about')">About this prototype</button>
+            <a href="#hero" class="footer-link">Back to top ÔćĹ</a>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>University project prototype ┬Ě 2026</span>
+          <span>Honesty in design: Concept renders & simulated UI are labelled.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  
+  <!-- MULTI-STEP AUTH & WARDROBE PAIRING MODAL -->
+  <dialog class="onboarding-sheet" id="modal-onboarding">
+    <div class="modal-head-bar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="logo.png" alt="MI Wardrobe Logo" style="width: 34px; height: 34px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 3px rgba(0,0,0,0.05);" onerror="this.onerror=null; this.src='assets/logo.png';" />
+        <div>
+          <span class="eyebrow" style="margin:0;" id="modal-onboarding-subtitle">Account & Hardware Setup</span>
+          <h3 style="font-size:1.25rem; margin:2px 0 0;" id="modal-onboarding-title">Create your MI Account</h3>
+        </div>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="closeOnboardingModal()" aria-label="Close">├Ś</button>
+    </div>
+
+    <div class="onboarding-body">
+      <!-- Step 1: Sign in / Create Account -->
+      <div id="onboard-step-auth">
+        <div class="auth-tab-row">
+          <button type="button" class="auth-tab-btn active" id="tab-btn-signup" onclick="switchAuthTab('signup')">Create Account</button>
+          <button type="button" class="auth-tab-btn" id="tab-btn-signin" onclick="switchAuthTab('signin')">Log In</button>
+        </div>
+
+        <form id="form-auth-credentials" onsubmit="handleSendVerification(event)">
+          <div class="form-group" style="margin-bottom:14px;" id="auth-group-name">
+            <label for="auth-input-name">Full Name</label>
+            <input type="text" id="auth-input-name" class="form-control" required placeholder="e.g. Alex Mercer">
+          </div>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label for="auth-input-email">Email Address</label>
+            <input type="email" id="auth-input-email" class="form-control" required placeholder="alex@example.com">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;" id="btn-auth-submit">
+            Send verification code ÔćŚ
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: Verification Code Entry -->
+      <div id="onboard-step-verify" style="display:none;">
+        <p style="font-size:0.9rem; margin-bottom:12px;">
+          We sent a 6-digit confirmation code to <strong id="verify-email-display">alex@example.com</strong>.
+        </p>
+
+        <!-- Simulated code generator banner for instant prototype testing -->
+        <div class="demo-code-callout">
+          <div>
+            <strong>Prototype Demo Code:</strong>
+            <span style="font-family:var(--font-mono); font-size:1.15rem; font-weight:700; margin-left:8px;" id="generated-demo-code">482-195</span>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="autoFillVerificationCode()">Auto-fill</button>
+        </div>
+
+        <form onsubmit="handleVerifyCodeSubmit(event)">
+          <div class="form-group" style="margin:20px 0;">
+            <label for="input-verify-code">Enter 6-digit Verification Code</label>
+            <input type="text" id="input-verify-code" class="form-control" style="font-family:var(--font-mono); font-size:1.3rem; letter-spacing:0.2em; text-align:center;" required maxlength="7" placeholder="482-195">
+          </div>
+
+          <div id="verify-error-msg" style="display:none; color:#C53030; font-size:0.84rem; margin-bottom:12px;">
+            Code does not match. Please enter the verification code above.
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;">
+            Verify & Continue to Hardware Pairing Ôć│
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 3: Choose Model to Pair (Mini vs Pro) -->
+      <div id="onboard-step-model" style="display:none;">
+        <span class="badge-label">Hardware Association</span>
+        <h3 style="font-size:1.25rem; margin:8px 0 6px;">Which MI Wardrobe are you pairing?</h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
+          Select your wardrobe configuration to connect the automated gantry and collection rails.
+        </p>
+
+        <div class="pair-choice-grid">
+          <div class="pair-model-card selected" id="card-choice-mini" onclick="selectModelChoice('Mini')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="5" y="3" width="14" height="18" rx="2"/>
+              <line x1="12" y1="3" x2="12" y2="21"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            <strong style="display:block; font-size:1rem; margin-bottom:4px;">MI Wardrobe Mini</strong>
+            <span style="font-size:0.75rem; color:var(--text-muted); display:block;">~40 upper / ~20 lower</span>
+            <span class="badge-label" style="margin-top:8px;">Standard Suite</span>
+          </div>
+
+          <div class="pair-model-card" id="card-choice-pro" onclick="selectModelChoice('Pro')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="9" y1="3" x2="9" y2="21"/>
+              <line x1="15" y1="3" x2="15" y2="21"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+            </svg>
+            <strong style="display:block; font-size:1rem; margin-bottom:4px;">MI Wardrobe Pro</strong>
+            <span style="font-size:0.75rem; color:var(--text-muted); display:block;">50ÔÇô60 upper / ~30 lower</span>
+            <span class="badge-label" style="margin-top:8px;">Expanded Suite</span>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" style="width:100%;" onclick="proceedToPairingScan()">
+          Proceed to Wardrobe Pairing Ôć│
+        </button>
+      </div>
+
+      <!-- Step 4: Scan QR Code or Type Manually -->
+      <div id="onboard-step-scan" style="display:none;">
+        <span class="badge-label">Hardware Verification</span>
+        <h3 style="font-size:1.25rem; margin:8px 0 6px;">Connect your <span id="pairing-model-name-label">MI Wardrobe Mini</span></h3>
+        <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:14px;">
+          Locate the pairing label beside the collection aperture or on the top architrave.
+        </p>
+
+        <!-- QR Scanner / Camera Trigger -->
+        <div class="qr-scanner-box">
+          <input type="file" accept="image/*" capture="environment" id="qr-camera-input" onchange="handleQrImageUpload(this)">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px; color:var(--text-muted);">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2m10 0h2a2 2 0 0 1 2 2v2m0 10v2a2 2 0 0 1-2 2h-2m-10 0H5a2 2 0 0 1-2-2v-2"/>
+            <rect x="7" y="7" width="10" height="10" rx="1"/>
+            <line x1="7" y1="12" x2="17" y2="12"/>
+          </svg>
+          <strong style="display:block; font-size:0.92rem;">Scan Wardrobe QR Code</strong>
+          <span style="font-size:0.75rem; color:var(--text-muted);">Click to open device camera or upload QR photo</span>
+        </div>
+
+        <div style="text-align:center; margin:10px 0; font-size:0.8rem; color:var(--text-light); text-transform:uppercase;">
+          ÔÇö Or type code manually ÔÇö
+        </div>
+
+        <form onsubmit="handleManualSerialSubmit(event)">
+          <div class="form-group" style="margin-bottom:16px;">
+            <label for="input-wardrobe-serial">Wardrobe Pairing Code / Serial</label>
+            <input type="text" id="input-wardrobe-serial" class="form-control" style="font-family:var(--font-mono); font-size:1.1rem; text-transform:uppercase;" placeholder="e.g. MI-MINI-2026" required value="MI-MINI-2026">
+          </div>
+
+          <div id="serial-handshake-status" style="display:none; padding:12px; background:var(--accent-subtle); border:1px solid var(--accent); border-radius:var(--radius-sm); font-size:0.85rem; color:var(--accent); margin-bottom:14px;">
+            Ôťô Wardrobe hardware verified! Dual conveyor gantry online (Unit #0482).
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;" id="btn-verify-serial">
+            Verify Wardrobe Hardware Ôć│
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 5: User Profile Details & Full-Body Image Upload -->
+      <div id="onboard-step-profile" style="display:none;">
+        <span class="badge-label">Ritual Personalization</span>
+        <h3 style="font-size:1.25rem; margin:8px 0 6px;">Measurements & Full-Body Photo</h3>
+        <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:20px;">
+          Add your sizing preferences and standing photo to enable the outfit preview concept on the wardrobe screen.
+        </p>
+
+        <form onsubmit="handleFinishProfileSubmit(event)">
+          <!-- Full-Body Photo Upload -->
+          <div style="text-align:center; margin-bottom:20px;">
+            <div class="body-upload-preview-wrap" id="body-photo-preview-wrap">
+              <img id="body-photo-preview-img" src="" alt="Full-body preview" style="display:none;">
+              <div id="body-photo-empty-state" style="padding:16px; text-align:center; color:var(--text-muted); font-size:0.75rem;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:6px;">
+                  <circle cx="12" cy="7" r="4"/>
+                  <path d="M5 21v-2a7 7 0 0 1 14 0v2"/>
+                </svg>
+                <span>Standing Full-Body Photo</span>
+              </div>
+            </div>
+
+            <label class="btn btn-secondary btn-sm" style="cursor:pointer; display:inline-flex;">
+              Upload Full-Body Photo
+              <input type="file" accept="image/*" id="input-body-photo" style="display:none;" onchange="handleBodyPhotoSelect(this)">
+            </label>
+            <span style="display:block; font-size:0.72rem; color:var(--text-light); margin-top:4px;">
+              Used exclusively for simulated outfit preview (no sizing or measurements extracted).
+            </span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prof-height">Height (cm)</label>
+              <input type="number" id="prof-height" class="form-control" placeholder="178" required value="178">
+            </div>
+            <div class="form-group">
+              <label for="prof-weight">Weight (kg)</label>
+              <input type="number" id="prof-weight" class="form-control" placeholder="72" required value="72">
+            </div>
+          </div>
+
+          <div class="form-row" style="margin-top:14px;">
+            <div class="form-group">
+              <label for="prof-tops-size">Top / Shirt Size</label>
+              <select id="prof-tops-size" class="form-control">
+                <option value="S">S (Small)</option>
+                <option value="M" selected>M (Medium)</option>
+                <option value="L">L (Large)</option>
+                <option value="XL">XL (Extra Large)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="prof-bottoms-size">Waist / Trousers</label>
+              <select id="prof-bottoms-size" class="form-control">
+                <option value="30">30 / Small</option>
+                <option value="32" selected>32 / Medium</option>
+                <option value="34">34 / Large</option>
+                <option value="36">36 / XL</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin:14px 0 20px;">
+            <label for="prof-fit-pref">Fit Preference</label>
+            <select id="prof-fit-pref" class="form-control">
+              <option value="tailored" selected>Modern Tailored</option>
+              <option value="relaxed">Relaxed & Casual</option>
+              <option value="classic">Classic Structured</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;">
+            Complete Setup & Pair Wardrobe Ôťô
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 6: Active Wardrobe Portal / Dashboard -->
+      <div id="onboard-step-dashboard" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+          <div>
+            <span class="badge-label" style="background:#E8F4EC; color:#205735; border-color:#C1E1CD;">Connected & Active</span>
+            <h3 style="font-size:1.3rem; margin:6px 0 2px;" id="dash-wardrobe-name">MI Wardrobe Mini</h3>
+            <span style="font-size:0.8rem; color:var(--text-muted);" id="dash-wardrobe-serial">Serial: MI-MINI-2026 ┬Ě Online</span>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:0.75rem; color:var(--text-muted);">User Profile</span>
+            <div style="font-weight:600; font-size:0.95rem;" id="dash-user-name">Alex Mercer</div>
+          </div>
+        </div>
+
+        <!-- Linked Device Specs Summary -->
+        <div style="background:var(--surface-subtle); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; margin-bottom:18px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.85rem;">
+            <div>
+              <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Upper Rail Status</span>
+              <strong id="dash-upper-stat">Ôëł 40 Garment Positions</strong>
+            </div>
+            <div>
+              <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Lower Rail Status</span>
+              <strong id="dash-lower-stat">Ôëł 20 Garment Positions</strong>
+            </div>
+            <div>
+              <span style="color:var(--text-muted); font-size:0.75rem; display:block;">User Measurements</span>
+              <strong id="dash-user-measure">178 cm ┬Ě 72 kg ┬Ě M</strong>
+            </div>
+            <div>
+              <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Preview Silhouette</span>
+              <strong id="dash-photo-status">Photo Active</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group" style="justify-content:space-between;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="handleUserSignOut()">Sign out</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="closeOnboardingModal()">Close Portal</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ACCESSIBLE MODALS -->
+  <dialog class="modal-sheet" id="modal-privacy">
+    <h3>Privacy Information</h3>
+    <p>This prototype showcase respects user privacy by design. The built-in touchscreen mirror does not contain a camera sensor; user interactions remain local or securely paired.</p>
+    <p>When published inside Google Sites or web host, standard platform policies apply. This standalone document sets no third-party tracking cookies and stores no local storage keys.</p>
+    <p>When you submit an enquiry via Google Forms, your contact details are strictly accessed by the university project team to coordinate demonstration invitations.</p>
+    <button class="btn btn-secondary" onclick="closeModal('modal-privacy')">Close</button>
+  </dialog>
+
+  <dialog class="modal-sheet" id="modal-terms">
+    <h3>Terms for Using This Site</h3>
+    <p>MI Wardrobe is presented as an exploratory university project prototype. Information, capacity specifications, and mechanism studies are design concepts and subject to refinement.</p>
+    <p>This site does not offer commercial sales contracts or guarantee production schedules. All intellectual property and student design artifacts remain property of the project authors.</p>
+    <button class="btn btn-secondary" onclick="closeModal('modal-terms')">Close</button>
+  </dialog>
+
+  <dialog class="modal-sheet" id="modal-about">
+    <h3>About the Prototype</h3>
+    <p>MI Wardrobe was conceived to rethink everyday dressing rituals. By uniting dual-tier motorized garment circulation with a capacitive collection assistant, garments are brought within effortless reach.</p>
+    <p>The 3D presentation on this page is generated procedurally in WebGL (Three.js), demonstrating the exact separation axes of internal assemblies.</p>
+    <button class="btn btn-secondary" onclick="closeModal('modal-about')">Close</button>
+  </dialog>
+
+  <!-- ========================================== -->
+  <!-- USER AUTHENTICATION & HARDWARE PAIRING      -->
+  <!-- ========================================== -->
+  <script>
+  (function() {
+    'use strict';
+    const $ = function(id) { return document.getElementById(id); };
+
+    window.USER_SESSION = {
+      isLoggedIn: false,
+      isPaired: false,
+      user: {
+        name: '',
+        email: '',
+        model: 'Mini',
+        serial: '',
+        height: '178',
+        weight: '72',
+        topSize: 'M',
+        bottomSize: '32',
+        fitPref: 'tailored',
+        bodyPhotoUrl: ''
+      },
+      currentDemoCode: '482-195'
+    };
+
+    window.openAuthModal = function(initialTab) {
+      const modal = $('modal-onboarding');
+      if (!modal) return;
+      if (window.USER_SESSION.isLoggedIn && window.USER_SESSION.isPaired) {
+        showOnboardingStep('dashboard');
+      } else if (window.USER_SESSION.isLoggedIn) {
+        showOnboardingStep('model');
+      } else {
+        showOnboardingStep('auth');
+        window.switchAuthTab(initialTab || 'signup');
+      }
+      if (typeof modal.showModal === 'function') modal.showModal();
+    };
+
+    window.closeOnboardingModal = function() {
+      const modal = $('modal-onboarding');
+      if (modal && typeof modal.close === 'function') modal.close();
+    };
+
+    window.openWardrobePortal = function() {
+      showOnboardingStep('dashboard');
+      const modal = $('modal-onboarding');
+      if (modal && typeof modal.showModal === 'function') modal.showModal();
+    };
+
+    function showOnboardingStep(stepName) {
+      const steps = ['auth', 'verify', 'model', 'scan', 'profile', 'dashboard'];
+      steps.forEach(function(s) {
+        const el = $('onboard-step-' + s);
+        if (el) el.style.display = (s === stepName) ? 'block' : 'none';
+      });
+
+      const titleEl = $('modal-onboarding-title');
+      const subEl = $('modal-onboarding-subtitle');
+      if (!titleEl || !subEl) return;
+
+      if (stepName === 'auth') {
+        titleEl.textContent = 'Create your MI Account';
+        subEl.textContent = 'Account Setup';
+      } else if (stepName === 'verify') {
+        titleEl.textContent = 'Verify Email Address';
+        subEl.textContent = 'Security Check';
+      } else if (stepName === 'model') {
+        titleEl.textContent = 'Select Wardrobe Model';
+        subEl.textContent = 'Hardware Pairing';
+      } else if (stepName === 'scan') {
+        titleEl.textContent = 'Pair Wardrobe Hardware';
+        subEl.textContent = 'Hardware Association';
+      } else if (stepName === 'profile') {
+        titleEl.textContent = 'Sizing & Body Photo';
+        subEl.textContent = 'Ritual Personalization';
+      } else if (stepName === 'dashboard') {
+        titleEl.textContent = 'MI Wardrobe Dashboard';
+        subEl.textContent = 'Connected Suite';
+      }
+    }
+
+    window.switchAuthTab = function(mode) {
+      const btnSignup = $('tab-btn-signup');
+      const btnSignin = $('tab-btn-signin');
+      const nameGroup = $('auth-group-name');
+      const submitBtn = $('btn-auth-submit');
+
+      if (mode === 'signup') {
+        if (btnSignup) btnSignup.classList.add('active');
+        if (btnSignin) btnSignin.classList.remove('active');
+        if (nameGroup) nameGroup.style.display = 'block';
+        if (submitBtn) submitBtn.textContent = 'Send verification code ÔćŚ';
+      } else {
+        if (btnSignup) btnSignup.classList.remove('active');
+        if (btnSignin) btnSignin.classList.add('active');
+        if (nameGroup) nameGroup.style.display = 'none';
+        if (submitBtn) submitBtn.textContent = 'Send login code ÔćŚ';
+      }
+    };
+
+    window.handleSendVerification = function(e) {
+      e.preventDefault();
+      const nameInput = $('auth-input-name');
+      const emailInput = $('auth-input-email');
+
+      window.USER_SESSION.user.name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Alex Mercer';
+      window.USER_SESSION.user.email = emailInput ? emailInput.value.trim() : 'user@example.com';
+
+      const r1 = Math.floor(100 + Math.random() * 900);
+      const r2 = Math.floor(100 + Math.random() * 900);
+      window.USER_SESSION.currentDemoCode = r1 + '-' + r2;
+
+      const codeDisplay = $('generated-demo-code');
+      if (codeDisplay) codeDisplay.textContent = window.USER_SESSION.currentDemoCode;
+
+      const emailDisplay = $('verify-email-display');
+      if (emailDisplay) emailDisplay.textContent = window.USER_SESSION.user.email;
+
+      showOnboardingStep('verify');
+    };
+
+    window.autoFillVerificationCode = function() {
+      const codeInput = $('input-verify-code');
+      if (codeInput) codeInput.value = window.USER_SESSION.currentDemoCode;
+    };
+
+    window.handleVerifyCodeSubmit = function(e) {
+      e.preventDefault();
+      const codeInput = $('input-verify-code');
+      const errMsg = $('verify-error-msg');
+      if (!codeInput) return;
+
+      const entered = codeInput.value.replace(/\s+/g, '');
+      const expected = window.USER_SESSION.currentDemoCode.replace('-', '');
+
+      if (entered === expected || entered === window.USER_SESSION.currentDemoCode || entered.length >= 6) {
+        window.USER_SESSION.isLoggedIn = true;
+        if (errMsg) errMsg.style.display = 'none';
+        showOnboardingStep('model');
+      } else {
+        if (errMsg) errMsg.style.display = 'block';
+      }
+    };
+
+    window.selectModelChoice = function(model) {
+      window.USER_SESSION.user.model = model;
+      const cMini = $('card-choice-mini');
+      const cPro = $('card-choice-pro');
+      if (model === 'Mini') {
+        if (cMini) cMini.classList.add('selected');
+        if (cPro) cPro.classList.remove('selected');
+      } else {
+        if (cMini) cMini.classList.remove('selected');
+        if (cPro) cPro.classList.add('selected');
+      }
+    };
+
+    window.proceedToPairingScan = function() {
+      const label = $('pairing-model-name-label');
+      if (label) label.textContent = 'MI Wardrobe ' + window.USER_SESSION.user.model;
+
+      const serialInput = $('input-wardrobe-serial');
+      if (serialInput) serialInput.value = 'MI-' + window.USER_SESSION.user.model.toUpperCase() + '-2026';
+
+      showOnboardingStep('scan');
+    };
+
+    window.handleQrImageUpload = function(input) {
+      if (input.files && input.files[0]) {
+        const serialInput = $('input-wardrobe-serial');
+        if (serialInput) serialInput.value = 'MI-' + window.USER_SESSION.user.model.toUpperCase() + '-8492';
+        simulateSerialVerification();
+      }
+    };
+
+    window.handleManualSerialSubmit = function(e) {
+      e.preventDefault();
+      simulateSerialVerification();
+    };
+
+    function simulateSerialVerification() {
+      const statusBox = $('serial-handshake-status');
+      const serialInput = $('input-wardrobe-serial');
+      if (statusBox) {
+        statusBox.style.display = 'block';
+        statusBox.textContent = 'Connecting to wardrobe gantry... Verified serial ' + (serialInput ? serialInput.value : '');
+      }
+
+      setTimeout(function() {
+        window.USER_SESSION.user.serial = serialInput ? serialInput.value : 'MI-MINI-2026';
+        showOnboardingStep('profile');
+      }, 1000);
+    }
+
+    window.handleBodyPhotoSelect = function(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          window.USER_SESSION.user.bodyPhotoUrl = e.target.result;
+          const prevImg = $('body-photo-preview-img');
+          const emptyState = $('body-photo-empty-state');
+          if (prevImg) {
+            prevImg.src = e.target.result;
+            prevImg.style.display = 'block';
+          }
+          if (emptyState) emptyState.style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    };
+
+    window.handleFinishProfileSubmit = function(e) {
+      e.preventDefault();
+      window.USER_SESSION.user.height = $('prof-height') ? $('prof-height').value : '178';
+      window.USER_SESSION.user.weight = $('prof-weight') ? $('prof-weight').value : '72';
+      window.USER_SESSION.user.topSize = $('prof-tops-size') ? $('prof-tops-size').value : 'M';
+      window.USER_SESSION.user.bottomSize = $('prof-bottoms-size') ? $('prof-bottoms-size').value : '32';
+      window.USER_SESSION.user.fitPref = $('prof-fit-pref') ? $('prof-fit-pref').value : 'tailored';
+
+      window.USER_SESSION.isPaired = true;
+      updateHeaderUserState();
+      updateDashboardData();
+      showOnboardingStep('dashboard');
+    };
+
+    function updateHeaderUserState() {
+      const authBtns = $('header-auth-container');
+      const userBadge = $('header-user-badge');
+      const userName = $('header-user-name');
+      const pairedTag = $('header-paired-tag');
+
+      if (window.USER_SESSION.isLoggedIn && window.USER_SESSION.isPaired) {
+        if (authBtns) authBtns.style.display = 'none';
+        if (userBadge) userBadge.style.display = 'block';
+        if (userName) userName.textContent = window.USER_SESSION.user.name || window.USER_SESSION.user.email;
+        if (pairedTag) pairedTag.textContent = window.USER_SESSION.user.model + ' Paired';
+      } else {
+        if (authBtns) authBtns.style.display = 'flex';
+        if (userBadge) userBadge.style.display = 'none';
+      }
+    }
+
+    function updateDashboardData() {
+      if ($('dash-wardrobe-name')) $('dash-wardrobe-name').textContent = 'MI Wardrobe ' + window.USER_SESSION.user.model;
+      if ($('dash-wardrobe-serial')) $('dash-wardrobe-serial').textContent = 'Serial: ' + window.USER_SESSION.user.serial + ' ┬Ě Connected';
+      if ($('dash-user-name')) $('dash-user-name').textContent = window.USER_SESSION.user.name;
+      if ($('dash-user-measure')) $('dash-user-measure').textContent = window.USER_SESSION.user.height + ' cm ┬Ě ' + window.USER_SESSION.user.weight + ' kg ┬Ě Size ' + window.USER_SESSION.user.topSize;
+      if ($('dash-upper-stat')) $('dash-upper-stat').textContent = window.USER_SESSION.user.model === 'Pro' ? '50ÔÇô60 Positions' : 'Ôëł 40 Positions';
+      if ($('dash-lower-stat')) $('dash-lower-stat').textContent = window.USER_SESSION.user.model === 'Pro' ? 'Ôëł 30 Positions' : 'Ôëł 20 Positions';
+      if ($('dash-photo-status')) $('dash-photo-status').textContent = window.USER_SESSION.user.bodyPhotoUrl ? 'Photo Active' : 'No Photo';
+    }
+
+    window.handleUserSignOut = function() {
+      window.USER_SESSION.isLoggedIn = false;
+      window.USER_SESSION.isPaired = false;
+      updateHeaderUserState();
+      window.closeOnboardingModal();
+    };
+  })();
+  </script>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT MASTER BOOTSTRAP               -->
+  <!-- ========================================== -->
+  <script>
+  try {
+    'use strict';
+
+    /* -------------------------------------------------------------
+     * SECTION 7: CONFIGURATION OBJECT
+     * ----------------------------------------------------------- */
+    const CONFIG = {
+      brandName: "MI Wardrobe",
+      positioningLine: "A wardrobe that helps you decide what to wear.",
+      supportingLine: "Explore a new way to organise your clothes, plan your look and bring your chosen pieces within reach.",
+      venueName: "[EXPO / SHOWROOM NAME]",
+      address: "[FULL ADDRESS]",
+      dates: "[DATES]",
+      hours: "[HOURS]",
+      hallStand: "[HALL / STAND]",
+      appointmentNeeded: "[APPOINTMENT NEEDED: YES/NO]",
+      demonstratedPrototype: "[WHICH PROTOTYPE IS DEMONSTRATED]",
+      contactEmail: "enquiry@miwardrobe-prototype.example",
+      formEmbedUrl: "",
+      privacyUrl: "",
+      termsUrl: "",
+      mapEmbedUrl: ""
+    };
+
+    /* -------------------------------------------------------------
+     * SECTION 7: USER ASSETS OBJECT
+     * Reads local files placed directly in HTML folder or assets/
+     * ----------------------------------------------------------- */
+    const ASSETS = {
+      logo: "logo.png",
+      mechanismPhoto: "mechanism.jpg",
+      sketch: "sketch.jpeg",            // Exact supplied technical layout drawing
+      heroRender: "wardrobe-idea.png",
+      roomStudio: "room-studio.jpg",
+      roomDressing: "room-dressing.jpg",
+      roomBoutique: "room-boutique.jpg",
+      uiScreens: [],
+      videoFile: "interface-demo.mp4",
+      videoEmbedUrl: "",
+      videoPoster: "",
+      glb: "wardrobe.glb"
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    // Initialize Config DOM
+    if (CONFIG.brandName && $('cfg-brand-name')) $('cfg-brand-name').textContent = CONFIG.brandName;
+    if (CONFIG.positioningLine && $('cfg-positioning')) $('cfg-positioning').textContent = CONFIG.positioningLine;
+    if (CONFIG.supportingLine && $('cfg-supporting')) $('cfg-supporting').textContent = CONFIG.supportingLine;
+    if (CONFIG.venueName && $('cfg-venue-name')) $('cfg-venue-name').textContent = CONFIG.venueName;
+    if (CONFIG.address && $('cfg-address')) $('cfg-address').textContent = CONFIG.address;
+    if (CONFIG.dates && $('cfg-dates')) $('cfg-dates').textContent = CONFIG.dates;
+    if (CONFIG.hours && $('cfg-hours')) $('cfg-hours').textContent = CONFIG.hours;
+    if (CONFIG.hallStand && $('cfg-hall')) $('cfg-hall').textContent = CONFIG.hallStand;
+    if (CONFIG.appointmentNeeded && $('cfg-appointment')) $('cfg-appointment').textContent = CONFIG.appointmentNeeded;
+    if (CONFIG.demonstratedPrototype && $('cfg-demo-proto')) $('cfg-demo-proto').textContent = CONFIG.demonstratedPrototype;
+    if (CONFIG.contactEmail && $('cfg-email-link')) $('cfg-email-link').href = 'mailto:' + CONFIG.contactEmail;
+
+    // Helper to safely bind local images with auto-fallback
+    function bindLocalImage(imgId, placeholderId, assetPath) {
+      const img = $(imgId);
+      const placeholder = $(placeholderId);
+      if (!img || !assetPath || assetPath.trim() === '') return;
+
+      const testImg = new Image();
+      testImg.onload = function() {
+        img.src = assetPath;
+        img.style.display = 'block';
+        if (placeholder) placeholder.style.display = 'none';
+      };
+      testImg.onerror = function() {
+        if (!assetPath.startsWith('assets/')) {
+          const fallbackPath = 'assets/' + assetPath;
+          const retryImg = new Image();
+          retryImg.onload = function() {
+            img.src = fallbackPath;
+            img.style.display = 'block';
+            if (placeholder) placeholder.style.display = 'none';
+          };
+          retryImg.onerror = function() {
+            img.style.display = 'none';
+            if (placeholder) placeholder.style.display = 'flex';
+          };
+          retryImg.src = fallbackPath;
+        } else {
+          img.style.display = 'none';
+          if (placeholder) placeholder.style.display = 'flex';
+        }
+      };
+      testImg.src = assetPath;
+    }
+
+    bindLocalImage('mechanism-img', 'mechanism-placeholder', ASSETS.mechanismPhoto);
+    bindLocalImage('img-studio', 'placeholder-studio', ASSETS.roomStudio);
+    bindLocalImage('img-dressing', 'placeholder-dressing', ASSETS.roomDressing);
+    bindLocalImage('img-boutique', 'placeholder-boutique', ASSETS.roomBoutique);
+
+    // Artifact tab switcher (Sketch vs Photo)
+    window.switchArtifactTab = function(type) {
+      const sketchView = $('artifact-sketch-view');
+      const photoView = $('artifact-photo-view');
+      const btnSketch = $('btn-show-sketch');
+      const btnPhoto = $('btn-show-photo');
+
+      if (type === 'sketch') {
+        if (sketchView) sketchView.style.display = 'block';
+        if (photoView) photoView.style.display = 'none';
+        if (btnSketch) btnSketch.classList.add('active');
+        if (btnPhoto) btnPhoto.classList.remove('active');
+      } else {
+        if (sketchView) sketchView.style.display = 'none';
+        if (photoView) photoView.style.display = 'block';
+        if (btnSketch) btnSketch.classList.remove('active');
+        if (btnPhoto) btnPhoto.classList.add('active');
+      }
+    };
+
+    // Bind Video
+    const vLocal = $('video-local');
+    const vLocalSrc = $('video-local-source');
+    const vIframe = $('video-iframe');
+    const vSim = $('simulated-ui');
+
+    if (ASSETS.videoFile && ASSETS.videoFile.trim() !== '') {
+      const testVid = document.createElement('video');
+      testVid.src = ASSETS.videoFile;
+      testVid.onloadedmetadata = function() {
+        if (vLocal && vLocalSrc && vSim) {
+          vLocalSrc.src = ASSETS.videoFile;
+          vLocal.load();
+          vLocal.style.display = 'block';
+          vSim.style.display = 'none';
+        }
+      };
+    } else if (ASSETS.videoEmbedUrl && ASSETS.videoEmbedUrl.trim() !== '') {
+      if (vIframe && vSim) {
+        vIframe.src = ASSETS.videoEmbedUrl;
+        vIframe.style.display = 'block';
+        vSim.style.display = 'none';
+      }
+    }
+
+    // Google Form embed check
+    if (CONFIG.formEmbedUrl && CONFIG.formEmbedUrl.trim() !== "") {
+      const gFormWrap = $('google-form-container');
+      const gFormIframe = $('google-form-iframe');
+      const gFormNative = $('native-form-preview-container');
+      const gFormFallbackLink = $('google-form-fallback-link');
+
+      if (gFormWrap && gFormIframe && gFormNative) {
+        gFormIframe.src = CONFIG.formEmbedUrl;
+        gFormWrap.style.display = 'block';
+        gFormNative.style.display = 'none';
+        if (gFormFallbackLink) gFormFallbackLink.href = CONFIG.formEmbedUrl.replace('embedded=true', '');
+      }
+    }
+
+    // Google Maps embed check
+    if (CONFIG.mapEmbedUrl && CONFIG.mapEmbedUrl.trim() !== "") {
+      const mapWrap = $('map-frame-wrap');
+      if (mapWrap) {
+        mapWrap.innerHTML = '<iframe src="' + CONFIG.mapEmbedUrl + '" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>';
+        mapWrap.style.border = 'none';
+        mapWrap.style.padding = '0';
+      }
+    }
+
+        /* -------------------------------------------------------------
+     * 2. ROBUST SCROLL SYSTEM (LENIS + NATIVE + GSAP SCROLLTRIGGER)
+     * ----------------------------------------------------------- */
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let lenis = null;
+
+    function updateProgressBar() {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const totalHeight = (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight;
+      const progress = totalHeight > 0 ? (scrollY / totalHeight) * 100 : 0;
+      const bar = $('scroll-progress-bar');
+      if (bar) bar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+    }
+
+    // Always listen to native scroll as baseline
+    window.addEventListener('scroll', updateProgressBar, { passive: true });
+
+    // Initialize Lenis smooth scrolling with dedicated RAF loop
+    if (!prefersReducedMotion && typeof Lenis !== 'undefined') {
+      try {
+        lenis = new Lenis({
+          duration: 1.1,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          gestureOrientation: 'vertical',
+          smoothWheel: true,
+          wheelMultiplier: 1.0,
+          touchMultiplier: 1.2
+        });
+
+        lenis.on('scroll', () => {
+          if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
+          updateProgressBar();
+        });
+
+        function lenisRaf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(lenisRaf);
+        }
+        requestAnimationFrame(lenisRaf);
+
+        if (typeof gsap !== 'undefined') {
+          gsap.ticker.lagSmoothing(0);
+        }
+      } catch (err) {
+        console.warn('Lenis smooth scroll fallback to native:', err);
+        lenis = null;
+      }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId && targetId !== '#') {
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
+            e.preventDefault();
+            if (lenis) {
+              lenis.scrollTo(targetEl, { offset: -20 });
+            } else {
+              targetEl.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        }
+      });
+    });
+
+    /* -------------------------------------------------------------
+     * 3. THREE.JS PROCEDURAL 3D WARDROBE (MATCHING EXACT SKETCH)
+     * Proportions: 180 cm (width) x 220 cm (height) x 95 cm (depth)
+     * Layout: Front-left touchscreen (30 cm), center vertical opening (32 cm),
+     * upper rail (119 cm space), lower rail (62 cm space), racetrack conveyor.
+     * ----------------------------------------------------------- */
+    const canvas = $('webgl-canvas');
+    const container = $('canvas-container');
+    let renderer, scene, camera;
+    let wardrobeRoot;
+    
+    // Component Groups matching Sketch
+    let doorsGroup, leftDoorGroup, rightDoorGroup;
+    let screenPanelGroup, screenMesh, screenCanvas, screenCtx, screenTexture;
+    let outerShellGroup, shellLeft, shellRight, shellTop, shellBack;
+    let upperRailGroup, upperTrackMesh, upperHangers = [];
+    let lowerRailGroup, lowerTrackMesh, lowerHangers = [];
+    let hangerLockGroup;
+    let collectionPortalGroup, portalLight;
+    let driveUnitGroup;
+    let basePlinthGroup;
+    let gltfModel = null;
+    const gltfParts = {};
+
+    let upperCarouselAngle = 0;
+    let lowerCarouselAngle = 0;
+    let mouseX = 0, mouseY = 0;
+
+    function isWebGLAvailable() {
+      try {
+        const c = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+      } catch (e) {
+        return false;
+      }
+    }
+
+    if (!isWebGLAvailable()) {
+      $('static-webgl-fallback').style.display = 'flex';
+    } else {
+      initThreeScene();
+    }
+
+    function initThreeScene() {
+      renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.08;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 0.1, 3.65);
+
+      const ambientLight = new THREE.AmbientLight(0xF5F0E8, 1.4);
+      scene.add(ambientLight);
+
+      const mainKeyLight = new THREE.DirectionalLight(0xFFFFFF, 1.8);
+      mainKeyLight.position.set(3, 5, 4);
+      mainKeyLight.castShadow = true;
+      mainKeyLight.shadow.mapSize.width = 1024;
+      mainKeyLight.shadow.mapSize.height = 1024;
+      mainKeyLight.shadow.bias = -0.0002;
+      scene.add(mainKeyLight);
+
+      const softFillLight = new THREE.DirectionalLight(0xE0E8EF, 0.9);
+      softFillLight.position.set(-4, 2, 3);
+      scene.add(softFillLight);
+
+      const rimLight = new THREE.DirectionalLight(0xFFF0DD, 0.8);
+      rimLight.position.set(0, 3, -4);
+      scene.add(rimLight);
+
+      // Sketch Authentic Materials
+      // Warm beige wood facade from sketch (#E3D3BD / #DFCEB7)
+      const facadeBeigeMaterial = new THREE.MeshStandardMaterial({
+        color: 0xE3D3BD,
+        roughness: 0.42,
+        metalness: 0.04
+      });
+
+      const topArchitraveMaterial = new THREE.MeshStandardMaterial({
+        color: 0xD2D7DC, // Light technical architrave
+        roughness: 0.35,
+        metalness: 0.15
+      });
+
+      const darkChassisMaterial = new THREE.MeshStandardMaterial({
+        color: 0x242629,
+        roughness: 0.5,
+        metalness: 0.4
+      });
+
+      const chromeMaterial = new THREE.MeshStandardMaterial({
+        color: 0xB8BEC4,
+        roughness: 0.18,
+        metalness: 0.85
+      });
+
+      const mirrorGlassMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111315,
+        roughness: 0.08,
+        metalness: 0.92
+      });
+
+      const accentGreenMaterial = new THREE.MeshStandardMaterial({
+        color: 0x3F7D58,
+        emissive: 0x3F7D58,
+        emissiveIntensity: 0.6,
+        roughness: 0.2
+      });
+
+      // Dynamic Screen Texture (Matches exact screen #3 in sketch)
+      screenCanvas = document.createElement('canvas');
+      screenCanvas.width = 512;
+      screenCanvas.height = 800;
+      screenCtx = screenCanvas.getContext('2d');
+      drawScreenTexture(1);
+
+      screenTexture = new THREE.CanvasTexture(screenCanvas);
+      screenTexture.minFilter = THREE.LinearFilter;
+      const screenMat = new THREE.MeshBasicMaterial({
+        map: screenTexture
+      });
+
+      // Build Master Assembly (1.80m wide, 2.20m high, 0.95m deep)
+      wardrobeRoot = new THREE.Group();
+      scene.add(wardrobeRoot);
+
+      // (A) 09: BASE & PLINTH (Sketch #8)
+      basePlinthGroup = new THREE.Group();
+      wardrobeRoot.add(basePlinthGroup);
+
+      const plinthGeo = new THREE.BoxGeometry(1.78, 0.08, 0.92);
+      const plinthMesh = new THREE.Mesh(plinthGeo, darkChassisMaterial);
+      plinthMesh.position.set(0, -1.04, 0);
+      plinthMesh.receiveShadow = true;
+      basePlinthGroup.add(plinthMesh);
+
+      // 4 Adjustable Leveling Feet
+      const footGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.03, 16);
+      [[-0.8, -1.09, -0.38], [0.8, -1.09, -0.38], [-0.8, -1.09, 0.38], [0.8, -1.09, 0.38]].forEach(pos => {
+        const foot = new THREE.Mesh(footGeo, chromeMaterial);
+        foot.position.set(...pos);
+        basePlinthGroup.add(foot);
+      });
+
+      // (B) 08: DRIVE MOTOR & CONTROL UNIT (Sketch #4 & [M] at rear)
+      driveUnitGroup = new THREE.Group();
+      wardrobeRoot.add(driveUnitGroup);
+
+      const motorHousingGeo = new THREE.BoxGeometry(0.42, 0.22, 0.25);
+      const motorHousing = new THREE.Mesh(motorHousingGeo, darkChassisMaterial);
+      motorHousing.position.set(0, 0.45, -0.42); // Centered at rear of carousel loop
+      driveUnitGroup.add(motorHousing);
+
+      // (C) 03: OUTER BODY SHELL & TOP ARCHITRAVE (Sketch #4 & #9)
+      outerShellGroup = new THREE.Group();
+      wardrobeRoot.add(outerShellGroup);
+
+      // Left Side Panel
+      shellLeft = new THREE.Mesh(new THREE.BoxGeometry(0.05, 2.05, 0.94), facadeBeigeMaterial);
+      shellLeft.position.set(-0.87, 0.02, 0);
+      shellLeft.castShadow = true;
+      outerShellGroup.add(shellLeft);
+
+      // Right Side Panel
+      shellRight = new THREE.Mesh(new THREE.BoxGeometry(0.05, 2.05, 0.94), facadeBeigeMaterial);
+      shellRight.position.set(0.87, 0.02, 0);
+      shellRight.castShadow = true;
+      outerShellGroup.add(shellRight);
+
+      // Top Architrave Cap ("ZASILACZ nap─Öd ┬Ě sterowanie")
+      shellTop = new THREE.Mesh(new THREE.BoxGeometry(1.80, 0.14, 0.95), topArchitraveMaterial);
+      shellTop.position.set(0, 1.03, 0);
+      shellTop.castShadow = true;
+      outerShellGroup.add(shellTop);
+
+      // Status indicator LEDs on top architrave corners (Sketch #4 & #9)
+      const indGeo = new THREE.CircleGeometry(0.015, 16);
+      const indL = new THREE.Mesh(indGeo, accentGreenMaterial);
+      indL.position.set(-0.76, 1.03, 0.48);
+      const indR = new THREE.Mesh(indGeo, accentGreenMaterial);
+      indR.position.set(0.76, 1.03, 0.48);
+      outerShellGroup.add(indL, indR);
+
+      // Back Enclosure
+      shellBack = new THREE.Mesh(new THREE.BoxGeometry(1.72, 2.02, 0.03), facadeBeigeMaterial);
+      shellBack.position.set(0, 0.02, -0.46);
+      shellBack.receiveShadow = true;
+      outerShellGroup.add(shellBack);
+
+      // Horizontal Mid-Divider between Upper & Lower zones
+      const midDivider = new THREE.Mesh(new THREE.BoxGeometry(1.70, 0.03, 0.88), darkChassisMaterial);
+      midDivider.position.set(0, -0.06, 0);
+      outerShellGroup.add(midDivider);
+
+      // (D) 04: UPPER CONVEYOR RAIL (Sketch #5 - dresses, suits, coats)
+      upperRailGroup = new THREE.Group();
+      upperRailGroup.position.set(0, 0.72, 0); // ~193 cm from floor
+      wardrobeRoot.add(upperRailGroup);
+
+      // Exact Racetrack Oval Guide Track matching Sketch Top-View
+      const upperTrackGeo = new THREE.TorusGeometry(0.52, 0.016, 12, 48);
+      upperTrackGeo.rotateX(Math.PI / 2);
+      upperTrackMesh = new THREE.Mesh(upperTrackGeo, chromeMaterial);
+      upperTrackMesh.scale.set(1.3, 1, 0.58);
+      upperRailGroup.add(upperTrackMesh);
+
+      // Upper Garments (Colors matching sketch: pastel pink, yellow, blue, beige, navy)
+      const sketchColors = [0xF4B8C5, 0xF9E397, 0xA8CDE8, 0xC4DBB3, 0xDECAB2, 0x36454F];
+      const garmentGeoLong = new THREE.BoxGeometry(0.06, 0.85, 0.32); // 119 cm hanging allowance
+      const hangerHookGeo = new THREE.CylinderGeometry(0.005, 0.005, 0.09, 8);
+
+      for (let i = 0; i < 14; i++) {
+        const hangerPivot = new THREE.Group();
+        const hook = new THREE.Mesh(hangerHookGeo, chromeMaterial);
+        hook.position.y = 0.04;
+        hangerPivot.add(hook);
+
+        const gMat = new THREE.MeshStandardMaterial({
+          color: sketchColors[i % sketchColors.length],
+          roughness: 0.65
+        });
+        const dress = new THREE.Mesh(garmentGeoLong, gMat);
+        dress.position.y = -0.42;
+        dress.castShadow = true;
+        hangerPivot.add(dress);
+
+        upperRailGroup.add(hangerPivot);
+        upperHangers.push({ group: hangerPivot, baseAngle: (i / 14) * Math.PI * 2 });
+      }
+
+      // (E) 05: LOWER CONVEYOR RAIL (Sketch #6 - shirts, trousers)
+      lowerRailGroup = new THREE.Group();
+      lowerRailGroup.position.set(0, -0.28, 0); // ~75 cm from floor
+      wardrobeRoot.add(lowerRailGroup);
+
+      const lowerTrackGeo = new THREE.TorusGeometry(0.52, 0.016, 12, 48);
+      lowerTrackGeo.rotateX(Math.PI / 2);
+      lowerTrackMesh = new THREE.Mesh(lowerTrackGeo, chromeMaterial);
+      lowerTrackMesh.scale.set(1.3, 1, 0.58);
+      lowerRailGroup.add(lowerTrackMesh);
+
+      const garmentGeoShort = new THREE.BoxGeometry(0.06, 0.46, 0.28); // 62 cm hanging allowance
+      for (let j = 0; j < 12; j++) {
+        const hangerPivot = new THREE.Group();
+        const hook = new THREE.Mesh(hangerHookGeo, chromeMaterial);
+        hook.position.y = 0.04;
+        hangerPivot.add(hook);
+
+        const tMat = new THREE.MeshStandardMaterial({
+          color: sketchColors[(j + 2) % sketchColors.length],
+          roughness: 0.6
+        });
+        const pants = new THREE.Mesh(garmentGeoShort, tMat);
+        pants.position.y = -0.24;
+        pants.castShadow = true;
+        hangerPivot.add(pants);
+
+        lowerRailGroup.add(hangerPivot);
+        lowerHangers.push({ group: hangerPivot, baseAngle: (j / 12) * Math.PI * 2 });
+      }
+
+      // (F) 06: HANGER LOCK & BARCODE MECHANISM (Sketch #7)
+      hangerLockGroup = new THREE.Group();
+      hangerLockGroup.position.set(-0.20, 0.45, 0.22);
+      wardrobeRoot.add(hangerLockGroup);
+
+      const lockLatchGeo = new THREE.BoxGeometry(0.12, 0.08, 0.15);
+      const lockLatch = new THREE.Mesh(lockLatchGeo, darkChassisMaterial);
+      hangerLockGroup.add(lockLatch);
+
+      const scannerSensorGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.04, 16);
+      scannerSensorGeo.rotateX(Math.PI / 2);
+      const scannerSensor = new THREE.Mesh(scannerSensorGeo, accentGreenMaterial);
+      scannerSensor.position.set(0, -0.04, 0.06);
+      hangerLockGroup.add(scannerSensor);
+
+      // (G) 07: CENTRAL COLLECTION APERTURE (Sketch #1 & #2 - Width Ôëł 32 cm)
+      collectionPortalGroup = new THREE.Group();
+      collectionPortalGroup.position.set(0, 0.04, 0.44); // Exact center of front
+      wardrobeRoot.add(collectionPortalGroup);
+
+      // Upper Aperture (#1, ~119 cm high) & Lower Aperture (#2, ~62 cm high) Frame
+      const portalFrameGeo = new THREE.BoxGeometry(0.34, 1.84, 0.12);
+      const portalFrame = new THREE.Mesh(portalFrameGeo, darkChassisMaterial);
+      collectionPortalGroup.add(portalFrame);
+
+      // Recessed Threshold Chamber
+      const bayInnerGeo = new THREE.BoxGeometry(0.32, 1.76, 0.20);
+      const bayInner = new THREE.Mesh(bayInnerGeo, new THREE.MeshStandardMaterial({ color: 0x16181A, roughness: 0.4 }));
+      bayInner.position.z = -0.04;
+      collectionPortalGroup.add(bayInner);
+
+      // Interior LED Lighting Strip at top of opening (Sketch #9)
+      portalLight = new THREE.PointLight(0xFFE8CA, 1.4, 1.4);
+      portalLight.position.set(0, 0.85, 0.06);
+      collectionPortalGroup.add(portalLight);
+
+      // (H) 02: TOUCHSCREEN COLUMN (Sketch #3 - Front Left, Width Ôëł 30 cm)
+      screenPanelGroup = new THREE.Group();
+      screenPanelGroup.position.set(-0.48, 0.18, 0.48); // Left door position, projecting 4 cm
+      wardrobeRoot.add(screenPanelGroup);
+
+      // Black glass bezel slab (Ôëł 30 cm wide x 50 cm high)
+      const mirrorSlabGeo = new THREE.BoxGeometry(0.30, 0.50, 0.04);
+      const mirrorSlab = new THREE.Mesh(mirrorSlabGeo, mirrorGlassMaterial);
+      screenPanelGroup.add(mirrorSlab);
+
+      // Inset Active Touchscreen with UI
+      const displayGeo = new THREE.PlaneGeometry(0.28, 0.46);
+      screenMesh = new THREE.Mesh(displayGeo, screenMat);
+      screenMesh.position.set(0, 0, 0.022);
+      screenPanelGroup.add(screenMesh);
+
+      // (I) 01: FRONT PANELS & DOORS (Warm Beige Facade)
+      doorsGroup = new THREE.Group();
+      wardrobeRoot.add(doorsGroup);
+
+      // Left Front Door (flanking the left of center opening)
+      leftDoorGroup = new THREE.Group();
+      leftDoorGroup.position.set(-0.52, 0.02, 0.46);
+      const leftDoorMesh = new THREE.Mesh(new THREE.BoxGeometry(0.68, 1.88, 0.03), facadeBeigeMaterial);
+      leftDoorMesh.castShadow = true;
+      leftDoorGroup.add(leftDoorMesh);
+      doorsGroup.add(leftDoorGroup);
+
+      // Right Front Door (flanking the right of center opening)
+      rightDoorGroup = new THREE.Group();
+      rightDoorGroup.position.set(0.52, 0.02, 0.46);
+      const rightDoorMesh = new THREE.Mesh(new THREE.BoxGeometry(0.68, 1.88, 0.03), facadeBeigeMaterial);
+      rightDoorMesh.castShadow = true;
+      rightDoorGroup.add(rightDoorMesh);
+      doorsGroup.add(rightDoorGroup);
+
+      wardrobeRoot.position.set(0, -0.05, 0);
+
+      window.addEventListener('resize', onWindowResize, false);
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      });
+
+      requestAnimationFrame(animate);
+
+      
+      // Load Custom Blender Model if available
+      if (typeof THREE.GLTFLoader !== 'undefined' && ASSETS.glb && ASSETS.glb.trim() !== '') {
+        try {
+          const gltfLoader = new THREE.GLTFLoader();
+          gltfLoader.load(ASSETS.glb, function(gltf) {
+            console.log('MI Wardrobe: Loaded Blender GLB successfully!');
+            gltfModel = gltf.scene;
+            gltfModel.position.set(0, -1.10, 0);
+
+            gltfModel.traverse(function(child) {
+              if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                gltfParts[child.name] = child;
+                child.userData.originPos = child.position.clone();
+                child.userData.originRot = child.rotation.clone();
+
+                if (child.name === 'screen_display' && screenTexture) {
+                  child.material = new THREE.MeshBasicMaterial({ map: screenTexture });
+                }
+                if (child.name.includes('glass')) {
+                  child.material.transparent = true;
+                  child.material.opacity = 0.38;
+                  child.material.roughness = 0.08;
+                }
+                if (child.name === 'screen_body') {
+                  child.material.color.setHex(0x121416);
+                  child.material.roughness = 0.15;
+                  child.material.metalness = 0.85;
+                }
+                if (child.name.includes('rail') || child.name.includes('hook') || child.name.includes('Hanger_Chrome') || child.name.includes('trim') || child.name.includes('handle')) {
+                  child.material.metalness = 0.95;
+                  child.material.roughness = 0.18;
+                }
+                if (child.name.startsWith('tshirt') || child.name.startsWith('Trousers')) {
+                  child.material.roughness = 0.75;
+                  child.material.metalness = 0.05;
+                }
+              }
+            });
+
+            // Hide procedural primitives and show GLB
+            if (doorsGroup) doorsGroup.visible = false;
+            if (screenPanelGroup) screenPanelGroup.visible = false;
+            if (outerShellGroup) outerShellGroup.visible = false;
+            if (upperRailGroup) upperRailGroup.visible = false;
+            if (lowerRailGroup) lowerRailGroup.visible = false;
+            if (hangerLockGroup) hangerLockGroup.visible = false;
+            if (collectionPortalGroup) collectionPortalGroup.visible = false;
+            if (driveUnitGroup) driveUnitGroup.visible = false;
+            if (basePlinthGroup) basePlinthGroup.visible = false;
+
+            wardrobeRoot.add(gltfModel);
+          }, undefined, function(loadErr) {
+            console.warn('MI Wardrobe: Local GLB fetch skipped (using procedural 3D model baseline).', loadErr);
+          });
+        } catch(e) {
+          console.warn('GLTFLoader skipped:', e);
+        }
+      }
+
+      setupScrollAnimations();
+      if (typeof ScrollTrigger !== 'undefined') {
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 100);
+      }
+    }
+
+    // Dynamic Touchscreen UI (Draws exact Sketch #3 screen)
+    
+    // Canvas roundRect safe helper
+    function safeRoundRect(ctx, x, y, w, h, r) {
+      if (typeof ctx.roundRect === 'function') {
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.fill();
+      }
+    }
+
+    function drawScreenTexture(state) {
+      if (!screenCtx) return;
+      const ctx = screenCtx;
+      const w = 512, h = 800;
+
+      // Dark capacitive glass background
+      ctx.fillStyle = '#181A1D';
+      ctx.fillRect(0, 0, w, h);
+
+      // Subtle top header
+      ctx.fillStyle = '#7E8691';
+      ctx.font = '22px Inter, sans-serif';
+      ctx.fillText('08:24', 36, 44);
+      ctx.fillText('MI OS', 420, 44);
+
+      if (state === 1) {
+        // STATE 1: EXACT MATCH TO SKETCH SCREEN #3
+        // Human avatar silhouette with outfit preview
+        ctx.fillStyle = '#A0C4FF'; // Avatar head
+        ctx.beginPath();
+        ctx.arc(256, 170, 36, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Avatar Dress / Suit Silhouette
+        ctx.fillStyle = '#5390D9';
+        ctx.beginPath();
+        ctx.moveTo(256, 215);
+        ctx.lineTo(200, 260);
+        ctx.lineTo(170, 420);
+        ctx.lineTo(342, 420);
+        ctx.lineTo(312, 260);
+        ctx.closePath();
+        ctx.fill();
+
+        // Legs
+        ctx.fillStyle = '#3F4954';
+        ctx.fillRect(225, 420, 24, 90);
+        ctx.fillRect(263, 420, 24, 90);
+
+        // 3 Color Preset Buttons from sketch (Pink, Cyan, Green)
+        const swatches = ['#E87A90', '#4ECDC4', '#3F7D58'];
+        swatches.forEach((col, i) => {
+          ctx.fillStyle = col;
+          ctx.beginPath();
+          safeRoundRect(ctx, 80 + i * 80, 560, 60, 60, 8);
+        });
+
+        // Green "OK" confirmation button from sketch
+        ctx.fillStyle = '#3F7D58';
+        ctx.beginPath();
+        safeRoundRect(ctx, 330, 560, 110, 60, 8);
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 26px Inter, sans-serif';
+        ctx.fillText('OK', 365, 600);
+
+        ctx.fillStyle = '#7E8691';
+        ctx.font = '18px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('TAP OK TO RETRIEVE OUTFIT', 256, 680);
+        ctx.textAlign = 'left';
+      } else if (state === 2) {
+        // STATE 2: OUTFIT DETAILS
+        ctx.fillStyle = '#A0A6AD';
+        ctx.font = '22px Inter, sans-serif';
+        ctx.fillText('SELECTED PIECES', 36, 120);
+
+        ctx.fillStyle = '#22252A';
+        ctx.beginPath();
+        safeRoundRect(ctx, 36, 160, 440, 440, 18);
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 26px Inter, sans-serif';
+        ctx.fillText('Dual-Rail Combination', 60, 220);
+
+        ctx.fillStyle = '#8E949B';
+        ctx.font = '20px Inter, sans-serif';
+        ctx.fillText('ÔÇó Upper Rail #04: Cashmere Overcoat', 60, 280);
+        ctx.fillText('ÔÇó Upper Rail #12: Navy Blazer', 60, 330);
+        ctx.fillText('ÔÇó Lower Rail #02: White Oxford Shirt', 60, 380);
+        ctx.fillText('ÔÇó Lower Rail #08: Pleated Trousers', 60, 430);
+
+        ctx.fillStyle = '#3F7D58';
+        ctx.beginPath();
+        safeRoundRect(ctx, 60, 490, 392, 80, 12);
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 24px Inter, sans-serif';
+        ctx.fillText('Confirm Garment Delivery', 95, 540);
+      } else if (state === 3) {
+        // STATE 3: RETRIEVAL IN PROGRESS
+        ctx.strokeStyle = '#3F7D58';
+        ctx.lineWidth = 10;
+        ctx.beginPath();
+        ctx.arc(256, 320, 80, 0, Math.PI * 1.5);
+        ctx.stroke();
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 28px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Rails Rotating...', 256, 460);
+
+        ctx.fillStyle = '#3F7D58';
+        ctx.font = '20px monospace';
+        ctx.fillText('Ready at Collection Opening (Center)', 256, 510);
+        ctx.textAlign = 'left';
+      }
+
+      if (screenTexture) screenTexture.needsUpdate = true;
+    }
+
+    function onWindowResize() {
+      if (!camera || !renderer) return;
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Continuous Conveyor Movement (Carousel Mechanism)
+      upperCarouselAngle += 0.007;
+      lowerCarouselAngle -= 0.006;
+
+      const rxUpper = 0.65, rzUpper = 0.28;
+      upperHangers.forEach(h => {
+        const theta = h.baseAngle + upperCarouselAngle;
+        h.group.position.x = rxUpper * Math.cos(theta);
+        h.group.position.z = rzUpper * Math.sin(theta);
+        h.group.rotation.y = -theta + Math.PI / 2;
+      });
+
+      const rxLower = 0.65, rzLower = 0.28;
+      lowerHangers.forEach(h => {
+        const theta = h.baseAngle + lowerCarouselAngle;
+        h.group.position.x = rxLower * Math.cos(theta);
+        h.group.position.z = rzLower * Math.sin(theta);
+        h.group.rotation.y = -theta + Math.PI / 2;
+      });
+
+      if (wardrobeRoot && !prefersReducedMotion) {
+        wardrobeRoot.rotation.y += (mouseX * 0.08 - wardrobeRoot.rotation.y) * 0.05;
+        wardrobeRoot.rotation.x += (-mouseY * 0.04 - wardrobeRoot.rotation.x) * 0.05;
+      }
+
+      renderer.render(scene, camera);
+
+      updateProjectedLabels();
+    }
+
+    /* -------------------------------------------------------------
+     * 4. SCENE 3: EXPLOSION ANIMATION TIMELINE
+     * ----------------------------------------------------------- */
+    const explosionState = { progress: 0 };
+
+    function updateExplosionProgress(p) {
+      explosionState.progress = p;
+
+      const easeVal = (val, start, end) => {
+        const clamped = Math.max(0, Math.min(1, (val - start) / (end - start)));
+        return clamped * clamped * (3 - 2 * clamped);
+      };
+
+      // 1. Front Doors / Facade Panels (slide outward along X axis)
+      const pDoors = easeVal(p, 0.00, 0.28);
+      if (leftDoorGroup && rightDoorGroup) {
+        leftDoorGroup.position.x = -0.52 - pDoors * 0.70;
+        leftDoorGroup.position.z = 0.46 + pDoors * 0.15;
+        leftDoorGroup.rotation.y = -pDoors * 0.35;
+
+        rightDoorGroup.position.x = 0.52 + pDoors * 0.70;
+        rightDoorGroup.position.z = 0.46 + pDoors * 0.15;
+        rightDoorGroup.rotation.y = pDoors * 0.35;
+      }
+
+      // If GLB model is active, deconstruct real Blender meshes
+      if (gltfModel && Object.keys(gltfParts).length > 0) {
+        const getOrig = (name) => gltfParts[name] ? gltfParts[name].userData.originPos : new THREE.Vector3();
+
+        // (1) Front Panels
+        if (gltfParts['front_left']) {
+          gltfParts['front_left'].position.x = getOrig('front_left').x - pDoors * 0.75;
+          gltfParts['front_left'].position.z = getOrig('front_left').z + pDoors * 0.18;
+        }
+        if (gltfParts['front_right']) {
+          gltfParts['front_right'].position.x = getOrig('front_right').x + pDoors * 0.75;
+          gltfParts['front_right'].position.z = getOrig('front_right').z + pDoors * 0.18;
+        }
+        ['front_gap_top', 'front_gap_mid', 'front_gap_bottom'].forEach(k => {
+          if (gltfParts[k]) gltfParts[k].position.z = getOrig(k).z + pDoors * 0.15;
+        });
+
+        // (2) Screen Assembly (forward towards camera)
+        const pScr = easeVal(p, 0.08, 0.38);
+        ['screen_body', 'screen_display'].forEach(k => {
+          if (gltfParts[k]) {
+            gltfParts[k].position.z = getOrig(k).z + pScr * 0.72;
+            gltfParts[k].position.x = getOrig(k).x - pScr * 0.18;
+          }
+        });
+
+        // (3) Outer Shell & Roof Architrave
+        const pSh = easeVal(p, 0.15, 0.45);
+        if (gltfParts['side_left']) gltfParts['side_left'].position.x = getOrig('side_left').x - pSh * 0.55;
+        if (gltfParts['side_right']) gltfParts['side_right'].position.x = getOrig('side_right').x + pSh * 0.55;
+        if (gltfParts['roof']) gltfParts['roof'].position.y = getOrig('roof').y + pSh * 0.48;
+        if (gltfParts['power_bar']) gltfParts['power_bar'].position.y = getOrig('power_bar').y + pSh * 0.48;
+        if (gltfParts['back']) gltfParts['back'].position.z = getOrig('back').z - pSh * 0.35;
+
+        // (4) Upper Rail Conveyor & Upper Garments / T-shirts / Trousers / Hangers (lifts upward)
+        const pUp = easeVal(p, 0.22, 0.54);
+        if (gltfParts['rail_upper']) gltfParts['rail_upper'].position.y = getOrig('rail_upper').y + pUp * 0.48;
+        for (let u = 0; u < 40; u++) {
+          if (gltfParts['hook_u' + u]) gltfParts['hook_u' + u].position.y = getOrig('hook_u' + u).y + pUp * 0.48;
+          if (gltfParts['garment_u' + u]) gltfParts['garment_u' + u].position.y = getOrig('garment_u' + u).y + pUp * 0.48;
+          if (gltfParts['tshirt_u' + u]) gltfParts['tshirt_u' + u].position.y = getOrig('tshirt_u' + u).y + pUp * 0.48;
+        }
+        Object.keys(gltfParts).forEach(name => {
+          if (name.startsWith('Trousers') || name.startsWith('Spodnie') || name.startsWith('Hanger_')) {
+            gltfParts[name].position.y = getOrig(name).y + pUp * 0.48;
+          }
+        });
+
+        // (5) Lower Rail Conveyor & Lower Garments / T-shirts (descends downward)
+        const pLow = easeVal(p, 0.30, 0.62);
+        if (gltfParts['rail_lower']) gltfParts['rail_lower'].position.y = getOrig('rail_lower').y - pLow * 0.32;
+        for (let l = 0; l < 20; l++) {
+          if (gltfParts['hook_l' + l]) gltfParts['hook_l' + l].position.y = getOrig('hook_l' + l).y - pLow * 0.32;
+          if (gltfParts['garment_l' + l]) gltfParts['garment_l' + l].position.y = getOrig('garment_l' + l).y - pLow * 0.32;
+          if (gltfParts['tshirt_l' + l]) gltfParts['tshirt_l' + l].position.y = getOrig('tshirt_l' + l).y - pLow * 0.32;
+        }
+
+        // (6) Central Collection Doors, Trims & Handles (moves forward)
+        const pGl = easeVal(p, 0.44, 0.76);
+        const glassParts = ['glass_upper', 'glass_lower', 'handle_upper', 'handle_lower', 'trim_upper_t', 'trim_upper_b', 'trim_upper_l', 'trim_upper_r', 'trim_lower_t', 'trim_lower_b', 'trim_lower_l', 'trim_lower_r'];
+        glassParts.forEach(k => {
+          if (gltfParts[k]) gltfParts[k].position.z = getOrig(k).z + pGl * 0.62;
+        });
+
+        // (7) Base Plinth, Floor & Feet (settles at bottom)
+        const pPl = easeVal(p, 0.60, 0.94);
+        ['plinth', 'floor', 'foot0', 'foot1', 'foot2', 'foot3'].forEach(k => {
+          if (gltfParts[k]) gltfParts[k].position.y = getOrig(k).y - pPl * 0.32;
+        });
+      }
+
+      // 2. Touchscreen (slides forward toward camera)
+      const pMirror = easeVal(p, 0.08, 0.38);
+      if (screenPanelGroup) {
+        screenPanelGroup.position.z = 0.48 + pMirror * 0.65;
+        screenPanelGroup.position.x = -0.48 - pMirror * 0.15;
+      }
+
+      // 3. Outer Body Shell (side panels outward, top architrave upward)
+      const pShell = easeVal(p, 0.15, 0.45);
+      if (shellLeft && shellRight && shellTop) {
+        shellLeft.position.x = -0.87 - pShell * 0.50;
+        shellRight.position.x = 0.87 + pShell * 0.50;
+        shellTop.position.y = 1.03 + pShell * 0.45;
+      }
+
+      // 4. Upper Rail Conveyor (rises upward)
+      const pUpper = easeVal(p, 0.22, 0.54);
+      if (upperRailGroup) {
+        upperRailGroup.position.y = 0.72 + pUpper * 0.42;
+      }
+
+      // 5. Lower Rail Conveyor (descends downward)
+      const pLower = easeVal(p, 0.30, 0.62);
+      if (lowerRailGroup) {
+        lowerRailGroup.position.y = -0.28 - pLower * 0.28;
+      }
+
+      // 6. Hanger Lock & Scanner (forward)
+      const pLock = easeVal(p, 0.38, 0.70);
+      if (hangerLockGroup) {
+        hangerLockGroup.position.z = 0.22 + pLock * 0.55;
+        hangerLockGroup.position.x = -0.20 - pLock * 0.20;
+      }
+
+      // 7. Central Collection Opening (forward)
+      const pPortal = easeVal(p, 0.46, 0.78);
+      if (collectionPortalGroup) {
+        collectionPortalGroup.position.z = 0.44 + pPortal * 0.60;
+      }
+
+      // 8. Drive Motor & Controller (backward)
+      const pDrive = easeVal(p, 0.54, 0.86);
+      if (driveUnitGroup) {
+        driveUnitGroup.position.z = -0.42 - pDrive * 0.55;
+      }
+
+      // 9. Base Plinth (downward)
+      const pBase = easeVal(p, 0.62, 0.94);
+      if (basePlinthGroup) {
+        basePlinthGroup.position.y = -pBase * 0.30;
+      }
+
+      // Camera Orbit (25-40 deg) & Pull Back
+      if (camera) {
+        const camOrbitProgress = easeVal(p, 0.05, 0.95);
+        const radius = 3.65 + camOrbitProgress * 0.55;
+        const angle = camOrbitProgress * 0.45;
+        camera.position.x = Math.sin(angle) * radius;
+        camera.position.z = Math.cos(angle) * radius;
+        camera.position.y = 0.1 + camOrbitProgress * 0.35;
+        camera.lookAt(0, 0.05, 0);
+      }
+
+      const pct = Math.round(p * 100);
+      if ($('explosion-percent-text')) {
+        $('explosion-percent-text').textContent = 'Exploded View: ' + pct + '%';
+      }
+
+      // Reveal Artifact Card (Sketch / Mechanism Photo)
+      const artCard = $('artifact-card-wrap');
+      if (artCard) {
+        if (p > 0.70) {
+          artCard.classList.add('visible');
+        } else {
+          artCard.classList.remove('visible');
+        }
+      }
+    }
+
+    function updateProjectedLabels() {
+      if (!camera || !scene || explosionState.progress <= 0.01) {
+        document.querySelectorAll('.leader-line').forEach(l => l.setAttribute('x1', '0'));
+        document.querySelectorAll('.part-label-card').forEach(c => c.classList.remove('active'));
+        return;
+      }
+
+      const p = explosionState.progress;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      const partTargets = [
+        { id: 'doors', obj: leftDoorGroup, card: $('card-doors'), line: $('line-doors'), circ: $('circle-doors'), activeP: [0.05, 0.95], screenOffset: [40, -180] },
+        { id: 'mirror', obj: screenPanelGroup, card: $('card-mirror'), line: $('line-mirror'), circ: $('circle-mirror'), activeP: [0.12, 0.95], screenOffset: [-280, -120] },
+        { id: 'shell', obj: shellTop, card: $('card-shell'), line: $('line-shell'), circ: $('circle-shell'), activeP: [0.20, 0.95], screenOffset: [60, -220] },
+        { id: 'upper-rail', obj: upperRailGroup, card: $('card-upper-rail'), line: $('line-upper-rail'), circ: $('circle-upper-rail'), activeP: [0.28, 0.95], screenOffset: [120, -60] },
+        { id: 'lower-rail', obj: lowerRailGroup, card: $('card-lower-rail'), line: $('line-lower-rail'), circ: $('circle-lower-rail'), activeP: [0.36, 0.95], screenOffset: [-300, 40] },
+        { id: 'hanger-lock', obj: hangerLockGroup, card: $('card-hanger-lock'), line: $('line-hanger-lock'), circ: $('circle-hanger-lock'), activeP: [0.44, 0.95], screenOffset: [-320, -30] },
+        { id: 'portal', obj: collectionPortalGroup, card: $('card-portal'), line: $('line-portal'), circ: $('circle-portal'), activeP: [0.52, 0.95], screenOffset: [140, 60] },
+        { id: 'drive', obj: driveUnitGroup, card: $('card-drive'), line: $('line-drive'), circ: $('circle-drive'), activeP: [0.60, 0.95], screenOffset: [-280, 140] },
+        { id: 'base', obj: basePlinthGroup, card: $('card-base'), line: $('line-base'), circ: $('circle-base'), activeP: [0.68, 0.95], screenOffset: [80, 160] }
+      ];
+
+      const v = new THREE.Vector3();
+      partTargets.forEach(t => {
+        if (!t.obj || !t.card || !t.line) return;
+
+        const isActive = p >= t.activeP[0] && p <= t.activeP[1];
+        if (isActive) {
+          t.obj.getWorldPosition(v);
+          v.project(camera);
+
+          const sx = (v.x * 0.5 + 0.5) * w;
+          const sy = (-v.y * 0.5 + 0.5) * h;
+
+          const cardX = Math.max(20, Math.min(w - 270, sx + t.screenOffset[0]));
+          const cardY = Math.max(80, Math.min(h - 120, sy + t.screenOffset[1]));
+
+          t.card.style.left = cardX + 'px';
+          t.card.style.top = cardY + 'px';
+          t.card.classList.add('active');
+
+          t.line.setAttribute('x1', sx);
+          t.line.setAttribute('y1', sy);
+          t.line.setAttribute('x2', cardX + (t.screenOffset[0] < 0 ? 250 : 0));
+          t.line.setAttribute('y2', cardY + 20);
+          t.line.style.opacity = '1';
+
+          t.circ.setAttribute('cx', sx);
+          t.circ.setAttribute('cy', sy);
+          t.circ.style.opacity = '1';
+        } else {
+          t.card.classList.remove('active');
+          t.line.style.opacity = '0';
+          t.circ.style.opacity = '0';
+        }
+      });
+
+      if ($('mobile-tracker-title') && $('mobile-tracker-desc')) {
+        if (p < 0.15) {
+          $('mobile-tracker-title').textContent = 'Front Facade & Doors';
+          $('mobile-tracker-desc').textContent = 'Opening protective panels flanking central aperture.';
+        } else if (p < 0.35) {
+          $('mobile-tracker-title').textContent = 'Left Touchscreen (Ôëł30 cm)';
+          $('mobile-tracker-desc').textContent = 'Display with avatar outfit preview & retrieval controls.';
+        } else if (p < 0.55) {
+          $('mobile-tracker-title').textContent = 'Dual Conveyor Rails';
+          $('mobile-tracker-desc').textContent = 'Upper rail (~40 items) & Lower rail (~20 items).';
+        } else if (p < 0.75) {
+          $('mobile-tracker-title').textContent = 'Central Aperture (Ôëł32 cm)';
+          $('mobile-tracker-desc').textContent = 'Two-tier retrieval opening with top LED lighting.';
+        } else {
+          $('mobile-tracker-title').textContent = 'Rear Drive Motor & Foundation';
+          $('mobile-tracker-desc').textContent = 'Center-rear gantry motor and adjustable leveling feet.';
+        }
+      }
+    }
+
+    /* -------------------------------------------------------------
+     * 5. MASTER GSAP SCROLLTRIGGER SEQUENCES
+     * ----------------------------------------------------------- */
+    function setupScrollAnimations() {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || prefersReducedMotion) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.fromTo(wardrobeRoot.position, 
+        { y: -0.3, z: -0.8 }, 
+        { y: -0.05, z: 0, duration: 1.6, ease: 'power2.out' }
+      );
+      gsap.fromTo('#canvas-container', 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 1.4, ease: 'power2.out' }
+      );
+
+      // SCENE 2: PRECISION ZOOM-IN SEQUENCE ON KEY HARDWARE PARTS
+      const zoomTL = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#scene-zoom',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.2,
+          onUpdate: (self) => {
+            const prog = self.progress;
+
+            // Multi-Stage Camera Choreography Zooming on specific wardrobe assemblies:
+            // Phase 1 (0.0 - 0.35): Zoom in close on Touchscreen Display
+            // Phase 2 (0.35 - 0.70): Pan & Zoom into Upper Rail Garments
+            // Phase 3 (0.70 - 1.00): Lower and Zoom onto Central Retrieval Opening
+            let targetCamX = 0, targetCamY = 0.1, targetCamZ = 3.65;
+            let lookAtX = 0, lookAtY = 0.1, lookAtZ = 0;
+
+            if (prog < 0.35) {
+              const subP = prog / 0.35;
+              // Zoom tightly into Touchscreen on the left
+              targetCamX = THREE.MathUtils.lerp(0, -0.46, subP);
+              targetCamY = THREE.MathUtils.lerp(0.1, 0.18, subP);
+              targetCamZ = THREE.MathUtils.lerp(3.65, 1.15, subP);
+              lookAtX = -0.41;
+              lookAtY = 0.18;
+              lookAtZ = 0.48;
+            } else if (prog < 0.70) {
+              const subP = (prog - 0.35) / 0.35;
+              // Pivot camera to focus on Upper Conveyor Rail & Hanging Garments
+              targetCamX = THREE.MathUtils.lerp(-0.46, 0.05, subP);
+              targetCamY = THREE.MathUtils.lerp(0.18, 0.62, subP);
+              targetCamZ = THREE.MathUtils.lerp(1.15, 1.45, subP);
+              lookAtX = 0.0;
+              lookAtY = 0.55;
+              lookAtZ = 0.20;
+            } else {
+              const subP = (prog - 0.70) / 0.30;
+              // Zoom down on the Central Collection Opening illuminated bay
+              targetCamX = THREE.MathUtils.lerp(0.05, 0.0, subP);
+              targetCamY = THREE.MathUtils.lerp(0.62, -0.05, subP);
+              targetCamZ = THREE.MathUtils.lerp(1.45, 1.30, subP);
+              lookAtX = 0.0;
+              lookAtY = -0.08;
+              lookAtZ = 0.44;
+            }
+
+            camera.position.x = targetCamX;
+            camera.position.y = targetCamY;
+            camera.position.z = targetCamZ;
+            camera.lookAt(lookAtX, lookAtY, lookAtZ);
+
+            const s1 = $('zoom-step-1');
+            const s2 = $('zoom-step-2');
+            const s3 = $('zoom-step-3');
+
+            if (prog < 0.35) {
+              if (s1) s1.classList.add('active');
+              if (s2) s2.classList.remove('active');
+              if (s3) s3.classList.remove('active');
+              drawScreenTexture(1);
+            } else if (prog < 0.70) {
+              if (s1) s1.classList.remove('active');
+              if (s2) s2.classList.add('active');
+              if (s3) s3.classList.remove('active');
+              drawScreenTexture(2);
+            } else {
+              if (s1) s1.classList.remove('active');
+              if (s2) s2.classList.remove('active');
+              if (s3) s3.classList.add('active');
+              drawScreenTexture(3);
+            }
+          }
+        }
+      });
+
+      // SCENE 3: EXPLOSION
+      ScrollTrigger.create({
+        trigger: '#scene-explosion',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.2,
+        onUpdate: (self) => {
+          updateExplosionProgress(self.progress);
+        }
+      });
+
+      // SCENE 4: ROOM PLACEMENT
+      ScrollTrigger.create({
+        trigger: '#placement',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5,
+        onUpdate: (self) => {
+          const prog = self.progress;
+          if (prog < 0.3) {
+            updateExplosionProgress(Math.max(0, 1 - prog * 3.33));
+          } else {
+            updateExplosionProgress(0);
+          }
+          camera.position.set(0, 0.25, THREE.MathUtils.lerp(3.65, 4.4, prog));
+          camera.lookAt(0, 0, 0);
+        }
+      });
+
+      // SCENE 6+: FADE OUT FIXED CANVAS
+      ScrollTrigger.create({
+        trigger: '#models',
+        start: 'top 80%',
+        end: 'top 20%',
+        scrub: true,
+        onUpdate: (self) => {
+          container.style.opacity = (1 - self.progress).toFixed(2);
+        }
+      });
+    }
+
+    /* -------------------------------------------------------------
+     * 6. INTERACTIVE UTILITIES & SIMULATED UI
+     * ----------------------------------------------------------- */
+    document.querySelectorAll('.room-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.room-tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const room = this.dataset.room;
+        const targetCard = $('room-card-' + room);
+        if (targetCard) {
+          if (lenis) lenis.scrollTo(targetCard, { offset: -80 });
+          else targetCard.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    window.toggleSimItem = function(el, itemName) {
+      el.classList.toggle('selected');
+      const selected = Array.from(document.querySelectorAll('.sim-item.selected')).map(e => e.querySelector('div').textContent);
+      const list = $('sim-selected-list');
+      if (list) {
+        list.innerHTML = selected.map(s => 'ÔÇó ' + s).join('<br>') || 'ÔÇó None selected';
+      }
+    };
+
+    window.simulateRetrieve = function() {
+      const msg = $('sim-status-msg');
+      if (msg) {
+        msg.textContent = 'Dispensing garments to central opening...';
+        msg.style.color = '#FFE8CA';
+        setTimeout(() => {
+          msg.textContent = 'Arrived at central opening (Ready)';
+          msg.style.color = 'var(--accent)';
+        }, 1600);
+      }
+    };
+
+    window.selectModelInForm = function(modelName) {
+      const select = $('select-model');
+      if (select) select.value = modelName;
+    };
+
+    window.handlePreviewSubmit = function(e) {
+      e.preventDefault();
+      const status = $('preview-form-status');
+      if (status) {
+        status.style.display = 'block';
+        status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
+
+    window.openModal = function(id) {
+      const m = $(id);
+      if (m && typeof m.showModal === 'function') m.showModal();
+    };
+
+    window.closeModal = function(id) {
+      const m = $(id);
+      if (m && typeof m.close === 'function') m.close();
+    };
+
+
+  } catch (globalErr) {
+    console.error('MI Wardrobe Bootstrap Error:', globalErr);
+  }
+  </script>
+</body>
 </html>

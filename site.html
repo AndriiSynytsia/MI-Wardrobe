@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>MI Wardrobe — A Wardrobe That Helps You Decide What to Wear</title>
+  <title>MI Wardrobe ÔÇö A Wardrobe That Helps You Decide What to Wear</title>
   <meta name="description" content="MI Wardrobe is an intelligent smart wardrobe prototype featuring automated two-tier conveyor storage, digital collection management, and interactive outfit assistance.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
   
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -271,7 +273,32 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+    }
+
+    .brand-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .brand-wordmark:hover .brand-logo-img {
+      transform: scale(1.05);
+    }
+
+    .footer-logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      flex-shrink: 0;
     }
 
     .brand-tag {
@@ -1337,7 +1364,7 @@
 
     /* FALLBACK WEBGL CARD */
     #static-webgl-fallback {
-      display: none;
+      display: none !important;
       position: absolute;
       inset: 0;
       background: var(--bg);
@@ -1346,6 +1373,7 @@
       z-index: 2;
       padding: 24px;
       text-align: center;
+      pointer-events: none;
     }
 
     @media (max-width: 992px) {
@@ -1718,6 +1746,7 @@
   <!-- Brand Wordmark Header -->
   <header class="brand-header">
     <a href="#hero" class="brand-wordmark" id="brand-wordmark-link">
+      <img src="logo.png" alt="MI Wardrobe Logo" class="brand-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';" />
       <span id="cfg-brand-name">MI Wardrobe</span>
       <span class="brand-tag">Prototype 2026</span>
     </a>
@@ -1768,8 +1797,8 @@
           </p>
 
           <div class="btn-group">
-            <a href="#contact" class="btn btn-primary" id="hero-btn-contact">Contact sales ↗</a>
-            <a href="#visit" class="btn btn-secondary" id="hero-btn-visit">Visit us ↓</a>
+            <a href="#contact" class="btn btn-primary" id="hero-btn-contact">Contact sales ÔćŚ</a>
+            <a href="#visit" class="btn btn-secondary" id="hero-btn-visit">Visit us Ôćô</a>
           </div>
 
           <div class="hero-meta">
@@ -1780,7 +1809,7 @@
       </div>
 
       <div class="container hero-bottom-bar">
-        <span>Prototype showcase · 01</span>
+        <span>Prototype showcase ┬Ě 01</span>
         <div class="scroll-indicator">
           <span>Scroll to explore</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1829,7 +1858,7 @@
 
           <div style="margin-top: 18px; display: flex; justify-content: space-between; align-items: center;">
             <span class="badge-label">Simulated interface</span>
-            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-light);">No camera · privacy by design</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-light);">No camera ┬Ě privacy by design</span>
           </div>
         </div>
       </div>
@@ -1846,7 +1875,7 @@
           <p>A calm, precision separation revealing two automated conveyor levels, capacitive touch column, and optical garment identification.</p>
           <div class="explosion-progress-badge">
             <span id="explosion-percent-text">Exploded View: 0%</span>
-            <span>·</span>
+            <span>┬Ě</span>
             <span>Rails in motion</span>
           </div>
           
@@ -1896,7 +1925,7 @@
 
           <!-- 2. Touchscreen Display (sketch #3) -->
           <div class="part-label-card" id="card-mirror">
-            <div class="part-label-title">02 / Capacitive Screen (≈30 cm)</div>
+            <div class="part-label-title">02 / Capacitive Screen (Ôëł30 cm)</div>
             <div class="part-label-desc">Built-in display for digital wardrobe browsing & outfit preview ritual.</div>
           </div>
 
@@ -1926,7 +1955,7 @@
 
           <!-- 7. Collection Opening (sketch #1 & #2) -->
           <div class="part-label-card" id="card-portal">
-            <div class="part-label-title">07 / Collection Opening (≈32 cm)</div>
+            <div class="part-label-title">07 / Collection Opening (Ôëł32 cm)</div>
             <div class="part-label-desc">Central dual-tier illuminated aperture presenting selected items.</div>
           </div>
 
@@ -1958,7 +1987,7 @@
               </div>
               <div style="font-weight:600; font-size:0.88rem; margin-bottom:4px;">Technical Engineering Layout</div>
               <p style="font-size:0.78rem; line-height:1.4; color:var(--text-muted); margin-bottom:6px;">
-                Front, section, and top-down carousel loop diagram (180 cm × 220 cm × 95 cm).
+                Front, section, and top-down carousel loop diagram (180 cm ├Ś 220 cm ├Ś 95 cm).
               </p>
               <div class="badge-label">Concept sketch</div>
             </div>
@@ -2010,8 +2039,8 @@
           <article class="room-card" id="room-card-studio">
             <div>
               <div class="room-card-media" id="media-studio">
-                <img id="img-studio" src="" alt="Studio Apartment conceptual installation" style="display:none;" />
-                <div class="media-placeholder-graphic" id="placeholder-studio">
+                <img id="img-studio" src="room-studio.jpg" alt="Studio Apartment conceptual installation" onerror="this.onerror=null; this.src='assets/room-studio.jpg';" onload="const p=document.getElementById('placeholder-studio'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-studio" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="20" y="20" width="200" height="100" rx="4"/>
                     <line x1="20" y1="90" x2="220" y2="90"/>
@@ -2032,8 +2061,8 @@
           <article class="room-card" id="room-card-dressing">
             <div>
               <div class="room-card-media" id="media-dressing">
-                <img id="img-dressing" src="" alt="Dedicated Dressing Room conceptual installation" style="display:none;" />
-                <div class="media-placeholder-graphic" id="placeholder-dressing">
+                <img id="img-dressing" src="room-dressing.jpg" alt="Dedicated Dressing Room conceptual installation" onerror="this.onerror=null; this.src='assets/room-dressing.jpg';" onload="const p=document.getElementById('placeholder-dressing'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-dressing" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="15" y="15" width="210" height="110" rx="4"/>
                     <rect x="35" y="30" width="35" height="65"/>
@@ -2054,8 +2083,8 @@
           <article class="room-card" id="room-card-boutique">
             <div>
               <div class="room-card-media" id="media-boutique">
-                <img id="img-boutique" src="" alt="Styling Boutique conceptual installation" style="display:none;" />
-                <div class="media-placeholder-graphic" id="placeholder-boutique">
+                <img id="img-boutique" src="room-boutique.jpg" alt="Styling Boutique conceptual installation" onerror="this.onerror=null; this.src='assets/room-boutique.jpg';" onload="const p=document.getElementById('placeholder-boutique'); if(p) p.style.display='none'; this.style.display='block';" />
+                <div class="media-placeholder-graphic" id="placeholder-boutique" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="20" y="20" width="200" height="100" rx="4"/>
                     <line x1="40" y1="35" x2="100" y2="35"/>
@@ -2130,10 +2159,10 @@
                     <div>
                       <div style="font-size:0.72rem; color:#888; text-transform:uppercase;">Proposed Ensemble</div>
                       <div id="sim-ensemble-name" style="font-weight:600; font-size:0.95rem; margin:4px 0 10px;">Daytime Tailored</div>
-                      <div id="sim-selected-list" style="font-size:0.75rem; color:#CCC;">• Linen Coat<br>• Tailored Trousers</div>
+                      <div id="sim-selected-list" style="font-size:0.75rem; color:#CCC;">ÔÇó Linen Coat<br>ÔÇó Tailored Trousers</div>
                     </div>
                     <button class="btn btn-primary" style="padding:8px 12px; font-size:0.78rem;" onclick="simulateRetrieve()">
-                      Request Garments ↳
+                      Request Garments Ôć│
                     </button>
                     <div class="sim-status-banner" id="sim-status-msg">Ready on upper & lower rails</div>
                   </div>
@@ -2235,11 +2264,11 @@
 
               <div class="capacity-highlight">
                 <div>
-                  <span class="cap-num">≈ 40</span>
+                  <span class="cap-num">Ôëł 40</span>
                   <span class="cap-label">Upper rail positions (dresses, suits, long items)</span>
                 </div>
                 <div>
-                  <span class="cap-num">≈ 20</span>
+                  <span class="cap-num">Ôëł 20</span>
                   <span class="cap-label">Lower rail positions (shirts, trousers, folded pieces)</span>
                 </div>
               </div>
@@ -2267,7 +2296,7 @@
             <div>
               <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Capacity figures are indicative.</p>
               <a href="#contact" class="btn btn-primary" style="width:100%;" onclick="selectModelInForm('Mini')">
-                Contact sales ↗
+                Contact sales ÔćŚ
               </a>
             </div>
           </article>
@@ -2283,11 +2312,11 @@
 
               <div class="capacity-highlight">
                 <div>
-                  <span class="cap-num">50–60</span>
+                  <span class="cap-num">50ÔÇô60</span>
                   <span class="cap-label">Upper rail positions (dresses, coats, full suits)</span>
                 </div>
                 <div>
-                  <span class="cap-num">≈ 30</span>
+                  <span class="cap-num">Ôëł 30</span>
                   <span class="cap-label">Lower rail positions (shirts, trousers, knitwear)</span>
                 </div>
               </div>
@@ -2315,7 +2344,7 @@
             <div>
               <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Capacity figures are indicative.</p>
               <a href="#contact" class="btn btn-primary" style="width:100%;" onclick="selectModelInForm('Pro')">
-                Contact sales ↗
+                Contact sales ÔćŚ
               </a>
             </div>
           </article>
@@ -2334,12 +2363,12 @@
           <p class="lead" style="margin: 16px 0 24px;">
             Join our engineering and design team at our upcoming university prototype exposition to experience the automated mechanism and touchscreen ritual first-hand.
           </p>
-          <a href="#contact" class="btn btn-secondary">Register showcase interest ↓</a>
+          <a href="#contact" class="btn btn-secondary">Register showcase interest Ôćô</a>
         </div>
 
         <div class="visit-details-card">
           <div class="placeholder-banner">
-            <span>⚠</span>
+            <span>ÔÜá</span>
             <span>EXHIBITION VENUE TO BE CONFIRMED</span>
           </div>
 
@@ -2401,7 +2430,7 @@
             <div style="font-weight:600; font-size:0.88rem; margin-bottom:6px;">Direct Communication</div>
             <p style="font-size:0.84rem; margin-bottom:12px;">For academic or technical questions regarding the MI Wardrobe prototype:</p>
             <a href="mailto:contact@miwardrobe-prototype.example" id="cfg-email-link" class="btn btn-secondary" style="padding:8px 16px; font-size:0.84rem;">
-              Email Project Team ✉
+              Email Project Team Ôťë
             </a>
           </div>
 
@@ -2412,17 +2441,17 @@
 
         <div class="form-container-card">
           <div id="google-form-container" style="display:none;">
-            <iframe id="google-form-iframe" class="google-form-iframe-wrap" src="" title="Google Forms Contact Enquiry">Loading…</iframe>
+            <iframe id="google-form-iframe" class="google-form-iframe-wrap" src="" title="Google Forms Contact Enquiry">LoadingÔÇŽ</iframe>
             <div style="text-align:right; margin-top:8px;">
               <a href="#" id="google-form-fallback-link" target="_blank" rel="noopener" style="font-size:0.75rem; color:var(--text-muted); text-decoration:underline;">
-                Open form in a new tab ↗
+                Open form in a new tab ÔćŚ
               </a>
             </div>
           </div>
 
           <div id="native-form-preview-container">
             <div class="placeholder-banner">
-              <span>ⓘ</span>
+              <span>Ôôś</span>
               <span>GOOGLE FORM EMBED PLACEHOLDER</span>
             </div>
             <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:20px;">
@@ -2483,7 +2512,7 @@
               </div>
 
               <button type="submit" class="btn btn-primary" style="margin-top:8px;">
-                Send enquiry ↗
+                Send enquiry ÔćŚ
               </button>
 
               <div id="preview-form-status" style="display:none; padding:14px; background:var(--accent-subtle); border:1px solid var(--accent); border-radius:var(--radius-sm); font-size:0.85rem; color:var(--accent);" role="status" aria-live="polite">
@@ -2501,21 +2530,24 @@
     <footer class="site-footer">
       <div class="container">
         <div class="footer-top">
-          <div>
-            <div style="font-weight:600; font-size:1.15rem; margin-bottom:4px;">MI Wardrobe</div>
-            <p style="font-size:0.84rem;">A wardrobe that helps you decide what to wear.</p>
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <img src="logo.png" alt="MI Wardrobe Logo" class="footer-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';" />
+            <div>
+              <div style="font-weight:600; font-size:1.15rem; margin-bottom:2px;">MI Wardrobe</div>
+              <p style="font-size:0.84rem; margin:0;">A wardrobe that helps you decide what to wear.</p>
+            </div>
           </div>
 
           <div class="footer-links-group">
             <button type="button" class="footer-link" onclick="openModal('modal-privacy')">Privacy information</button>
             <button type="button" class="footer-link" onclick="openModal('modal-terms')">Terms of use</button>
             <button type="button" class="footer-link" onclick="openModal('modal-about')">About this prototype</button>
-            <a href="#hero" class="footer-link">Back to top ↑</a>
+            <a href="#hero" class="footer-link">Back to top ÔćĹ</a>
           </div>
         </div>
 
         <div class="footer-bottom">
-          <span>University project prototype · 2026</span>
+          <span>University project prototype ┬Ě 2026</span>
           <span>Honesty in design: Concept renders & simulated UI are labelled.</span>
         </div>
       </div>
@@ -2526,11 +2558,14 @@
   <!-- MULTI-STEP AUTH & WARDROBE PAIRING MODAL -->
   <dialog class="onboarding-sheet" id="modal-onboarding">
     <div class="modal-head-bar">
-      <div>
-        <span class="eyebrow" style="margin:0;" id="modal-onboarding-subtitle">Account & Hardware Setup</span>
-        <h3 style="font-size:1.25rem; margin:2px 0 0;" id="modal-onboarding-title">Create your MI Account</h3>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="logo.png" alt="MI Wardrobe Logo" style="width: 34px; height: 34px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 3px rgba(0,0,0,0.05);" onerror="this.onerror=null; this.src='assets/logo.png';" />
+        <div>
+          <span class="eyebrow" style="margin:0;" id="modal-onboarding-subtitle">Account & Hardware Setup</span>
+          <h3 style="font-size:1.25rem; margin:2px 0 0;" id="modal-onboarding-title">Create your MI Account</h3>
+        </div>
       </div>
-      <button type="button" class="modal-close-btn" onclick="closeOnboardingModal()" aria-label="Close">×</button>
+      <button type="button" class="modal-close-btn" onclick="closeOnboardingModal()" aria-label="Close">├Ś</button>
     </div>
 
     <div class="onboarding-body">
@@ -2553,7 +2588,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary" style="width:100%;" id="btn-auth-submit">
-            Send verification code ↗
+            Send verification code ÔćŚ
           </button>
         </form>
       </div>
@@ -2584,7 +2619,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary" style="width:100%;">
-            Verify & Continue to Hardware Pairing ↳
+            Verify & Continue to Hardware Pairing Ôć│
           </button>
         </form>
       </div>
@@ -2617,13 +2652,13 @@
               <line x1="3" y1="12" x2="21" y2="12"/>
             </svg>
             <strong style="display:block; font-size:1rem; margin-bottom:4px;">MI Wardrobe Pro</strong>
-            <span style="font-size:0.75rem; color:var(--text-muted); display:block;">50–60 upper / ~30 lower</span>
+            <span style="font-size:0.75rem; color:var(--text-muted); display:block;">50ÔÇô60 upper / ~30 lower</span>
             <span class="badge-label" style="margin-top:8px;">Expanded Suite</span>
           </div>
         </div>
 
         <button type="button" class="btn btn-primary" style="width:100%;" onclick="proceedToPairingScan()">
-          Proceed to Wardrobe Pairing ↳
+          Proceed to Wardrobe Pairing Ôć│
         </button>
       </div>
 
@@ -2648,7 +2683,7 @@
         </div>
 
         <div style="text-align:center; margin:10px 0; font-size:0.8rem; color:var(--text-light); text-transform:uppercase;">
-          — Or type code manually —
+          ÔÇö Or type code manually ÔÇö
         </div>
 
         <form onsubmit="handleManualSerialSubmit(event)">
@@ -2658,11 +2693,11 @@
           </div>
 
           <div id="serial-handshake-status" style="display:none; padding:12px; background:var(--accent-subtle); border:1px solid var(--accent); border-radius:var(--radius-sm); font-size:0.85rem; color:var(--accent); margin-bottom:14px;">
-            ✓ Wardrobe hardware verified! Dual conveyor gantry online (Unit #0482).
+            Ôťô Wardrobe hardware verified! Dual conveyor gantry online (Unit #0482).
           </div>
 
           <button type="submit" class="btn btn-primary" style="width:100%;" id="btn-verify-serial">
-            Verify Wardrobe Hardware ↳
+            Verify Wardrobe Hardware Ôć│
           </button>
         </form>
       </div>
@@ -2740,7 +2775,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary" style="width:100%;">
-            Complete Setup & Pair Wardrobe ✓
+            Complete Setup & Pair Wardrobe Ôťô
           </button>
         </form>
       </div>
@@ -2751,7 +2786,7 @@
           <div>
             <span class="badge-label" style="background:#E8F4EC; color:#205735; border-color:#C1E1CD;">Connected & Active</span>
             <h3 style="font-size:1.3rem; margin:6px 0 2px;" id="dash-wardrobe-name">MI Wardrobe Mini</h3>
-            <span style="font-size:0.8rem; color:var(--text-muted);" id="dash-wardrobe-serial">Serial: MI-MINI-2026 · Online</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);" id="dash-wardrobe-serial">Serial: MI-MINI-2026 ┬Ě Online</span>
           </div>
           <div style="text-align:right;">
             <span style="font-size:0.75rem; color:var(--text-muted);">User Profile</span>
@@ -2764,15 +2799,15 @@
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.85rem;">
             <div>
               <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Upper Rail Status</span>
-              <strong id="dash-upper-stat">≈ 40 Garment Positions</strong>
+              <strong id="dash-upper-stat">Ôëł 40 Garment Positions</strong>
             </div>
             <div>
               <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Lower Rail Status</span>
-              <strong id="dash-lower-stat">≈ 20 Garment Positions</strong>
+              <strong id="dash-lower-stat">Ôëł 20 Garment Positions</strong>
             </div>
             <div>
               <span style="color:var(--text-muted); font-size:0.75rem; display:block;">User Measurements</span>
-              <strong id="dash-user-measure">178 cm · 72 kg · M</strong>
+              <strong id="dash-user-measure">178 cm ┬Ě 72 kg ┬Ě M</strong>
             </div>
             <div>
               <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Preview Silhouette</span>
@@ -2813,6 +2848,269 @@
   </dialog>
 
   <!-- ========================================== -->
+  <!-- USER AUTHENTICATION & HARDWARE PAIRING      -->
+  <!-- ========================================== -->
+  <script>
+  (function() {
+    'use strict';
+    const $ = function(id) { return document.getElementById(id); };
+
+    window.USER_SESSION = {
+      isLoggedIn: false,
+      isPaired: false,
+      user: {
+        name: '',
+        email: '',
+        model: 'Mini',
+        serial: '',
+        height: '178',
+        weight: '72',
+        topSize: 'M',
+        bottomSize: '32',
+        fitPref: 'tailored',
+        bodyPhotoUrl: ''
+      },
+      currentDemoCode: '482-195'
+    };
+
+    window.openAuthModal = function(initialTab) {
+      const modal = $('modal-onboarding');
+      if (!modal) return;
+      if (window.USER_SESSION.isLoggedIn && window.USER_SESSION.isPaired) {
+        showOnboardingStep('dashboard');
+      } else if (window.USER_SESSION.isLoggedIn) {
+        showOnboardingStep('model');
+      } else {
+        showOnboardingStep('auth');
+        window.switchAuthTab(initialTab || 'signup');
+      }
+      if (typeof modal.showModal === 'function') modal.showModal();
+    };
+
+    window.closeOnboardingModal = function() {
+      const modal = $('modal-onboarding');
+      if (modal && typeof modal.close === 'function') modal.close();
+    };
+
+    window.openWardrobePortal = function() {
+      showOnboardingStep('dashboard');
+      const modal = $('modal-onboarding');
+      if (modal && typeof modal.showModal === 'function') modal.showModal();
+    };
+
+    function showOnboardingStep(stepName) {
+      const steps = ['auth', 'verify', 'model', 'scan', 'profile', 'dashboard'];
+      steps.forEach(function(s) {
+        const el = $('onboard-step-' + s);
+        if (el) el.style.display = (s === stepName) ? 'block' : 'none';
+      });
+
+      const titleEl = $('modal-onboarding-title');
+      const subEl = $('modal-onboarding-subtitle');
+      if (!titleEl || !subEl) return;
+
+      if (stepName === 'auth') {
+        titleEl.textContent = 'Create your MI Account';
+        subEl.textContent = 'Account Setup';
+      } else if (stepName === 'verify') {
+        titleEl.textContent = 'Verify Email Address';
+        subEl.textContent = 'Security Check';
+      } else if (stepName === 'model') {
+        titleEl.textContent = 'Select Wardrobe Model';
+        subEl.textContent = 'Hardware Pairing';
+      } else if (stepName === 'scan') {
+        titleEl.textContent = 'Pair Wardrobe Hardware';
+        subEl.textContent = 'Hardware Association';
+      } else if (stepName === 'profile') {
+        titleEl.textContent = 'Sizing & Body Photo';
+        subEl.textContent = 'Ritual Personalization';
+      } else if (stepName === 'dashboard') {
+        titleEl.textContent = 'MI Wardrobe Dashboard';
+        subEl.textContent = 'Connected Suite';
+      }
+    }
+
+    window.switchAuthTab = function(mode) {
+      const btnSignup = $('tab-btn-signup');
+      const btnSignin = $('tab-btn-signin');
+      const nameGroup = $('auth-group-name');
+      const submitBtn = $('btn-auth-submit');
+
+      if (mode === 'signup') {
+        if (btnSignup) btnSignup.classList.add('active');
+        if (btnSignin) btnSignin.classList.remove('active');
+        if (nameGroup) nameGroup.style.display = 'block';
+        if (submitBtn) submitBtn.textContent = 'Send verification code ÔćŚ';
+      } else {
+        if (btnSignup) btnSignup.classList.remove('active');
+        if (btnSignin) btnSignin.classList.add('active');
+        if (nameGroup) nameGroup.style.display = 'none';
+        if (submitBtn) submitBtn.textContent = 'Send login code ÔćŚ';
+      }
+    };
+
+    window.handleSendVerification = function(e) {
+      e.preventDefault();
+      const nameInput = $('auth-input-name');
+      const emailInput = $('auth-input-email');
+
+      window.USER_SESSION.user.name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Alex Mercer';
+      window.USER_SESSION.user.email = emailInput ? emailInput.value.trim() : 'user@example.com';
+
+      const r1 = Math.floor(100 + Math.random() * 900);
+      const r2 = Math.floor(100 + Math.random() * 900);
+      window.USER_SESSION.currentDemoCode = r1 + '-' + r2;
+
+      const codeDisplay = $('generated-demo-code');
+      if (codeDisplay) codeDisplay.textContent = window.USER_SESSION.currentDemoCode;
+
+      const emailDisplay = $('verify-email-display');
+      if (emailDisplay) emailDisplay.textContent = window.USER_SESSION.user.email;
+
+      showOnboardingStep('verify');
+    };
+
+    window.autoFillVerificationCode = function() {
+      const codeInput = $('input-verify-code');
+      if (codeInput) codeInput.value = window.USER_SESSION.currentDemoCode;
+    };
+
+    window.handleVerifyCodeSubmit = function(e) {
+      e.preventDefault();
+      const codeInput = $('input-verify-code');
+      const errMsg = $('verify-error-msg');
+      if (!codeInput) return;
+
+      const entered = codeInput.value.replace(/\s+/g, '');
+      const expected = window.USER_SESSION.currentDemoCode.replace('-', '');
+
+      if (entered === expected || entered === window.USER_SESSION.currentDemoCode || entered.length >= 6) {
+        window.USER_SESSION.isLoggedIn = true;
+        if (errMsg) errMsg.style.display = 'none';
+        showOnboardingStep('model');
+      } else {
+        if (errMsg) errMsg.style.display = 'block';
+      }
+    };
+
+    window.selectModelChoice = function(model) {
+      window.USER_SESSION.user.model = model;
+      const cMini = $('card-choice-mini');
+      const cPro = $('card-choice-pro');
+      if (model === 'Mini') {
+        if (cMini) cMini.classList.add('selected');
+        if (cPro) cPro.classList.remove('selected');
+      } else {
+        if (cMini) cMini.classList.remove('selected');
+        if (cPro) cPro.classList.add('selected');
+      }
+    };
+
+    window.proceedToPairingScan = function() {
+      const label = $('pairing-model-name-label');
+      if (label) label.textContent = 'MI Wardrobe ' + window.USER_SESSION.user.model;
+
+      const serialInput = $('input-wardrobe-serial');
+      if (serialInput) serialInput.value = 'MI-' + window.USER_SESSION.user.model.toUpperCase() + '-2026';
+
+      showOnboardingStep('scan');
+    };
+
+    window.handleQrImageUpload = function(input) {
+      if (input.files && input.files[0]) {
+        const serialInput = $('input-wardrobe-serial');
+        if (serialInput) serialInput.value = 'MI-' + window.USER_SESSION.user.model.toUpperCase() + '-8492';
+        simulateSerialVerification();
+      }
+    };
+
+    window.handleManualSerialSubmit = function(e) {
+      e.preventDefault();
+      simulateSerialVerification();
+    };
+
+    function simulateSerialVerification() {
+      const statusBox = $('serial-handshake-status');
+      const serialInput = $('input-wardrobe-serial');
+      if (statusBox) {
+        statusBox.style.display = 'block';
+        statusBox.textContent = 'Connecting to wardrobe gantry... Verified serial ' + (serialInput ? serialInput.value : '');
+      }
+
+      setTimeout(function() {
+        window.USER_SESSION.user.serial = serialInput ? serialInput.value : 'MI-MINI-2026';
+        showOnboardingStep('profile');
+      }, 1000);
+    }
+
+    window.handleBodyPhotoSelect = function(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          window.USER_SESSION.user.bodyPhotoUrl = e.target.result;
+          const prevImg = $('body-photo-preview-img');
+          const emptyState = $('body-photo-empty-state');
+          if (prevImg) {
+            prevImg.src = e.target.result;
+            prevImg.style.display = 'block';
+          }
+          if (emptyState) emptyState.style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    };
+
+    window.handleFinishProfileSubmit = function(e) {
+      e.preventDefault();
+      window.USER_SESSION.user.height = $('prof-height') ? $('prof-height').value : '178';
+      window.USER_SESSION.user.weight = $('prof-weight') ? $('prof-weight').value : '72';
+      window.USER_SESSION.user.topSize = $('prof-tops-size') ? $('prof-tops-size').value : 'M';
+      window.USER_SESSION.user.bottomSize = $('prof-bottoms-size') ? $('prof-bottoms-size').value : '32';
+      window.USER_SESSION.user.fitPref = $('prof-fit-pref') ? $('prof-fit-pref').value : 'tailored';
+
+      window.USER_SESSION.isPaired = true;
+      updateHeaderUserState();
+      updateDashboardData();
+      showOnboardingStep('dashboard');
+    };
+
+    function updateHeaderUserState() {
+      const authBtns = $('header-auth-container');
+      const userBadge = $('header-user-badge');
+      const userName = $('header-user-name');
+      const pairedTag = $('header-paired-tag');
+
+      if (window.USER_SESSION.isLoggedIn && window.USER_SESSION.isPaired) {
+        if (authBtns) authBtns.style.display = 'none';
+        if (userBadge) userBadge.style.display = 'block';
+        if (userName) userName.textContent = window.USER_SESSION.user.name || window.USER_SESSION.user.email;
+        if (pairedTag) pairedTag.textContent = window.USER_SESSION.user.model + ' Paired';
+      } else {
+        if (authBtns) authBtns.style.display = 'flex';
+        if (userBadge) userBadge.style.display = 'none';
+      }
+    }
+
+    function updateDashboardData() {
+      if ($('dash-wardrobe-name')) $('dash-wardrobe-name').textContent = 'MI Wardrobe ' + window.USER_SESSION.user.model;
+      if ($('dash-wardrobe-serial')) $('dash-wardrobe-serial').textContent = 'Serial: ' + window.USER_SESSION.user.serial + ' ┬Ě Connected';
+      if ($('dash-user-name')) $('dash-user-name').textContent = window.USER_SESSION.user.name;
+      if ($('dash-user-measure')) $('dash-user-measure').textContent = window.USER_SESSION.user.height + ' cm ┬Ě ' + window.USER_SESSION.user.weight + ' kg ┬Ě Size ' + window.USER_SESSION.user.topSize;
+      if ($('dash-upper-stat')) $('dash-upper-stat').textContent = window.USER_SESSION.user.model === 'Pro' ? '50ÔÇô60 Positions' : 'Ôëł 40 Positions';
+      if ($('dash-lower-stat')) $('dash-lower-stat').textContent = window.USER_SESSION.user.model === 'Pro' ? 'Ôëł 30 Positions' : 'Ôëł 20 Positions';
+      if ($('dash-photo-status')) $('dash-photo-status').textContent = window.USER_SESSION.user.bodyPhotoUrl ? 'Photo Active' : 'No Photo';
+    }
+
+    window.handleUserSignOut = function() {
+      window.USER_SESSION.isLoggedIn = false;
+      window.USER_SESSION.isPaired = false;
+      updateHeaderUserState();
+      window.closeOnboardingModal();
+    };
+  })();
+  </script>
+
+  <!-- ========================================== -->
   <!-- JAVASCRIPT MASTER BOOTSTRAP               -->
   <!-- ========================================== -->
   <script>
@@ -2845,6 +3143,7 @@
      * Reads local files placed directly in HTML folder or assets/
      * ----------------------------------------------------------- */
     const ASSETS = {
+      logo: "logo.png",
       mechanismPhoto: "mechanism.jpg",
       sketch: "sketch.jpeg",            // Exact supplied technical layout drawing
       heroRender: "wardrobe-idea.png",
@@ -3070,6 +3369,8 @@
     let collectionPortalGroup, portalLight;
     let driveUnitGroup;
     let basePlinthGroup;
+    let gltfModel = null;
+    const gltfParts = {};
 
     let upperCarouselAngle = 0;
     let lowerCarouselAngle = 0;
@@ -3226,7 +3527,7 @@
       shellRight.castShadow = true;
       outerShellGroup.add(shellRight);
 
-      // Top Architrave Cap ("ZASILACZ napęd · sterowanie")
+      // Top Architrave Cap ("ZASILACZ nap─Öd ┬Ě sterowanie")
       shellTop = new THREE.Mesh(new THREE.BoxGeometry(1.80, 0.14, 0.95), topArchitraveMaterial);
       shellTop.position.set(0, 1.03, 0);
       shellTop.castShadow = true;
@@ -3333,7 +3634,7 @@
       scannerSensor.position.set(0, -0.04, 0.06);
       hangerLockGroup.add(scannerSensor);
 
-      // (G) 07: CENTRAL COLLECTION APERTURE (Sketch #1 & #2 - Width ≈ 32 cm)
+      // (G) 07: CENTRAL COLLECTION APERTURE (Sketch #1 & #2 - Width Ôëł 32 cm)
       collectionPortalGroup = new THREE.Group();
       collectionPortalGroup.position.set(0, 0.04, 0.44); // Exact center of front
       wardrobeRoot.add(collectionPortalGroup);
@@ -3354,12 +3655,12 @@
       portalLight.position.set(0, 0.85, 0.06);
       collectionPortalGroup.add(portalLight);
 
-      // (H) 02: TOUCHSCREEN COLUMN (Sketch #3 - Front Left, Width ≈ 30 cm)
+      // (H) 02: TOUCHSCREEN COLUMN (Sketch #3 - Front Left, Width Ôëł 30 cm)
       screenPanelGroup = new THREE.Group();
       screenPanelGroup.position.set(-0.48, 0.18, 0.48); // Left door position, projecting 4 cm
       wardrobeRoot.add(screenPanelGroup);
 
-      // Black glass bezel slab (≈ 30 cm wide x 50 cm high)
+      // Black glass bezel slab (Ôëł 30 cm wide x 50 cm high)
       const mirrorSlabGeo = new THREE.BoxGeometry(0.30, 0.50, 0.04);
       const mirrorSlab = new THREE.Mesh(mirrorSlabGeo, mirrorGlassMaterial);
       screenPanelGroup.add(mirrorSlab);
@@ -3401,6 +3702,68 @@
 
       requestAnimationFrame(animate);
 
+      
+      // Load Custom Blender Model if available
+      if (typeof THREE.GLTFLoader !== 'undefined' && ASSETS.glb && ASSETS.glb.trim() !== '') {
+        try {
+          const gltfLoader = new THREE.GLTFLoader();
+          gltfLoader.load(ASSETS.glb, function(gltf) {
+            console.log('MI Wardrobe: Loaded Blender GLB successfully!');
+            gltfModel = gltf.scene;
+            gltfModel.position.set(0, -1.10, 0);
+
+            gltfModel.traverse(function(child) {
+              if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                gltfParts[child.name] = child;
+                child.userData.originPos = child.position.clone();
+                child.userData.originRot = child.rotation.clone();
+
+                if (child.name === 'screen_display' && screenTexture) {
+                  child.material = new THREE.MeshBasicMaterial({ map: screenTexture });
+                }
+                if (child.name.includes('glass')) {
+                  child.material.transparent = true;
+                  child.material.opacity = 0.38;
+                  child.material.roughness = 0.08;
+                }
+                if (child.name === 'screen_body') {
+                  child.material.color.setHex(0x121416);
+                  child.material.roughness = 0.15;
+                  child.material.metalness = 0.85;
+                }
+                if (child.name.includes('rail') || child.name.includes('hook') || child.name.includes('Hanger_Chrome') || child.name.includes('trim') || child.name.includes('handle')) {
+                  child.material.metalness = 0.95;
+                  child.material.roughness = 0.18;
+                }
+                if (child.name.startsWith('tshirt') || child.name.startsWith('Trousers')) {
+                  child.material.roughness = 0.75;
+                  child.material.metalness = 0.05;
+                }
+              }
+            });
+
+            // Hide procedural primitives and show GLB
+            if (doorsGroup) doorsGroup.visible = false;
+            if (screenPanelGroup) screenPanelGroup.visible = false;
+            if (outerShellGroup) outerShellGroup.visible = false;
+            if (upperRailGroup) upperRailGroup.visible = false;
+            if (lowerRailGroup) lowerRailGroup.visible = false;
+            if (hangerLockGroup) hangerLockGroup.visible = false;
+            if (collectionPortalGroup) collectionPortalGroup.visible = false;
+            if (driveUnitGroup) driveUnitGroup.visible = false;
+            if (basePlinthGroup) basePlinthGroup.visible = false;
+
+            wardrobeRoot.add(gltfModel);
+          }, undefined, function(loadErr) {
+            console.warn('MI Wardrobe: Local GLB fetch skipped (using procedural 3D model baseline).', loadErr);
+          });
+        } catch(e) {
+          console.warn('GLTFLoader skipped:', e);
+        }
+      }
+
       setupScrollAnimations();
       if (typeof ScrollTrigger !== 'undefined') {
         setTimeout(() => {
@@ -3415,7 +3778,8 @@
     function safeRoundRect(ctx, x, y, w, h, r) {
       if (typeof ctx.roundRect === 'function') {
         ctx.beginPath();
-        safeRoundRect(ctx, x, y, w, h, r);
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fill();
       } else {
         ctx.beginPath();
         ctx.rect(x, y, w, h);
@@ -3500,10 +3864,10 @@
 
         ctx.fillStyle = '#8E949B';
         ctx.font = '20px Inter, sans-serif';
-        ctx.fillText('• Upper Rail #04: Cashmere Overcoat', 60, 280);
-        ctx.fillText('• Upper Rail #12: Navy Blazer', 60, 330);
-        ctx.fillText('• Lower Rail #02: White Oxford Shirt', 60, 380);
-        ctx.fillText('• Lower Rail #08: Pleated Trousers', 60, 430);
+        ctx.fillText('ÔÇó Upper Rail #04: Cashmere Overcoat', 60, 280);
+        ctx.fillText('ÔÇó Upper Rail #12: Navy Blazer', 60, 330);
+        ctx.fillText('ÔÇó Lower Rail #02: White Oxford Shirt', 60, 380);
+        ctx.fillText('ÔÇó Lower Rail #08: Pleated Trousers', 60, 430);
 
         ctx.fillStyle = '#3F7D58';
         ctx.beginPath();
@@ -3633,20 +3997,27 @@
         if (gltfParts['power_bar']) gltfParts['power_bar'].position.y = getOrig('power_bar').y + pSh * 0.48;
         if (gltfParts['back']) gltfParts['back'].position.z = getOrig('back').z - pSh * 0.35;
 
-        // (4) Upper Rail Conveyor & 40 Upper Garments (lifts upward)
+        // (4) Upper Rail Conveyor & Upper Garments / T-shirts / Trousers / Hangers (lifts upward)
         const pUp = easeVal(p, 0.22, 0.54);
         if (gltfParts['rail_upper']) gltfParts['rail_upper'].position.y = getOrig('rail_upper').y + pUp * 0.48;
         for (let u = 0; u < 40; u++) {
           if (gltfParts['hook_u' + u]) gltfParts['hook_u' + u].position.y = getOrig('hook_u' + u).y + pUp * 0.48;
           if (gltfParts['garment_u' + u]) gltfParts['garment_u' + u].position.y = getOrig('garment_u' + u).y + pUp * 0.48;
+          if (gltfParts['tshirt_u' + u]) gltfParts['tshirt_u' + u].position.y = getOrig('tshirt_u' + u).y + pUp * 0.48;
         }
+        Object.keys(gltfParts).forEach(name => {
+          if (name.startsWith('Trousers') || name.startsWith('Spodnie') || name.startsWith('Hanger_')) {
+            gltfParts[name].position.y = getOrig(name).y + pUp * 0.48;
+          }
+        });
 
-        // (5) Lower Rail Conveyor & 20 Lower Garments (descends downward)
+        // (5) Lower Rail Conveyor & Lower Garments / T-shirts (descends downward)
         const pLow = easeVal(p, 0.30, 0.62);
         if (gltfParts['rail_lower']) gltfParts['rail_lower'].position.y = getOrig('rail_lower').y - pLow * 0.32;
         for (let l = 0; l < 20; l++) {
           if (gltfParts['hook_l' + l]) gltfParts['hook_l' + l].position.y = getOrig('hook_l' + l).y - pLow * 0.32;
           if (gltfParts['garment_l' + l]) gltfParts['garment_l' + l].position.y = getOrig('garment_l' + l).y - pLow * 0.32;
+          if (gltfParts['tshirt_l' + l]) gltfParts['tshirt_l' + l].position.y = getOrig('tshirt_l' + l).y - pLow * 0.32;
         }
 
         // (6) Central Collection Doors, Trims & Handles (moves forward)
@@ -3805,13 +4176,13 @@
           $('mobile-tracker-title').textContent = 'Front Facade & Doors';
           $('mobile-tracker-desc').textContent = 'Opening protective panels flanking central aperture.';
         } else if (p < 0.35) {
-          $('mobile-tracker-title').textContent = 'Left Touchscreen (≈30 cm)';
+          $('mobile-tracker-title').textContent = 'Left Touchscreen (Ôëł30 cm)';
           $('mobile-tracker-desc').textContent = 'Display with avatar outfit preview & retrieval controls.';
         } else if (p < 0.55) {
           $('mobile-tracker-title').textContent = 'Dual Conveyor Rails';
           $('mobile-tracker-desc').textContent = 'Upper rail (~40 items) & Lower rail (~20 items).';
         } else if (p < 0.75) {
-          $('mobile-tracker-title').textContent = 'Central Aperture (≈32 cm)';
+          $('mobile-tracker-title').textContent = 'Central Aperture (Ôëł32 cm)';
           $('mobile-tracker-desc').textContent = 'Two-tier retrieval opening with top LED lighting.';
         } else {
           $('mobile-tracker-title').textContent = 'Rear Drive Motor & Foundation';
@@ -3973,7 +4344,7 @@
       const selected = Array.from(document.querySelectorAll('.sim-item.selected')).map(e => e.querySelector('div').textContent);
       const list = $('sim-selected-list');
       if (list) {
-        list.innerHTML = selected.map(s => '• ' + s).join('<br>') || '• None selected';
+        list.innerHTML = selected.map(s => 'ÔÇó ' + s).join('<br>') || 'ÔÇó None selected';
       }
     };
 
@@ -4014,276 +4385,8 @@
     };
 
 
-    /* -------------------------------------------------------------
-     * 7. USER AUTHENTICATION & HARDWARE PAIRING STATE SYSTEM
-     * Handles account creation, verification OTP, QR/serial validation,
-     * sizing profile, and full-body photo upload.
-     * ----------------------------------------------------------- */
-    const USER_SESSION = {
-      isLoggedIn: false,
-      isPaired: false,
-      user: {
-        name: '',
-        email: '',
-        model: 'Mini',
-        serial: '',
-        height: '178',
-        weight: '72',
-        topSize: 'M',
-        bottomSize: '32',
-        fitPref: 'tailored',
-        bodyPhotoUrl: ''
-      },
-      currentDemoCode: '482-195'
-    };
-
-    // Modal controllers
-    window.openAuthModal = function(initialTab) {
-      const modal = $('modal-onboarding');
-      if (!modal) return;
-      if (USER_SESSION.isLoggedIn && USER_SESSION.isPaired) {
-        showOnboardingStep('dashboard');
-      } else if (USER_SESSION.isLoggedIn) {
-        showOnboardingStep('model');
-      } else {
-        showOnboardingStep('auth');
-        switchAuthTab(initialTab || 'signup');
-      }
-      if (typeof modal.showModal === 'function') modal.showModal();
-    };
-
-    window.closeOnboardingModal = function() {
-      const modal = $('modal-onboarding');
-      if (modal && typeof modal.close === 'function') modal.close();
-    };
-
-    window.openWardrobePortal = function() {
-      showOnboardingStep('dashboard');
-      const modal = $('modal-onboarding');
-      if (modal && typeof modal.showModal === 'function') modal.showModal();
-    };
-
-    function showOnboardingStep(stepName) {
-      const steps = ['auth', 'verify', 'model', 'scan', 'profile', 'dashboard'];
-      steps.forEach(s => {
-        const el = $('onboard-step-' + s);
-        if (el) el.style.display = (s === stepName) ? 'block' : 'none';
-      });
-
-      const titleEl = $('modal-onboarding-title');
-      const subEl = $('modal-onboarding-subtitle');
-      if (!titleEl || !subEl) return;
-
-      if (stepName === 'auth') {
-        titleEl.textContent = 'Create your MI Account';
-        subEl.textContent = 'Account Setup';
-      } else if (stepName === 'verify') {
-        titleEl.textContent = 'Verify Email Address';
-        subEl.textContent = 'Security Check';
-      } else if (stepName === 'model') {
-        titleEl.textContent = 'Select Wardrobe Model';
-        subEl.textContent = 'Hardware Pairing';
-      } else if (stepName === 'scan') {
-        titleEl.textContent = 'Pair Wardrobe Hardware';
-        subEl.textContent = 'Hardware Association';
-      } else if (stepName === 'profile') {
-        titleEl.textContent = 'Sizing & Body Photo';
-        subEl.textContent = 'Ritual Personalization';
-      } else if (stepName === 'dashboard') {
-        titleEl.textContent = 'MI Wardrobe Dashboard';
-        subEl.textContent = 'Connected Suite';
-      }
-    }
-
-    window.switchAuthTab = function(mode) {
-      const btnSignup = $('tab-btn-signup');
-      const btnSignin = $('tab-btn-signin');
-      const nameGroup = $('auth-group-name');
-      const submitBtn = $('btn-auth-submit');
-
-      if (mode === 'signup') {
-        if (btnSignup) btnSignup.classList.add('active');
-        if (btnSignin) btnSignin.classList.remove('active');
-        if (nameGroup) nameGroup.style.display = 'block';
-        if (submitBtn) submitBtn.textContent = 'Send verification code ↗';
-      } else {
-        if (btnSignup) btnSignup.classList.remove('active');
-        if (btnSignin) btnSignin.classList.add('active');
-        if (nameGroup) nameGroup.style.display = 'none';
-        if (submitBtn) submitBtn.textContent = 'Send login code ↗';
-      }
-    };
-
-    // 1. Submit Credentials -> Generate & Show Verification Code
-    window.handleSendVerification = function(e) {
-      e.preventDefault();
-      const nameInput = $('auth-input-name');
-      const emailInput = $('auth-input-email');
-
-      USER_SESSION.user.name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Alex Mercer';
-      USER_SESSION.user.email = emailInput ? emailInput.value.trim() : 'user@example.com';
-
-      // Generate realistic 6-digit verification code
-      const r1 = Math.floor(100 + Math.random() * 900);
-      const r2 = Math.floor(100 + Math.random() * 900);
-      USER_SESSION.currentDemoCode = r1 + '-' + r2;
-
-      const codeDisplay = $('generated-demo-code');
-      if (codeDisplay) codeDisplay.textContent = USER_SESSION.currentDemoCode;
-
-      const emailDisplay = $('verify-email-display');
-      if (emailDisplay) emailDisplay.textContent = USER_SESSION.user.email;
-
-      showOnboardingStep('verify');
-    };
-
-    window.autoFillVerificationCode = function() {
-      const codeInput = $('input-verify-code');
-      if (codeInput) codeInput.value = USER_SESSION.currentDemoCode;
-    };
-
-    // 2. Verify Code
-    window.handleVerifyCodeSubmit = function(e) {
-      e.preventDefault();
-      const codeInput = $('input-verify-code');
-      const errMsg = $('verify-error-msg');
-      if (!codeInput) return;
-
-      const entered = codeInput.value.replace(/\s+/g, '');
-      const expected = USER_SESSION.currentDemoCode.replace('-', '');
-
-      if (entered === expected || entered === USER_SESSION.currentDemoCode || entered.length >= 6) {
-        USER_SESSION.isLoggedIn = true;
-        if (errMsg) errMsg.style.display = 'none';
-        showOnboardingStep('model');
-      } else {
-        if (errMsg) errMsg.style.display = 'block';
-      }
-    };
-
-    // 3. Select Model
-    window.selectModelChoice = function(model) {
-      USER_SESSION.user.model = model;
-      const cMini = $('card-choice-mini');
-      const cPro = $('card-choice-pro');
-      if (model === 'Mini') {
-        if (cMini) cMini.classList.add('selected');
-        if (cPro) cPro.classList.remove('selected');
-      } else {
-        if (cMini) cMini.classList.remove('selected');
-        if (cPro) cPro.classList.add('selected');
-      }
-    };
-
-    window.proceedToPairingScan = function() {
-      const label = $('pairing-model-name-label');
-      if (label) label.textContent = 'MI Wardrobe ' + USER_SESSION.user.model;
-
-      const serialInput = $('input-wardrobe-serial');
-      if (serialInput) serialInput.value = 'MI-' + USER_SESSION.user.model.toUpperCase() + '-2026';
-
-      showOnboardingStep('scan');
-    };
-
-    // 4. Scan or Enter Serial
-    window.handleQrImageUpload = function(input) {
-      if (input.files && input.files[0]) {
-        // Simulated instant QR parse
-        const serialInput = $('input-wardrobe-serial');
-        if (serialInput) serialInput.value = 'MI-' + USER_SESSION.user.model.toUpperCase() + '-8492';
-        simulateSerialVerification();
-      }
-    };
-
-    window.handleManualSerialSubmit = function(e) {
-      e.preventDefault();
-      simulateSerialVerification();
-    };
-
-    function simulateSerialVerification() {
-      const statusBox = $('serial-handshake-status');
-      const serialInput = $('input-wardrobe-serial');
-      if (statusBox) {
-        statusBox.style.display = 'block';
-        statusBox.textContent = 'Connecting to wardrobe gantry... Verified serial ' + (serialInput ? serialInput.value : '');
-      }
-
-      setTimeout(() => {
-        USER_SESSION.user.serial = serialInput ? serialInput.value : 'MI-MINI-2026';
-        showOnboardingStep('profile');
-      }, 1100);
-    }
-
-    // 5. Body Photo Selection & Profile
-    window.handleBodyPhotoSelect = function(input) {
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          USER_SESSION.user.bodyPhotoUrl = e.target.result;
-          const prevImg = $('body-photo-preview-img');
-          const emptyState = $('body-photo-empty-state');
-          if (prevImg) {
-            prevImg.src = e.target.result;
-            prevImg.style.display = 'block';
-          }
-          if (emptyState) emptyState.style.display = 'none';
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    };
-
-    window.handleFinishProfileSubmit = function(e) {
-      e.preventDefault();
-      USER_SESSION.user.height = $('prof-height') ? $('prof-height').value : '178';
-      USER_SESSION.user.weight = $('prof-weight') ? $('prof-weight').value : '72';
-      USER_SESSION.user.topSize = $('prof-tops-size') ? $('prof-tops-size').value : 'M';
-      USER_SESSION.user.bottomSize = $('prof-bottoms-size') ? $('prof-bottoms-size').value : '32';
-      USER_SESSION.user.fitPref = $('prof-fit-pref') ? $('prof-fit-pref').value : 'tailored';
-
-      USER_SESSION.isPaired = true;
-      updateHeaderUserState();
-      updateDashboardData();
-      showOnboardingStep('dashboard');
-    };
-
-    function updateHeaderUserState() {
-      const authBtns = $('header-auth-container');
-      const userBadge = $('header-user-badge');
-      const userName = $('header-user-name');
-      const pairedTag = $('header-paired-tag');
-
-      if (USER_SESSION.isLoggedIn && USER_SESSION.isPaired) {
-        if (authBtns) authBtns.style.display = 'none';
-        if (userBadge) userBadge.style.display = 'block';
-        if (userName) userName.textContent = USER_SESSION.user.name || USER_SESSION.user.email;
-        if (pairedTag) pairedTag.textContent = USER_SESSION.user.model + ' Paired';
-      } else {
-        if (authBtns) authBtns.style.display = 'flex';
-        if (userBadge) userBadge.style.display = 'none';
-      }
-    }
-
-    function updateDashboardData() {
-      if ($('dash-wardrobe-name')) $('dash-wardrobe-name').textContent = 'MI Wardrobe ' + USER_SESSION.user.model;
-      if ($('dash-wardrobe-serial')) $('dash-wardrobe-serial').textContent = 'Serial: ' + USER_SESSION.user.serial + ' · Connected';
-      if ($('dash-user-name')) $('dash-user-name').textContent = USER_SESSION.user.name;
-      if ($('dash-user-measure')) $('dash-user-measure').textContent = USER_SESSION.user.height + ' cm · ' + USER_SESSION.user.weight + ' kg · Size ' + USER_SESSION.user.topSize;
-      if ($('dash-upper-stat')) $('dash-upper-stat').textContent = USER_SESSION.user.model === 'Pro' ? '50–60 Positions' : '≈ 40 Positions';
-      if ($('dash-lower-stat')) $('dash-lower-stat').textContent = USER_SESSION.user.model === 'Pro' ? '≈ 30 Positions' : '≈ 20 Positions';
-      if ($('dash-photo-status')) $('dash-photo-status').textContent = USER_SESSION.user.bodyPhotoUrl ? 'Photo Active' : 'No Photo';
-    }
-
-    window.handleUserSignOut = function() {
-      USER_SESSION.isLoggedIn = false;
-      USER_SESSION.isPaired = false;
-      updateHeaderUserState();
-      closeOnboardingModal();
-    };
-
   } catch (globalErr) {
     console.error('MI Wardrobe Bootstrap Error:', globalErr);
-    const fallback = document.getElementById('static-webgl-fallback');
-    if (fallback) fallback.style.display = 'flex';
   }
   </script>
 </body>
