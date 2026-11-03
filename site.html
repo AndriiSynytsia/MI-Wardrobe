@@ -432,6 +432,94 @@
       margin-left: max(24px, calc((100vw - 1200px) / 2));
     }
 
+    /* TOUCHSCREEN VIDEO SHOWCASE FRAME */
+    .screen-video-frame-container {
+      margin-top: 14px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, transform 0.35s ease;
+    }
+    .screen-video-frame-container.visible {
+      max-height: 340px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .screen-frame-bezel {
+      background: #0f1115;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+    .screen-frame-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2px 6px 8px 6px;
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      color: #94A3B8;
+      letter-spacing: 0.04em;
+    }
+    .screen-live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #E2E8F0;
+    }
+    .screen-live-dot {
+      width: 7px;
+      height: 7px;
+      background: #22C55E;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px #22C55E;
+      animation: pulseLiveDot 1.8s infinite;
+    }
+    @keyframes pulseLiveDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+    .screen-frame-video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .screen-frame-video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .screen-frame-video-overlay-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: #CBD5E1;
+      pointer-events: none;
+    }
+    .screen-frame-caption {
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #64748B;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
     .zoom-steps-container {
       margin-top: 24px;
       display: flex;
@@ -1836,6 +1924,27 @@
               <div class="zoom-step-text">
                 <h4>Browse your digital collection</h4>
                 <p>View registered garments on screen without opening every door.</p>
+                
+                <!-- Live Touchscreen Video Showcase Frame -->
+                <div class="screen-video-frame-container" id="screen-video-frame">
+                  <div class="screen-frame-bezel">
+                    <div class="screen-frame-top-bar">
+                      <span class="screen-live-tag"><span class="screen-live-dot"></span> LIVE DEMO</span>
+                      <span>Capacitive Touchscreen &middot; MI OS</span>
+                      <span>08:24</span>
+                    </div>
+                    <div class="screen-frame-video-wrapper" title="Click to mute/unmute audio">
+                      <video id="touchscreen-video" muted playsinline loop preload="auto" crossorigin="anonymous">
+                        <source src="interface-demo.mp4" type="video/mp4">
+                        <source src="assets/interface-demo.mp4" type="video/mp4">
+                        <source src="public/interface-demo.mp4" type="video/mp4">
+                        <source src="screen-video.mp4" type="video/mp4">
+                      </video>
+                      <div class="screen-frame-video-overlay-hint" id="video-sound-hint">Muted</div>
+                    </div>
+                    <div class="screen-frame-caption">Showing real-time outfit preview on wardrobe display</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -3362,6 +3471,12 @@
     // Component Groups matching Sketch
     let doorsGroup, leftDoorGroup, rightDoorGroup;
     let screenPanelGroup, screenMesh, screenCanvas, screenCtx, screenTexture;
+    let gltfScreenDisplay = null;
+    let touchscreenVideo = null;
+    let screenVideoTexture = null;
+    let screenTextureMat = null;
+    let screenVideoMat = null;
+    let isVideoShowing = false;
     let outerShellGroup, shellLeft, shellRight, shellTop, shellBack;
     let upperRailGroup, upperTrackMesh, upperHangers = [];
     let lowerRailGroup, lowerTrackMesh, lowerHangers = [];
@@ -3476,9 +3591,47 @@
 
       screenTexture = new THREE.CanvasTexture(screenCanvas);
       screenTexture.minFilter = THREE.LinearFilter;
-      const screenMat = new THREE.MeshBasicMaterial({
+      screenTextureMat = new THREE.MeshBasicMaterial({
         map: screenTexture
       });
+
+      // Video texture for live touchscreen demo
+      touchscreenVideo = $('touchscreen-video') || (function() {
+        const v = document.createElement('video');
+        v.id = 'touchscreen-video';
+        v.src = 'interface-demo.mp4';
+        v.muted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', '');
+        v.preload = 'auto';
+        return v;
+      })();
+
+      screenVideoTexture = new THREE.VideoTexture(touchscreenVideo);
+      screenVideoTexture.minFilter = THREE.LinearFilter;
+      screenVideoTexture.magFilter = THREE.LinearFilter;
+      screenVideoTexture.format = THREE.RGBAFormat;
+      screenVideoTexture.repeat.set(0.315, 1.0);
+      screenVideoTexture.offset.set(0.3425, 0.0);
+
+      screenVideoMat = new THREE.MeshBasicMaterial({
+        map: screenVideoTexture
+      });
+
+      const screenMat = screenTextureMat;
+
+      const vWrapper = document.querySelector('.screen-frame-video-wrapper');
+      const soundHint = $('video-sound-hint');
+      if (vWrapper && touchscreenVideo) {
+        vWrapper.addEventListener('click', function() {
+          touchscreenVideo.muted = !touchscreenVideo.muted;
+          if (soundHint) {
+            soundHint.textContent = touchscreenVideo.muted ? 'Muted' : 'Audio On';
+          }
+        });
+      }
 
       // Build Master Assembly (1.80m wide, 2.20m high, 0.95m deep)
       wardrobeRoot = new THREE.Group();
@@ -3720,8 +3873,25 @@
                 child.userData.originPos = child.position.clone();
                 child.userData.originRot = child.rotation.clone();
 
-                if (child.name === 'screen_display' && screenTexture) {
-                  child.material = new THREE.MeshBasicMaterial({ map: screenTexture });
+                if (child.name === 'screen_display') {
+                  gltfScreenDisplay = child;
+                  if (!child.geometry.attributes.uv) {
+                    const pos = child.geometry.attributes.position;
+                    const count = pos.count;
+                    const uvs = new Float32Array(count * 2);
+                    child.geometry.computeBoundingBox();
+                    const bbox = child.geometry.boundingBox;
+                    const minX = bbox.min.x, maxX = bbox.max.x;
+                    const minY = bbox.min.y, maxY = bbox.max.y;
+                    const dx = (maxX - minX) || 1;
+                    const dy = (maxY - minY) || 1;
+                    for (let i = 0; i < count; i++) {
+                      uvs[i * 2] = (pos.getX(i) - minX) / dx;
+                      uvs[i * 2 + 1] = (pos.getY(i) - minY) / dy;
+                    }
+                    child.geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+                  }
+                  child.material = screenTextureMat;
                 }
                 if (child.name.includes('glass')) {
                   child.material.transparent = true;
@@ -3784,6 +3954,36 @@
         ctx.beginPath();
         ctx.rect(x, y, w, h);
         ctx.fill();
+      }
+    }
+
+    function showTouchscreenVideo() {
+      if (isVideoShowing) return;
+      isVideoShowing = true;
+      if (gltfScreenDisplay) gltfScreenDisplay.material = screenVideoMat;
+      if (screenMesh) screenMesh.material = screenVideoMat;
+      const vFrame = $('screen-video-frame');
+      if (vFrame) vFrame.classList.add('visible');
+      if (touchscreenVideo) {
+        touchscreenVideo.currentTime = 0;
+        const playPromise = touchscreenVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(function(err) {
+            console.log('Video autoplay notice:', err);
+          });
+        }
+      }
+    }
+
+    function hideTouchscreenVideo() {
+      if (!isVideoShowing) return;
+      isVideoShowing = false;
+      if (gltfScreenDisplay) gltfScreenDisplay.material = screenTextureMat;
+      if (screenMesh) screenMesh.material = screenTextureMat;
+      const vFrame = $('screen-video-frame');
+      if (vFrame) vFrame.classList.remove('visible');
+      if (touchscreenVideo && !touchscreenVideo.paused) {
+        touchscreenVideo.pause();
       }
     }
 
@@ -3907,6 +4107,9 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      if (isVideoShowing && touchscreenVideo && !touchscreenVideo.paused && screenVideoTexture) {
+        screenVideoTexture.needsUpdate = true;
+      }
 
       // Continuous Conveyor Movement (Carousel Mechanism)
       upperCarouselAngle += 0.007;
@@ -4267,17 +4470,26 @@
               if (s2) s2.classList.remove('active');
               if (s3) s3.classList.remove('active');
               drawScreenTexture(1);
+              showTouchscreenVideo();
             } else if (prog < 0.70) {
               if (s1) s1.classList.remove('active');
               if (s2) s2.classList.add('active');
               if (s3) s3.classList.remove('active');
+              hideTouchscreenVideo();
               drawScreenTexture(2);
             } else {
               if (s1) s1.classList.remove('active');
               if (s2) s2.classList.remove('active');
               if (s3) s3.classList.add('active');
+              hideTouchscreenVideo();
               drawScreenTexture(3);
             }
+          },
+          onLeave: () => {
+            hideTouchscreenVideo();
+          },
+          onLeaveBack: () => {
+            hideTouchscreenVideo();
           }
         }
       });
