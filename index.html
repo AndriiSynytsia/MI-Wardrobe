@@ -435,16 +435,11 @@
     /* TOUCHSCREEN VIDEO SHOWCASE FRAME */
     .screen-video-frame-container {
       margin-top: 14px;
+      width: 100%;
+      border-radius: 12px;
       overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, transform 0.35s ease;
-    }
-    .screen-video-frame-container.visible {
-      max-height: 340px;
-      opacity: 1;
-      transform: translateY(0);
+      display: block;
+      transition: opacity 0.35s ease;
     }
     .screen-frame-bezel {
       background: #0f1115;
@@ -1934,7 +1929,7 @@
                       <span>08:24</span>
                     </div>
                     <div class="screen-frame-video-wrapper" title="Click to mute/unmute audio">
-                      <video id="touchscreen-video" muted playsinline loop preload="auto" crossorigin="anonymous">
+                      <video id="touchscreen-video" src="interface-demo.mp4" muted playsinline loop autoplay preload="auto" crossorigin="anonymous">
                         <source src="interface-demo.mp4" type="video/mp4">
                         <source src="assets/interface-demo.mp4" type="video/mp4">
                         <source src="public/interface-demo.mp4" type="video/mp4">
@@ -3891,7 +3886,7 @@
                     }
                     child.geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
                   }
-                  child.material = screenTextureMat;
+                  child.material = screenVideoMat;
                 }
                 if (child.name.includes('glass')) {
                   child.material.transparent = true;
@@ -4200,27 +4195,45 @@
         if (gltfParts['power_bar']) gltfParts['power_bar'].position.y = getOrig('power_bar').y + pSh * 0.48;
         if (gltfParts['back']) gltfParts['back'].position.z = getOrig('back').z - pSh * 0.35;
 
-        // (4) Upper Rail Conveyor & Upper Garments / T-shirts / Trousers / Hangers (lifts upward)
-        const pUp = easeVal(p, 0.22, 0.54);
-        if (gltfParts['rail_upper']) gltfParts['rail_upper'].position.y = getOrig('rail_upper').y + pUp * 0.48;
+        // (4) Upper Rail Conveyor & Upper Clothes / Trousers / Hangers (lifts upward & disperses radially)
+        const pUp = easeVal(p, 0.20, 0.58);
+        if (gltfParts['rail_upper']) gltfParts['rail_upper'].position.y = getOrig('rail_upper').y + pUp * 0.50;
+        
+        const moveUpperDisperse = (name) => {
+          if (!gltfParts[name]) return;
+          const orig = getOrig(name);
+          gltfParts[name].position.y = orig.y + pUp * 0.50;
+          gltfParts[name].position.x = orig.x + (orig.x * pUp * 0.40);
+          gltfParts[name].position.z = orig.z + (orig.z * pUp * 0.45);
+        };
+
         for (let u = 0; u < 40; u++) {
-          if (gltfParts['hook_u' + u]) gltfParts['hook_u' + u].position.y = getOrig('hook_u' + u).y + pUp * 0.48;
-          if (gltfParts['garment_u' + u]) gltfParts['garment_u' + u].position.y = getOrig('garment_u' + u).y + pUp * 0.48;
-          if (gltfParts['tshirt_u' + u]) gltfParts['tshirt_u' + u].position.y = getOrig('tshirt_u' + u).y + pUp * 0.48;
+          moveUpperDisperse('hook_u' + u);
+          moveUpperDisperse('garment_u' + u);
+          moveUpperDisperse('tshirt_u' + u);
         }
         Object.keys(gltfParts).forEach(name => {
-          if (name.startsWith('Trousers') || name.startsWith('Spodnie') || name.startsWith('Hanger_')) {
-            gltfParts[name].position.y = getOrig(name).y + pUp * 0.48;
+          if (name.includes('Spodnie') || name.startsWith('Trousers') || (name.startsWith('Hanger_') && !name.includes('_l'))) {
+            moveUpperDisperse(name);
           }
         });
 
-        // (5) Lower Rail Conveyor & Lower Garments / T-shirts (descends downward)
-        const pLow = easeVal(p, 0.30, 0.62);
-        if (gltfParts['rail_lower']) gltfParts['rail_lower'].position.y = getOrig('rail_lower').y - pLow * 0.32;
+        // (5) Lower Rail Conveyor & Lower Clothes / T-shirts (descends downward & disperses radially)
+        const pLow = easeVal(p, 0.28, 0.65);
+        if (gltfParts['rail_lower']) gltfParts['rail_lower'].position.y = getOrig('rail_lower').y - pLow * 0.36;
+
+        const moveLowerDisperse = (name) => {
+          if (!gltfParts[name]) return;
+          const orig = getOrig(name);
+          gltfParts[name].position.y = orig.y - pLow * 0.36;
+          gltfParts[name].position.x = orig.x + (orig.x * pLow * 0.40);
+          gltfParts[name].position.z = orig.z + (orig.z * pLow * 0.45);
+        };
+
         for (let l = 0; l < 20; l++) {
-          if (gltfParts['hook_l' + l]) gltfParts['hook_l' + l].position.y = getOrig('hook_l' + l).y - pLow * 0.32;
-          if (gltfParts['garment_l' + l]) gltfParts['garment_l' + l].position.y = getOrig('garment_l' + l).y - pLow * 0.32;
-          if (gltfParts['tshirt_l' + l]) gltfParts['tshirt_l' + l].position.y = getOrig('tshirt_l' + l).y - pLow * 0.32;
+          moveLowerDisperse('hook_l' + l);
+          moveLowerDisperse('garment_l' + l);
+          moveLowerDisperse('tshirt_l' + l);
         }
 
         // (6) Central Collection Doors, Trims & Handles (moves forward)
@@ -4411,6 +4424,25 @@
       );
 
       // SCENE 2: PRECISION ZOOM-IN SEQUENCE ON KEY HARDWARE PARTS
+      // Ensure video starts playing as soon as user approaches Step 1
+      ScrollTrigger.create({
+        trigger: '#scene-zoom',
+        start: 'top 85%',
+        end: 'bottom 15%',
+        onEnter: () => {
+          if (touchscreenVideo) touchscreenVideo.play().catch(() => {});
+        },
+        onEnterBack: () => {
+          if (touchscreenVideo) touchscreenVideo.play().catch(() => {});
+        },
+        onLeave: () => {
+          if (touchscreenVideo) touchscreenVideo.pause();
+        },
+        onLeaveBack: () => {
+          if (touchscreenVideo) touchscreenVideo.pause();
+        }
+      });
+
       const zoomTL = gsap.timeline({
         scrollTrigger: {
           trigger: '#scene-zoom',
