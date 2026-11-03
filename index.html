@@ -3886,10 +3886,19 @@
                   }
                   child.material = screenVideoMat;
                 }
-                if (child.name.includes('glass')) {
-                  child.material.transparent = true;
-                  child.material.opacity = 0.38;
-                  child.material.roughness = 0.08;
+                if (child.name.includes('glass') || (child.material && child.material.name === 'glass')) {
+                  // Frosted / hazy glass: see-through but softly clouded
+                  child.material = new THREE.MeshStandardMaterial({
+                    color: 0xe8eef0,
+                    roughness: 0.55,
+                    metalness: 0.0,
+                    transparent: true,
+                    opacity: 0.28,
+                    depthWrite: false,
+                    side: THREE.DoubleSide
+                  });
+                  child.renderOrder = 2;
+                  child.castShadow = false;
                 }
                 if (child.name === 'screen_body') {
                   child.material.color.setHex(0x121416);
