@@ -45,7 +45,25 @@
     .header-actions { display: flex; align-items: center; gap: 10px; }
     .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; border: 1px solid var(--border); background: var(--surface); cursor: pointer; transition: background .2s, border-color .2s; }
     .btn:hover { border-color: var(--text); }
-    .header-contact-pill { padding: 9px 20px; border-radius: 999px; background: #18181B; color: #fff; font-size: 0.85rem; font-weight: 500; }
+    .header-contact-pill,
+    .theme-toggle-pill {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 8px 18px; border-radius: 999px; background: #1C232D; color: #F5EFE6;
+      border: 1px solid rgba(28,35,45,0.25); font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    }
+    .theme-toggle-pill svg { width: 15px; height: 15px; stroke: #E0D1B9; }
+    html[data-theme="light"] {
+      --bg: #F4EFE6; --bg-alt: #EAE2D6; --surface: #FFFFFF;
+      --text: #1C232D; --text-muted: #363C44; --text-light: #7A7062;
+      --accent: #363C44; --accent-hover: #1C232D; --accent-subtle: rgba(149,138,122,0.18);
+      --border: rgba(54,60,68,0.16);
+    }
+    html[data-theme="light"] .theme-toggle-pill { background: #E0D1B9; color: #1C232D; border-color: #958A7A; }
+    html[data-theme="light"] .theme-toggle-pill svg { stroke: #1C232D; }
+    html[data-theme="light"] .chat-messages { background: #F4EFE6; }
+    html[data-theme="light"] .chat-input-bar input { background: #F4EFE6; color: #1C232D; }
+    html[data-theme="light"] .chat-input-bar input:focus { background: #FFFFFF; }
+    html[data-theme="light"] .chat-send-btn { background: #1C232D; color: #F5EFE6; }
 
     main { max-width: 1060px; margin: 0 auto; padding: 130px 28px 70px; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 36px; align-items: start; }
     .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
@@ -100,7 +118,19 @@
     </nav>
     <div class="header-actions">
       <a href="index.html" class="btn">&#8592; Back to showcase</a>
-      <a href="index.html#contact" class="header-contact-pill">Contact</a>
+      <button type="button" class="theme-toggle-pill" id="theme-toggle-btn" onclick="toggleSiteTheme()" aria-label="Toggle Light/Dark Mode">
+        <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <span id="theme-toggle-label">Light</span>
+      </button>
     </div>
   </header>
 
@@ -157,6 +187,34 @@
   </footer>
 
   <script>
+    function applySiteTheme(theme) {
+      const root = document.documentElement;
+      const sunIcon = document.getElementById('theme-icon-sun');
+      const moonIcon = document.getElementById('theme-icon-moon');
+      const label = document.getElementById('theme-toggle-label');
+      if (theme === 'light') {
+        root.setAttribute('data-theme', 'light');
+        if (sunIcon) sunIcon.style.display = 'none';
+        if (moonIcon) moonIcon.style.display = 'inline-block';
+        if (label) label.textContent = 'Dark';
+      } else {
+        root.setAttribute('data-theme', 'dark');
+        if (sunIcon) sunIcon.style.display = 'inline-block';
+        if (moonIcon) moonIcon.style.display = 'none';
+        if (label) label.textContent = 'Light';
+      }
+      try { localStorage.setItem('mi_wardrobe_theme', theme); } catch (e) {}
+    }
+    function toggleSiteTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      applySiteTheme(current === 'light' ? 'dark' : 'light');
+    }
+    (function() {
+      let saved = 'dark';
+      try { saved = localStorage.getItem('mi_wardrobe_theme') || 'dark'; } catch (e) {}
+      applySiteTheme(saved);
+    })();
+
     window.addEventListener('scroll', function() {
       const hdr = document.getElementById('main-brand-header');
       if (!hdr) return;

@@ -426,24 +426,185 @@
       background: rgba(24, 24, 27, 0.08);
     }
 
-    .header-contact-pill {
+    .header-contact-pill,
+    .theme-toggle-pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 9px 22px;
+      gap: 8px;
+      padding: 8px 18px;
       border-radius: 999px;
-      background: #18181B;
-      color: #FFFFFF;
+      background: #1C232D;
+      color: #F5EFE6;
+      border: 1px solid rgba(28, 35, 45, 0.25);
       font-family: var(--font-sans);
-      font-size: 0.88rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       text-decoration: none;
-      transition: background 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
     }
 
-    .header-contact-pill:hover {
-      background: #2E2E33;
+    .header-contact-pill:hover,
+    .theme-toggle-pill:hover {
+      background: #363C44;
       transform: translateY(-1px);
+    }
+
+    .theme-toggle-pill svg {
+      width: 15px;
+      height: 15px;
+      stroke: #E0D1B9;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle-pill:hover svg {
+      transform: rotate(18deg);
+    }
+
+    /* ========================================== */
+    /* LIGHT MODE THEME OVERRIDES                 */
+    /* ========================================== */
+    html[data-theme="light"] {
+      --bg: #F4EFE6;
+      --bg-alt: #EAE2D6;
+      --surface: #FFFFFF;
+      --surface-subtle: #EFE8DC;
+      --text: #1C232D;
+      --text-muted: #363C44;
+      --text-light: #7A7062;
+      --accent: #363C44;
+      --accent-hover: #1C232D;
+      --accent-subtle: rgba(149, 138, 122, 0.18);
+      --led-glow: rgba(149, 138, 122, 0.28);
+      --led-warm: rgba(224, 209, 185, 0.45);
+      --border: rgba(54, 60, 68, 0.16);
+      --border-dark: rgba(28, 35, 45, 0.28);
+    }
+
+    html[data-theme="light"] #canvas-container {
+      background:
+        radial-gradient(ellipse 50% 52% at 32% 28%, rgba(255, 255, 255, 0.75) 0%, transparent 70%),
+        radial-gradient(ellipse 65% 50% at 75% 70%, rgba(224, 209, 185, 0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 70% at 45% 45%, #F7F3EB 0%, #EAE1D3 52%, #DDD2C0 100%);
+    }
+
+    html[data-theme="light"] #canvas-container::after {
+      background: radial-gradient(ellipse 85% 80% at 45% 45%, transparent 50%, rgba(149, 138, 122, 0.18) 82%, rgba(54, 60, 68, 0.32) 100%);
+    }
+
+    html[data-theme="light"] .hero-content,
+    html[data-theme="light"] .scene-zoom-card,
+    html[data-theme="light"] .explosion-hud,
+    html[data-theme="light"] .part-label-card {
+      background: rgba(255, 255, 255, 0.90);
+      border-color: rgba(149, 138, 122, 0.42);
+      box-shadow: 0 20px 50px rgba(28, 35, 45, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      color: #1C232D;
+    }
+
+    html[data-theme="light"] .hero-content .lead {
+      color: #363C44;
+    }
+
+    html[data-theme="light"] .hero-privacy-pill {
+      background: rgba(224, 209, 185, 0.45);
+      border-color: rgba(149, 138, 122, 0.55);
+      color: #1C232D;
+    }
+
+    html[data-theme="light"] .btn-primary {
+      background: #1C232D;
+      color: #F5EFE6;
+      border-color: #1C232D;
+      box-shadow: 0 6px 18px rgba(28, 35, 45, 0.18);
+    }
+
+    html[data-theme="light"] .btn-primary:hover {
+      background: #363C44;
+      border-color: #363C44;
+    }
+
+    html[data-theme="light"] .btn-secondary {
+      background: rgba(255, 255, 255, 0.85);
+      color: #1C232D;
+      border-color: rgba(54, 60, 68, 0.30);
+    }
+
+    html[data-theme="light"] .btn-secondary:hover {
+      background: #E0D1B9;
+      border-color: #958A7A;
+    }
+
+    html[data-theme="light"] .hotspot-pill-btn {
+      background: #F4EFE6;
+      border-color: rgba(54, 60, 68, 0.18);
+      color: #363C44;
+    }
+
+    html[data-theme="light"] .hotspot-pill-btn.active {
+      background: #1C232D;
+      border-color: #1C232D;
+      color: #F5EFE6;
+    }
+
+    html[data-theme="light"] .hotspot-spec-readout {
+      background: #F4EFE6;
+      border-color: rgba(149, 138, 122, 0.45);
+      border-left-color: #1C232D;
+    }
+
+    html[data-theme="light"] .hotspot-spec-head strong,
+    html[data-theme="light"] .part-label-title,
+    html[data-theme="light"] .hw-matrix-table td strong {
+      color: #1C232D;
+    }
+
+    html[data-theme="light"] .part-blueprint-meta {
+      border-bottom-color: rgba(28, 35, 45, 0.12);
+      color: #363C44;
+    }
+
+    html[data-theme="light"] .leader-line {
+      stroke: #1C232D !important;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+    }
+
+    html[data-theme="light"] .leader-line-circle {
+      fill: #1C232D !important;
+      stroke: #E0D1B9;
+    }
+
+    html[data-theme="light"] .hw-matrix-table th {
+      background: #EAE2D6;
+      color: #1C232D;
+    }
+
+    html[data-theme="light"] .b2b-architect-banner {
+      background: linear-gradient(135deg, #EAE2D6 0%, #E0D1B9 100%);
+      border-color: #958A7A;
+      box-shadow: 0 16px 40px rgba(28, 35, 45, 0.10);
+    }
+
+    html[data-theme="light"] .b2b-architect-banner h3 {
+      color: #1C232D !important;
+    }
+
+    html[data-theme="light"] .b2b-spec-tag {
+      background: rgba(255, 255, 255, 0.75);
+      border-color: rgba(54, 60, 68, 0.22);
+      color: #1C232D;
+    }
+
+    html[data-theme="light"] .theme-toggle-pill {
+      background: #E0D1B9;
+      color: #1C232D;
+      border-color: #958A7A;
+    }
+
+    html[data-theme="light"] .theme-toggle-pill svg {
+      stroke: #1C232D;
     }
 
     .brand-logo-img {
@@ -2343,7 +2504,23 @@
           <span class="paired-tag" id="header-paired-tag">Mini Paired</span>
         </button>
       </div>
-      <a href="#contact" class="header-contact-pill">Contact</a>
+      <button type="button" class="theme-toggle-pill" id="theme-toggle-btn" onclick="toggleSiteTheme()" aria-label="Toggle Light/Dark Mode">
+        <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <span id="theme-toggle-label">Light</span>
+      </button>
     </div>
   </header>
 
@@ -5807,6 +5984,41 @@
       const m = $(id);
       if (m && typeof m.close === 'function') m.close();
     };
+
+    window.applySiteTheme = function(theme) {
+      const root = document.documentElement;
+      const sunIcon = $('theme-icon-sun');
+      const moonIcon = $('theme-icon-moon');
+      const label = $('theme-toggle-label');
+      if (theme === 'light') {
+        root.setAttribute('data-theme', 'light');
+        if (sunIcon) sunIcon.style.display = 'none';
+        if (moonIcon) moonIcon.style.display = 'inline-block';
+        if (label) label.textContent = 'Dark';
+      } else {
+        root.setAttribute('data-theme', 'dark');
+        if (sunIcon) sunIcon.style.display = 'inline-block';
+        if (moonIcon) moonIcon.style.display = 'none';
+        if (label) label.textContent = 'Light';
+      }
+      try {
+        localStorage.setItem('mi_wardrobe_theme', theme);
+      } catch (e) {}
+    };
+
+    window.toggleSiteTheme = function() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'light' ? 'dark' : 'light';
+      window.applySiteTheme(next);
+    };
+
+    (function initSavedTheme() {
+      let saved = 'dark';
+      try {
+        saved = localStorage.getItem('mi_wardrobe_theme') || 'dark';
+      } catch (e) {}
+      window.applySiteTheme(saved);
+    })();
 
 
   } catch (globalErr) {
