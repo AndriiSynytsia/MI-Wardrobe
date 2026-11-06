@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Materials &mdash; MI Wardrobe</title>
+  <meta name="description" content="Explore the architectural finishes, natural walnut interior, and precision mechanical materials of the MI Wardrobe prototype.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F4F0E9; --bg-alt: #EBE6DC; --surface: #FFFFFF;
+      --text: #1E1E1E; --text-muted: #666A65; --text-light: #8E928D;
+      --accent: #3F7D58; --accent-hover: #326546; --accent-subtle: rgba(63,125,88,0.12);
+      --border: #DDD8CE; --radius-md: 8px; --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', Menlo, Consolas, monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    .brand-header {
+      position: fixed; top: 16px; left: 24px; right: 24px; min-height: 62px; padding: 10px 22px;
+      z-index: 100; display: flex; justify-content: space-between; align-items: center;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.58); border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .brand-header.header-hidden {
+      opacity: 0;
+      transform: translateY(-130%);
+      pointer-events: none;
+    }
+    .brand-wordmark { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.1rem; color: #18181B; }
+    .brand-logo-img { width: 32px; height: 32px; border-radius: 6px; object-fit: cover; }
+    .header-center-nav { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 30px; }
+    .header-nav-link { font-size: 0.9rem; font-weight: 500; color: #18181B; transition: color .2s; }
+    .header-nav-link:hover, .header-nav-link.active { color: var(--accent); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; border: 1px solid var(--border); background: var(--surface); transition: background .2s, border-color .2s; }
+    .btn:hover { border-color: var(--text); }
+    .header-contact-pill { padding: 9px 20px; border-radius: 999px; background: #18181B; color: #fff; font-size: 0.85rem; font-weight: 500; }
+
+    main { max-width: 1120px; margin: 0 auto; padding: 140px 32px 80px; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .hero h1 { font-size: clamp(2.4rem, 4.8vw, 3.8rem); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; margin: 12px 0 20px; max-width: 18ch; }
+    .hero .lead { font-size: 1.12rem; color: var(--text-muted); max-width: 64ch; }
+
+    .swatch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 56px; }
+    .material-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; }
+    .swatch-banner { height: 150px; position: relative; display: flex; align-items: flex-end; padding: 16px 22px; border-bottom: 1px solid var(--border); }
+    .swatch-tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,0.88); color: #18181B; backdrop-filter: blur(6px); }
+    .swatch-exterior { background: linear-gradient(135deg, #F5F4F0 0%, #EAE8E3 55%, #1E1F22 55.2%, #151618 100%); }
+    .swatch-walnut { background: repeating-linear-gradient(90deg, #4A3222 0px, #3B2618 18px, #523826 36px, #352114 54px); }
+    .swatch-metal { background: linear-gradient(135deg, #D0D5DD 0%, #98A1AE 48%, #E2E6EC 52%, #6E7683 100%); }
+    .swatch-glass { background: linear-gradient(135deg, rgba(225,235,238,0.85), rgba(180,196,202,0.55)), radial-gradient(circle at 30% 40%, #ffffff, #cfd8dc); }
+
+    .material-body { padding: 28px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .material-body h2 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .material-body p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 18px; }
+    .spec-list { border-top: 1px solid var(--border); padding-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted); }
+    .spec-list strong { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
+
+    .lighting-banner { margin-top: 32px; background: #18191C; color: #F4F0E9; border-radius: var(--radius-lg); padding: 36px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border: 1px solid rgba(255,232,200,0.22); box-shadow: inset 0 0 60px rgba(255,220,176,0.08); }
+    .lighting-banner h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 8px; color: #FFE8C8; }
+    .lighting-banner p { color: #B8B4AC; max-width: 58ch; font-size: 0.94rem; }
+
+    footer { border-top: 1px solid var(--border); padding: 24px 32px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-light); max-width: 1120px; margin: 0 auto; }
+
+    @media (max-width: 900px) {
+      .swatch-grid { grid-template-columns: 1fr; }
+      .header-center-nav { display: none; }
+      main { padding: 110px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="brand-header" id="main-brand-header">
+    <a href="about.html" class="brand-wordmark">
+      <img src="logo.png" alt="MI Wardrobe Logo" class="brand-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';">
+      <span>MI Wardrobe</span>
+    </a>
+    <nav class="header-center-nav" aria-label="Primary Navigation">
+      <a href="index.html#models" class="header-nav-link">Products</a>
+      <a href="index.html#operation" class="header-nav-link">Services</a>
+      <a href="materials.html" class="header-nav-link active">Materials</a>
+      <a href="index.html#visit" class="header-nav-link">News</a>
+      <a href="chat.html" class="header-nav-link">Chat with us</a>
+    </nav>
+    <div class="header-actions">
+      <a href="index.html" class="btn">&#8592; Back to showcase</a>
+      <a href="index.html#contact" class="header-contact-pill">Contact</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Material Specification &amp; Craft</span>
+      <h1>Tactile furniture finishes. Industrial-grade mechanics.</h1>
+      <p class="lead">Every surface of MI Wardrobe is selected to balance quiet residential warmth on the outside with durable, low-friction mechanical precision inside the dual-carousel cavity.</p>
+    </section>
+
+    <div class="swatch-grid">
+      <article class="material-card">
+        <div class="swatch-banner swatch-exterior">
+          <span class="swatch-tag">01 / Exterior Shell &amp; Fascia</span>
+        </div>
+        <div class="material-body">
+          <div>
+            <h2>Matte White &amp; Deep Matte Black</h2>
+            <p>The outer structural panels feature a seamless, non-reflective architectural matte white finish with zero wood grain distraction, paired with a deep neutral matte black upper power fascia, plinth, and aperture framing.</p>
+          </div>
+          <div class="spec-list">
+            <div><strong>Surface Roughness</strong>0.80 &ndash; 0.88 (Soft Matte)</div>
+            <div><strong>Panel Core</strong>High-density furniture MDF</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="material-card">
+        <div class="swatch-banner swatch-walnut">
+          <span class="swatch-tag">02 / Interior Cavity</span>
+        </div>
+        <div class="material-body">
+          <div>
+            <h2>Natural Dark Walnut Veneer</h2>
+            <p>All internal furniture surfaces&mdash;including the rear acoustic panel, internal floor, side walls, and ceiling&mdash;are finished in rich, warm dark walnut with natural vertical wood grain and a satin-matte protective seal.</p>
+          </div>
+          <div class="spec-list">
+            <div><strong>Finish Type</strong>Satin-matte natural walnut</div>
+            <div><strong>Grain Orientation</strong>Continuous vertical bookmatch</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="material-card">
+        <div class="swatch-banner swatch-metal">
+          <span class="swatch-tag">03 / Dual Carousel Hardware</span>
+        </div>
+        <div class="material-body">
+          <div>
+            <h2>Brushed Aluminium &amp; Machined Steel</h2>
+            <p>The upper and lower racetrack conveyor loops combine brushed anodised aluminium guide rails, CNC-machined steel ceiling collars, and powder-coated structural support columns engineered for quiet continuous rotation.</p>
+          </div>
+          <div class="spec-list">
+            <div><strong>Conveyor Rails</strong>6063-T6 Anodised Aluminium</div>
+            <div><strong>Support Columns</strong>Powder-coated structural steel</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="material-card">
+        <div class="swatch-banner swatch-glass">
+          <span class="swatch-tag">04 / Aperture &amp; Hangers</span>
+        </div>
+        <div class="material-body">
+          <div>
+            <h2>Frosted Hazy Glass &amp; Smart Hangers</h2>
+            <p>Two central collection doors use lightly diffused hazy safety glass that softens the view of stored garments while glowing warmly when an outfit arrives. Custom hangers pair solid beechwood, matte ABS, and chrome hooks.</p>
+          </div>
+          <div class="spec-list">
+            <div><strong>Aperture Doors</strong>Tempered frosted safety glass</div>
+            <div><strong>Garment Hangers</strong>Beechwood, matte ABS &amp; chrome</div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="lighting-banner">
+      <div>
+        <span class="eyebrow" style="color:#E8D3AE;">Integrated Illumination</span>
+        <h3>3500K Warm-Neutral Architectural LED</h3>
+        <p>Recessed interior lighting is tuned to approximately 3500K warm-neutral white with high colour rendering (CRI &gt; 95), ensuring natural fabric colours and walnut tones look true to life without glare or harsh shadows.</p>
+      </div>
+      <a href="index.html#scene-explosion" class="btn" style="background:#FFE8C8; color:#18181B; border-color:#FFE8C8;">Inspect in 3D Exploded View &#8594;</a>
+    </div>
+  </main>
+
+  <footer>
+    <span>&copy; 2026 MI Wardrobe &middot; Material Specification</span>
+    <span>University project prototype</span>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', function() {
+      const hdr = document.getElementById('main-brand-header');
+      if (!hdr) return;
+      if (window.pageYOffset > 40) {
+        hdr.classList.add('header-hidden');
+      } else {
+        hdr.classList.remove('header-hidden');
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>

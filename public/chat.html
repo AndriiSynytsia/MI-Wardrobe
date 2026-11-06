@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat with Us &mdash; MI Wardrobe</title>
+  <meta name="description" content="Chat directly with the MI Wardrobe assistant and engineering team about dimensions, materials, carousel capacity, and showcase demonstrations.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F4F0E9; --bg-alt: #EBE6DC; --surface: #FFFFFF;
+      --text: #1E1E1E; --text-muted: #666A65; --text-light: #8E928D;
+      --accent: #3F7D58; --accent-hover: #326546; --accent-subtle: rgba(63,125,88,0.12);
+      --border: #DDD8CE; --radius-md: 8px; --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', Menlo, Consolas, monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    .brand-header {
+      position: fixed; top: 16px; left: 24px; right: 24px; min-height: 62px; padding: 10px 22px;
+      z-index: 100; display: flex; justify-content: space-between; align-items: center;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.58); border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .brand-header.header-hidden {
+      opacity: 0;
+      transform: translateY(-130%);
+      pointer-events: none;
+    }
+    .brand-wordmark { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.1rem; color: #18181B; }
+    .brand-logo-img { width: 32px; height: 32px; border-radius: 6px; object-fit: cover; }
+    .header-center-nav { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 30px; }
+    .header-nav-link { font-size: 0.9rem; font-weight: 500; color: #18181B; transition: color .2s; }
+    .header-nav-link:hover, .header-nav-link.active { color: var(--accent); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; border: 1px solid var(--border); background: var(--surface); cursor: pointer; transition: background .2s, border-color .2s; }
+    .btn:hover { border-color: var(--text); }
+    .header-contact-pill { padding: 9px 20px; border-radius: 999px; background: #18181B; color: #fff; font-size: 0.85rem; font-weight: 500; }
+
+    main { max-width: 1060px; margin: 0 auto; padding: 130px 28px 70px; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 36px; align-items: start; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    .chat-info h1 { font-size: clamp(2.1rem, 4vw, 3.1rem); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; margin: 10px 0 16px; }
+    .chat-info p { color: var(--text-muted); font-size: 0.98rem; margin-bottom: 24px; }
+
+    .topic-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .topic-chip { font-size: 0.8rem; font-weight: 500; padding: 8px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: all .2s; }
+    .topic-chip:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+    .team-status-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+    .status-row { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; }
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 8px #22C55E; }
+
+    .chat-window { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: 0 16px 48px rgba(0,0,0,0.06); overflow: hidden; display: flex; flex-direction: column; height: 560px; }
+    .chat-header { padding: 16px 22px; background: #18191C; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+    .chat-header-title { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.94rem; }
+    .chat-header-sub { font-family: var(--font-mono); font-size: 0.7rem; color: #9CA3AF; }
+
+    .chat-messages { flex: 1; padding: 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; background: #FAF8F5; }
+    .msg { max-width: 82%; padding: 13px 16px; border-radius: 14px; font-size: 0.9rem; line-height: 1.5; }
+    .msg-bot { align-self: flex-start; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-bottom-left-radius: 4px; }
+    .msg-user { align-self: flex-end; background: #18181B; color: #fff; border-bottom-right-radius: 4px; }
+    .msg-meta { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-light); margin-top: 4px; }
+
+    .chat-input-bar { padding: 14px 18px; background: var(--surface); border-top: 1px solid var(--border); display: flex; gap: 10px; }
+    .chat-input-bar input { flex: 1; padding: 11px 16px; border: 1px solid var(--border); border-radius: 999px; font-family: var(--font-sans); font-size: 0.9rem; outline: none; background: #FAF8F5; }
+    .chat-input-bar input:focus { border-color: var(--accent); background: #fff; }
+    .chat-send-btn { padding: 11px 22px; border-radius: 999px; border: none; background: var(--accent); color: #fff; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: background .2s; }
+    .chat-send-btn:hover { background: var(--accent-hover); }
+
+    footer { border-top: 1px solid var(--border); padding: 24px 32px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-light); max-width: 1060px; margin: 0 auto; }
+
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; padding: 110px 20px 50px; }
+      .header-center-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="brand-header" id="main-brand-header">
+    <a href="about.html" class="brand-wordmark">
+      <img src="logo.png" alt="MI Wardrobe Logo" class="brand-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';">
+      <span>MI Wardrobe</span>
+    </a>
+    <nav class="header-center-nav" aria-label="Primary Navigation">
+      <a href="index.html#models" class="header-nav-link">Products</a>
+      <a href="index.html#operation" class="header-nav-link">Services</a>
+      <a href="materials.html" class="header-nav-link">Materials</a>
+      <a href="index.html#visit" class="header-nav-link">News</a>
+      <a href="chat.html" class="header-nav-link active">Chat with us</a>
+    </nav>
+    <div class="header-actions">
+      <a href="index.html" class="btn">&#8592; Back to showcase</a>
+      <a href="index.html#contact" class="header-contact-pill">Contact</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="chat-info">
+      <span class="eyebrow">Direct Concierge &amp; Engineering Support</span>
+      <h1>Chat with the MI Wardrobe team.</h1>
+      <p>Ask our interactive assistant about dimensions, dual-carousel capacity, materials, barcode garment registration, or leave a direct message for the four co-founders in Warsaw.</p>
+
+      <div style="font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; color:var(--text-light); margin-bottom:10px;">Quick Questions</div>
+      <div class="topic-chips">
+        <button type="button" class="topic-chip" onclick="sendQuick('What are the dimensions of MI Wardrobe?')">Dimensions &amp; Footprint</button>
+        <button type="button" class="topic-chip" onclick="sendQuick('Difference between Mini and Pro?')">Mini vs. Pro Capacity</button>
+        <button type="button" class="topic-chip" onclick="sendQuick('What materials are used inside and outside?')">Materials &amp; Finishes</button>
+        <button type="button" class="topic-chip" onclick="sendQuick('How does the barcode hanger scanner work?')">Barcode Registration</button>
+        <button type="button" class="topic-chip" onclick="sendQuick('How can I book a live demo or contact sales?')">Book a Live Demo</button>
+      </div>
+
+      <div class="team-status-card">
+        <div class="status-row">
+          <span class="status-dot"></span>
+          <span>MI Wardrobe Assistant &amp; Warsaw Engineering Team</span>
+        </div>
+        <p style="font-size:0.84rem; color:var(--text-muted); margin:0;">Instant automated answers 24/7 &middot; Direct engineering team replies via email within 1 business day.</p>
+      </div>
+    </section>
+
+    <section class="chat-window" aria-label="Chat conversation">
+      <div class="chat-header">
+        <div class="chat-header-title">
+          <span class="status-dot"></span>
+          <span>MI Wardrobe Live Concierge</span>
+        </div>
+        <span class="chat-header-sub">Prototype 2026 &middot; Online</span>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg msg-bot">
+          Welcome to MI Wardrobe! I can help you with technical specifications, materials, Mini &amp; Pro capacities, or connect you directly with our engineering team in Warsaw. What would you like to know?
+          <div class="msg-meta">MI Wardrobe Assistant &middot; Just now</div>
+        </div>
+      </div>
+
+      <form class="chat-input-bar" onsubmit="handleChatSubmit(event)">
+        <input type="text" id="chat-input" placeholder="Type your question or message..." autocomplete="off" required />
+        <button type="submit" class="chat-send-btn">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <span>&copy; 2026 MI Wardrobe &middot; Concierge &amp; Support</span>
+    <span>University project prototype</span>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', function() {
+      const hdr = document.getElementById('main-brand-header');
+      if (!hdr) return;
+      if (window.pageYOffset > 40) {
+        hdr.classList.add('header-hidden');
+      } else {
+        hdr.classList.remove('header-hidden');
+      }
+    }, { passive: true });
+
+    const chatBox = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+
+    function appendMessage(text, isUser) {
+      const div = document.createElement('div');
+      div.className = 'msg ' + (isUser ? 'msg-user' : 'msg-bot');
+      div.innerHTML = text + '<div class="msg-meta">' + (isUser ? 'You' : 'MI Wardrobe Assistant') + ' &middot; Just now</div>';
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function getReply(q) {
+      const s = q.toLowerCase();
+      if (s.includes('dimension') || s.includes('size') || s.includes('height') || s.includes('width') || s.includes('footprint')) {
+        return 'The standard MI Wardrobe prototype measures <strong>180 cm wide &times; 220 cm high &times; 95 cm deep</strong>, with a 32 cm central collection opening and a 30 cm built-in capacitive touchscreen column.';
+      }
+      if (s.includes('mini') || s.includes('pro') || s.includes('capacity') || s.includes('how many')) {
+        return '<strong>MI Wardrobe Mini (MI-01)</strong> holds ~40 upper-rail positions (dresses, suits, coats) and ~20 lower-rail positions (shirts, trousers). <strong>MI Wardrobe Pro (MI-02)</strong> expands capacity to 50&ndash;60 upper positions and ~30 lower positions.';
+      }
+      if (s.includes('material') || s.includes('walnut') || s.includes('white') || s.includes('finish') || s.includes('glass')) {
+        return 'The exterior uses seamless furniture-grade <strong>matte white</strong> panels and a <strong>deep matte black</strong> upper fascia, while the interior cavity is finished in <strong>natural dark walnut veneer</strong> illuminated by 3500K warm-neutral LEDs. You can explore full details on our <a href="materials.html" style="text-decoration:underline; color:var(--accent);">Materials page</a>.';
+      }
+      if (s.includes('barcode') || s.includes('scan') || s.includes('hanger') || s.includes('work')) {
+        return 'Each garment is placed on a smart hanger lock and registered via our integrated optical barcode scanner, linking its slot on the upper or lower motorized carousel to the built-in touchscreen interface.';
+      }
+      if (s.includes('demo') || s.includes('visit') || s.includes('price') || s.includes('cost') || s.includes('contact') || s.includes('sales')) {
+        return 'We would love to arrange a prototype demonstration or answer commercial enquiries! You can submit your details in the <a href="index.html#contact" style="text-decoration:underline; color:var(--accent);">Contact &amp; Enquiries section</a> or email our Warsaw team directly at <strong>enquiry@miwardrobe-prototype.example</strong>.';
+      }
+      return 'Thank you for your message! Our engineering team in Warsaw has logged your question. For specific technical or partnership enquiries, you can also reach us directly via the <a href="index.html#contact" style="text-decoration:underline; color:var(--accent);">Enquiries form</a>.';
+    }
+
+    function sendQuick(text) {
+      appendMessage(text, true);
+      setTimeout(function() {
+        appendMessage(getReply(text), false);
+      }, 320);
+    }
+
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const val = (chatInput.value || '').trim();
+      if (!val) return;
+      chatInput.value = '';
+      appendMessage(val, true);
+      setTimeout(function() {
+        appendMessage(getReply(val), false);
+      }, 360);
+    }
+  </script>
+</body>
+</html>
