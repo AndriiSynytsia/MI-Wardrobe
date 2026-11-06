@@ -730,7 +730,7 @@
 
     /* SCENE 3: THE EXPLODED VIEW */
     .scene-explosion {
-      height: 380vh;
+      height: 520vh;
       position: relative;
     }
 
@@ -4271,12 +4271,14 @@
             gltfModel.position.set(0, -1.10, 0);
 
             gltfModel.traverse(function(child) {
-              if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
+              if (child.name) {
                 gltfParts[child.name] = child;
                 child.userData.originPos = child.position.clone();
                 child.userData.originRot = child.rotation.clone();
+              }
+              if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
 
                 if (child.name === 'screen_display') {
                   gltfScreenDisplay = child;
@@ -4577,13 +4579,17 @@
     function updateExplosionProgress(p) {
       explosionState.progress = p;
 
+      // C2-continuous quintic smoothstep for ultra-smooth acceleration and deceleration
       const easeVal = (val, start, end) => {
-        const clamped = Math.max(0, Math.min(1, (val - start) / (end - start)));
-        return clamped * clamped * (3 - 2 * clamped);
+        const t = Math.max(0, Math.min(1, (val - start) / (end - start)));
+        return t * t * t * (t * (t * 6 - 15) + 10);
       };
 
+      // Envelope that opens the cabinet before clothes shoot out one-by-one, and closes after they return one-by-one
+      const env = easeVal(p, 0.00, 0.14) * (1.0 - easeVal(p, 0.88, 0.99));
+
       // 1. Front Doors / Facade Panels (slide outward along X axis)
-      const pDoors = easeVal(p, 0.00, 0.28);
+      const pDoors = env;
       if (leftDoorGroup && rightDoorGroup) {
         leftDoorGroup.position.x = -0.52 - pDoors * 0.70;
         leftDoorGroup.position.z = 0.46 + pDoors * 0.15;
@@ -4598,180 +4604,187 @@
       if (gltfModel && Object.keys(gltfParts).length > 0) {
         const getOrig = (name) => gltfParts[name] ? gltfParts[name].userData.originPos : new THREE.Vector3();
 
-        // (1) Front Panels
+        // (1) Front Panels (open wide so all 60 clothes can shoot out the front unobstructed)
         if (gltfParts['front_left']) {
-          gltfParts['front_left'].position.x = getOrig('front_left').x - pDoors * 0.75;
-          gltfParts['front_left'].position.z = getOrig('front_left').z + pDoors * 0.18;
+          gltfParts['front_left'].position.x = getOrig('front_left').x - pDoors * 0.88;
+          gltfParts['front_left'].position.z = getOrig('front_left').z + pDoors * 0.20;
         }
         if (gltfParts['front_right']) {
-          gltfParts['front_right'].position.x = getOrig('front_right').x + pDoors * 0.75;
-          gltfParts['front_right'].position.z = getOrig('front_right').z + pDoors * 0.18;
+          gltfParts['front_right'].position.x = getOrig('front_right').x + pDoors * 0.88;
+          gltfParts['front_right'].position.z = getOrig('front_right').z + pDoors * 0.20;
         }
         ['front_gap_top', 'front_gap_mid', 'front_gap_bottom'].forEach(k => {
           if (gltfParts[k]) gltfParts[k].position.z = getOrig(k).z + pDoors * 0.15;
         });
 
-        // (2) Screen Assembly (forward towards camera)
-        const pScr = easeVal(p, 0.08, 0.38);
+        // (2) Screen Assembly (slides left with left door so front path is clear)
+        const pScr = env;
         ['screen_body', 'screen_display'].forEach(k => {
           if (gltfParts[k]) {
-            gltfParts[k].position.z = getOrig(k).z + pScr * 0.95;
-            gltfParts[k].position.x = getOrig(k).x - pScr * 0.28;
+            gltfParts[k].position.x = getOrig(k).x - pScr * 0.88;
+            gltfParts[k].position.z = getOrig(k).z + pScr * 0.28;
           }
         });
 
-        // (3) Outer Shell & Roof Architrave
-        const pSh = easeVal(p, 0.15, 0.45);
-        if (gltfParts['side_left']) gltfParts['side_left'].position.x = getOrig('side_left').x - pSh * 0.55;
-        if (gltfParts['side_right']) gltfParts['side_right'].position.x = getOrig('side_right').x + pSh * 0.55;
-        if (gltfParts['roof']) gltfParts['roof'].position.y = getOrig('roof').y + pSh * 0.32;
-        if (gltfParts['power_bar']) gltfParts['power_bar'].position.y = getOrig('power_bar').y + pSh * 0.32;
-        if (gltfParts['back']) gltfParts['back'].position.z = getOrig('back').z - pSh * 0.35;
-
-        // (4) Upper Rail Conveyor & Upper Clothes / Trousers / Hangers (slides forward out the front)
-        const pUp = easeVal(p, 0.20, 0.58);
-        if (gltfParts['rail_upper']) {
-          gltfParts['rail_upper'].position.y = getOrig('rail_upper').y;
-          gltfParts['rail_upper'].position.z = getOrig('rail_upper').z + pUp * 0.78;
-        }
-        
-        const moveUpperForward = (name) => {
-          if (!gltfParts[name]) return;
-          const orig = getOrig(name);
-          gltfParts[name].position.y = orig.y;
-          gltfParts[name].position.z = orig.z + pUp * 0.78 + (orig.z * pUp * 0.25);
-          gltfParts[name].position.x = orig.x + (orig.x * pUp * 0.28);
-        };
-
-        for (let u = 0; u < 40; u++) {
-          moveUpperForward('hook_u' + u);
-          moveUpperForward('garment_u' + u);
-          moveUpperForward('tshirt_u' + u);
-        }
-        Object.keys(gltfParts).forEach(name => {
-          if (name.includes('Spodnie') || name.startsWith('Trousers') || (name.startsWith('Hanger_') && !name.includes('_l'))) {
-            moveUpperForward(name);
-          }
-        });
-
-        // Upper carousel supports slide forward with the upper rail
-        Object.keys(gltfParts).forEach(name => {
-          if (/_gorny|^pret_sufit|^kolnierz_sufit/.test(name)) {
-            gltfParts[name].position.y = getOrig(name).y;
-            gltfParts[name].position.z = getOrig(name).z + pUp * 0.78;
-          }
-        });
-
-        // (5) Lower Rail Conveyor & Lower Clothes / T-shirts (slides forward out the front)
-        const pLow = easeVal(p, 0.28, 0.65);
-        if (gltfParts['rail_lower']) {
-          gltfParts['rail_lower'].position.y = getOrig('rail_lower').y;
-          gltfParts['rail_lower'].position.z = getOrig('rail_lower').z + pLow * 0.72;
-        }
-
-        const moveLowerForward = (name) => {
-          if (!gltfParts[name]) return;
-          const orig = getOrig(name);
-          gltfParts[name].position.y = orig.y;
-          gltfParts[name].position.z = orig.z + pLow * 0.72 + (orig.z * pLow * 0.25);
-          gltfParts[name].position.x = orig.x + (orig.x * pLow * 0.28);
-        };
-
-        for (let l = 0; l < 20; l++) {
-          moveLowerForward('hook_l' + l);
-          moveLowerForward('garment_l' + l);
-          moveLowerForward('tshirt_l' + l);
-        }
-
-        // Lower carousel supports slide forward with the lower rail
-        Object.keys(gltfParts).forEach(name => {
-          if (/_dolny/.test(name)) {
-            gltfParts[name].position.y = getOrig(name).y;
-            gltfParts[name].position.z = getOrig(name).z + pLow * 0.72;
-          }
-        });
-
-        // (6) Central Collection Doors, Trims & Handles (moves forward)
-        const pGl = easeVal(p, 0.44, 0.76);
+        // (3) Central Collection Glass Doors, Trims & Handles (slide open to the right to clear the front opening)
+        const pGl = env;
         const glassParts = ['glass_upper', 'glass_lower', 'handle_upper', 'handle_lower', 'trim_upper_t', 'trim_upper_b', 'trim_upper_l', 'trim_upper_r', 'trim_lower_t', 'trim_lower_b', 'trim_lower_l', 'trim_lower_r'];
         glassParts.forEach(k => {
-          if (gltfParts[k]) gltfParts[k].position.z = getOrig(k).z + pGl * 1.05;
+          if (gltfParts[k]) {
+            gltfParts[k].position.x = getOrig(k).x + pGl * 0.88;
+            gltfParts[k].position.z = getOrig(k).z + pGl * 0.25;
+          }
         });
 
-        // (7) Base Plinth, Floor & Feet (settles at bottom)
-        const pPl = easeVal(p, 0.60, 0.94);
-        if (stageFloor) stageFloor.position.y = -0.002 - pPl * 0.32;
+        // (4) Outer Shell & Roof Architrave
+        const pSh = env;
+        if (gltfParts['side_left']) gltfParts['side_left'].position.x = getOrig('side_left').x - pSh * 0.48;
+        if (gltfParts['side_right']) gltfParts['side_right'].position.x = getOrig('side_right').x + pSh * 0.48;
+        if (gltfParts['roof']) gltfParts['roof'].position.y = getOrig('roof').y + pSh * 0.28;
+        if (gltfParts['power_bar']) gltfParts['power_bar'].position.y = getOrig('power_bar').y + pSh * 0.28;
+        if (gltfParts['back']) gltfParts['back'].position.z = getOrig('back').z - pSh * 0.28;
+
+        // (5) Carousel Mechanism (Tracks & Supports stay separate from the clothes, shifting only slightly forward)
+        const pMech = env;
+        if (gltfParts['rail_upper']) {
+          gltfParts['rail_upper'].position.y = getOrig('rail_upper').y;
+          gltfParts['rail_upper'].position.z = getOrig('rail_upper').z + pMech * 0.18;
+        }
+        if (gltfParts['rail_lower']) {
+          gltfParts['rail_lower'].position.y = getOrig('rail_lower').y;
+          gltfParts['rail_lower'].position.z = getOrig('rail_lower').z + pMech * 0.18;
+        }
+        Object.keys(gltfParts).forEach(name => {
+          if (/_gorny|_dolny|^pret_sufit|^kolnierz_sufit/.test(name)) {
+            gltfParts[name].position.y = getOrig(name).y;
+            gltfParts[name].position.z = getOrig(name).z + pMech * 0.18;
+          }
+        });
+
+        // (6) Upper 40 Garment Units (34 T-shirts + 6 Trouser Sets): Shoot out the front ONE BY ONE & go back in ONE BY ONE
+        const trouserSlots = [2, 6, 10, 22, 26, 30];
+        for (let u = 0; u < 40; u++) {
+          const normU = u / 39;
+          const outU = easeVal(p, 0.12 + normU * 0.34, 0.19 + normU * 0.34);
+          const inU  = easeVal(p, 0.56 + normU * 0.28, 0.63 + normU * 0.28);
+          const gProgU = outU * (1.0 - inU);
+
+          if (trouserSlots.indexOf(u) !== -1) {
+            const prefix = 'Spodnie_u' + u + '_';
+            const anchorPos = getOrig(prefix + 'Trousers_Waistband');
+            const forwardDist = 1.05 + (0.30 - anchorPos.z) * 0.45;
+            const dx = gProgU * (anchorPos.x * 0.32);
+            const dz = gProgU * forwardDist;
+
+            Object.keys(gltfParts).forEach(partName => {
+              if (partName.indexOf(prefix) === 0) {
+                const orig = getOrig(partName);
+                gltfParts[partName].position.x = orig.x + dx;
+                gltfParts[partName].position.y = orig.y;
+                gltfParts[partName].position.z = orig.z + dz;
+              }
+            });
+          } else {
+            const tName = 'tshirt_u' + u;
+            const hName = 'hook_u' + u;
+            const gName = 'garment_u' + u;
+            const anchorPos = getOrig(tName);
+            const forwardDist = 1.05 + (0.30 - anchorPos.z) * 0.45;
+            const dx = gProgU * (anchorPos.x * 0.32);
+            const dz = gProgU * forwardDist;
+
+            [tName, hName, gName].forEach(partName => {
+              if (gltfParts[partName]) {
+                const orig = getOrig(partName);
+                gltfParts[partName].position.x = orig.x + dx;
+                gltfParts[partName].position.y = orig.y;
+                gltfParts[partName].position.z = orig.z + dz;
+              }
+            });
+          }
+        }
+
+        // (7) Lower 20 Garment Units (all 20 T-shirts including l12.001..003 + hooks): Shoot out ONE BY ONE & go back in ONE BY ONE
+        for (let l = 0; l < 20; l++) {
+          const normL = l / 19;
+          const outL = easeVal(p, 0.14 + normL * 0.33, 0.21 + normL * 0.33);
+          const inL  = easeVal(p, 0.57 + normL * 0.27, 0.64 + normL * 0.27);
+          const gProgL = outL * (1.0 - inL);
+
+          let tName = 'tshirt_l' + l;
+          if (l === 13) tName = gltfParts['tshirt_l12001'] ? 'tshirt_l12001' : (gltfParts['tshirt_l12.001'] ? 'tshirt_l12.001' : 'tshirt_l13');
+          if (l === 14) tName = gltfParts['tshirt_l12002'] ? 'tshirt_l12002' : (gltfParts['tshirt_l12.002'] ? 'tshirt_l12.002' : 'tshirt_l14');
+          if (l === 15) tName = gltfParts['tshirt_l12003'] ? 'tshirt_l12003' : (gltfParts['tshirt_l12.003'] ? 'tshirt_l12.003' : 'tshirt_l15');
+
+          const hName = 'hook_l' + l;
+          const gName = 'garment_l' + l;
+          const anchorPos = getOrig(tName);
+          const forwardDist = 0.98 + (0.30 - anchorPos.z) * 0.45;
+          const dx = gProgL * (anchorPos.x * 0.32);
+          const dz = gProgL * forwardDist;
+
+          [tName, hName, gName].forEach(partName => {
+            if (gltfParts[partName]) {
+              const orig = getOrig(partName);
+              gltfParts[partName].position.x = orig.x + dx;
+              gltfParts[partName].position.y = orig.y;
+              gltfParts[partName].position.z = orig.z + dz;
+            }
+          });
+        }
+
+        // (8) Base Plinth, Floor & Feet (settles at bottom)
+        const pPl = env;
+        if (stageFloor) stageFloor.position.y = -0.002 - pPl * 0.22;
         ['plinth', 'floor', 'foot0', 'foot1', 'foot2', 'foot3'].forEach(k => {
-          if (gltfParts[k]) gltfParts[k].position.y = getOrig(k).y - pPl * 0.32;
+          if (gltfParts[k]) gltfParts[k].position.y = getOrig(k).y - pPl * 0.22;
         });
       }
 
-      // 2. Touchscreen (slides forward toward camera)
-      const pMirror = easeVal(p, 0.08, 0.38);
+      // Procedural fallback groups
       if (screenPanelGroup) {
-        screenPanelGroup.position.z = 0.48 + pMirror * 0.65;
-        screenPanelGroup.position.x = -0.48 - pMirror * 0.15;
+        screenPanelGroup.position.z = 0.48 + env * 0.65;
+        screenPanelGroup.position.x = -0.48 - env * 0.15;
       }
-
-      // 3. Outer Body Shell (side panels outward, top architrave upward)
-      const pShell = easeVal(p, 0.15, 0.45);
       if (shellLeft && shellRight && shellTop) {
-        shellLeft.position.x = -0.87 - pShell * 0.50;
-        shellRight.position.x = 0.87 + pShell * 0.50;
-        shellTop.position.y = 1.03 + pShell * 0.45;
+        shellLeft.position.x = -0.87 - env * 0.50;
+        shellRight.position.x = 0.87 + env * 0.50;
+        shellTop.position.y = 1.03 + env * 0.45;
       }
-
-      // 4. Upper Rail Conveyor (slides forward out the front)
-      const pUpper = easeVal(p, 0.22, 0.54);
       if (upperRailGroup) {
         upperRailGroup.position.y = 0.72;
-        upperRailGroup.position.z = pUpper * 0.78;
+        upperRailGroup.position.z = env * 0.18;
       }
-
-      // 5. Lower Rail Conveyor (slides forward out the front)
-      const pLower = easeVal(p, 0.30, 0.62);
       if (lowerRailGroup) {
         lowerRailGroup.position.y = -0.28;
-        lowerRailGroup.position.z = pLower * 0.72;
+        lowerRailGroup.position.z = env * 0.18;
       }
-
-      // 6. Hanger Lock & Scanner (forward)
-      const pLock = easeVal(p, 0.38, 0.70);
       if (hangerLockGroup) {
-        hangerLockGroup.position.z = 0.22 + pLock * 0.55;
-        hangerLockGroup.position.x = -0.20 - pLock * 0.20;
+        hangerLockGroup.position.z = 0.22 + env * 0.55;
+        hangerLockGroup.position.x = -0.20 - env * 0.20;
       }
-
-      // 7. Central Collection Opening (forward)
-      const pPortal = easeVal(p, 0.46, 0.78);
       if (collectionPortalGroup) {
-        collectionPortalGroup.position.z = 0.44 + pPortal * 0.60;
+        collectionPortalGroup.position.z = 0.44 + env * 0.60;
       }
-
-      // 8. Drive Motor & Controller (backward)
-      const pDrive = easeVal(p, 0.54, 0.86);
       if (driveUnitGroup) {
-        driveUnitGroup.position.z = -0.42 - pDrive * 0.55;
+        driveUnitGroup.position.z = -0.42 - env * 0.55;
       }
-
-      // 9. Base Plinth (downward)
-      const pBase = easeVal(p, 0.62, 0.94);
       if (basePlinthGroup) {
-        basePlinthGroup.position.y = -pBase * 0.30;
+        basePlinthGroup.position.y = -env * 0.22;
       }
 
-      // Camera Orbit (25-40 deg) & Pull Back
+      // Camera Orbit & Pull Back (smoothly frames the one-by-one shoot-out and return)
       if (camera) {
-        const camOrbitProgress = easeVal(p, 0.05, 0.95);
-        const radius = 3.65 + camOrbitProgress * 0.55;
-        const angle = camOrbitProgress * 0.45;
+        const camOrbitProgress = env;
+        const radius = 3.65 + camOrbitProgress * 0.75;
+        const angle = camOrbitProgress * 0.38;
         camera.position.x = Math.sin(angle) * radius;
         camera.position.z = Math.cos(angle) * radius;
-        camera.position.y = 0.1 + camOrbitProgress * 0.35;
-        camera.lookAt(0, 0.05, 0);
+        camera.position.y = 0.1 + camOrbitProgress * 0.28;
+        camera.lookAt(0, 0.05, 0.25 * camOrbitProgress);
       }
 
-      const pct = Math.round(p * 100);
+      const pct = Math.round(env * 100);
       if ($('explosion-percent-text')) {
         $('explosion-percent-text').textContent = 'Exploded View: ' + pct + '%';
       }
@@ -4779,7 +4792,7 @@
       // Reveal Artifact Card (Sketch / Mechanism Photo)
       const artCard = $('artifact-card-wrap');
       if (artCard) {
-        if (p > 0.70) {
+        if (p > 0.42 && p < 0.85) {
           artCard.classList.add('visible');
         } else {
           artCard.classList.remove('visible');
@@ -4991,12 +5004,12 @@
         }
       });
 
-      // SCENE 3: EXPLOSION
+      // SCENE 3: EXPLOSION (Smooth one-by-one shoot-out and one-by-one return)
       ScrollTrigger.create({
         trigger: '#scene-explosion',
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1.2,
+        scrub: 0.75,
         onUpdate: (self) => {
           updateExplosionProgress(self.progress);
         }
@@ -5005,16 +5018,12 @@
       // SCENE 4: ROOM PLACEMENT
       ScrollTrigger.create({
         trigger: '#placement',
-        start: 'top bottom',
+        start: 'top 95%',
         end: 'bottom top',
-        scrub: 1.5,
+        scrub: 1.0,
         onUpdate: (self) => {
           const prog = self.progress;
-          if (prog < 0.3) {
-            updateExplosionProgress(Math.max(0, 1 - prog * 3.33));
-          } else {
-            updateExplosionProgress(0);
-          }
+          updateExplosionProgress(1.0);
           camera.position.set(0, 0.25, THREE.MathUtils.lerp(3.65, 4.4, prog));
           camera.lookAt(0, 0, 0);
         }
