@@ -268,20 +268,32 @@
 
     /* Keep text legible while it floats over the dark stage */
     body.stage-dark .brand-wordmark,
-    body.stage-dark .explosion-hud h2,
     body.stage-dark .placement-header h2,
     body.stage-dark .mobile-part-tracker strong { color: #F2EEE7; }
     body.stage-dark .brand-tag { color: #B9B4AB; border-color: rgba(255, 255, 255, 0.18); }
-    body.stage-dark .explosion-hud p,
     body.stage-dark .placement-header p,
-    body.stage-dark .hero-bottom-bar,
-    body.stage-dark .explosion-progress-badge { color: #A8A49D; }
-    body.stage-dark .explosion-hud .eyebrow,
+    body.stage-dark .hero-bottom-bar { color: #A8A49D; }
     body.stage-dark .placement-header .eyebrow { color: #8FC2A3; }
     body.stage-dark .hero-bottom-bar { border-top-color: rgba(255, 255, 255, 0.12); }
     body.stage-dark .leader-line { stroke: rgba(242, 238, 231, 0.55); }
     body.stage-dark .leader-line-circle { fill: #E8D3AE; }
     .brand-wordmark, .brand-tag, .explosion-hud h2, .explosion-hud p, .placement-header h2, .placement-header p, .hero-bottom-bar { transition: color 0.5s ease, border-color 0.5s ease; }
+
+    /* Ensure header Log in & Create account buttons are always clearly visible */
+    #btn-header-login {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+    }
+    #btn-header-login:hover {
+      background: var(--bg-alt);
+      border-color: var(--text);
+    }
+    body.stage-dark #btn-header-signup {
+      border-color: rgba(255, 255, 255, 0.32);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
 
     /* TOP PROGRESS BAR */
     #scroll-progress-bar {
@@ -386,9 +398,13 @@
       padding: 100px 0 40px;
     }
 
-    .hero-grid {
+    .scene-hero .hero-grid {
+      width: calc(100% - 64px);
+      max-width: none;
+      margin-left: 32px;
+      margin-right: 32px;
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      grid-template-columns: minmax(0, 420px) 1fr;
       gap: 40px;
       align-items: center;
       margin-top: auto;
@@ -396,33 +412,38 @@
     }
 
     .hero-content {
-      max-width: 580px;
-      background: rgba(244, 240, 233, 0.78);
+      max-width: 420px;
+      background: rgba(244, 240, 233, 0.84);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      padding: 32px;
+      padding: 28px;
       border-radius: var(--radius-md);
       border: 1px solid rgba(221, 216, 206, 0.7);
     }
 
     .hero-content h1 {
-      margin-bottom: 20px;
+      font-size: clamp(2.1rem, 3.4vw, 3.1rem);
+      margin-bottom: 18px;
     }
 
     .hero-content .lead {
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
 
     .hero-meta {
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-top: 28px;
+      margin-top: 24px;
       font-size: 0.85rem;
       color: var(--text-muted);
     }
 
-    .hero-bottom-bar {
+    .scene-hero .hero-bottom-bar {
+      width: calc(100% - 64px);
+      max-width: none;
+      margin-left: 32px;
+      margin-right: 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -468,15 +489,15 @@
 
     .scene-zoom-card {
       pointer-events: auto;
-      max-width: 440px;
+      max-width: 410px;
       background: rgba(255, 255, 255, 0.90);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 32px;
+      padding: 28px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-      margin-left: max(24px, calc((100vw - 1200px) / 2));
+      margin-left: 32px;
     }
 
     /* TOUCHSCREEN VIDEO SHOWCASE FRAME */
@@ -1507,12 +1528,20 @@
     }
 
     @media (max-width: 992px) {
+      .scene-hero .hero-grid,
       .hero-grid,
       .operation-grid,
       .visit-grid,
       .contact-grid {
         grid-template-columns: 1fr;
         gap: 40px;
+      }
+
+      .scene-hero .hero-grid,
+      .scene-hero .hero-bottom-bar {
+        width: calc(100% - 40px);
+        margin-left: 20px;
+        margin-right: 20px;
       }
 
       .rooms-grid {
