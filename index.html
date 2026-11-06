@@ -267,10 +267,8 @@
     }
 
     /* Keep text legible while it floats over the dark stage */
-    body.stage-dark .brand-wordmark,
     body.stage-dark .placement-header h2,
     body.stage-dark .mobile-part-tracker strong { color: #F2EEE7; }
-    body.stage-dark .brand-tag { color: #B9B4AB; border-color: rgba(255, 255, 255, 0.18); }
     body.stage-dark .placement-header p,
     body.stage-dark .hero-bottom-bar { color: #A8A49D; }
     body.stage-dark .placement-header .eyebrow { color: #8FC2A3; }
@@ -281,18 +279,19 @@
 
     /* Ensure header Log in & Create account buttons are always clearly visible */
     #btn-header-login {
-      background: var(--surface);
+      background: rgba(255, 255, 255, 0.88);
       color: var(--text);
-      border-color: var(--border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+      border-color: rgba(30, 30, 30, 0.18);
+      border-radius: 999px;
+      padding: 8px 16px;
     }
     #btn-header-login:hover {
-      background: var(--bg-alt);
+      background: #FFFFFF;
       border-color: var(--text);
     }
-    body.stage-dark #btn-header-signup {
-      border-color: rgba(255, 255, 255, 0.32);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    #btn-header-signup {
+      border-radius: 999px;
+      padding: 8px 16px;
     }
 
     /* TOP PROGRESS BAR */
@@ -308,17 +307,25 @@
       transition: width 0.05s linear;
     }
 
-    /* BRAND WORDMARK HEADER */
+    /* BRAND WORDMARK HEADER (Translucent Hazy Glass Navbar) */
     .brand-header {
       position: fixed;
-      top: 24px;
-      left: 32px;
-      right: 32px;
+      top: 16px;
+      left: 24px;
+      right: 24px;
+      min-height: 62px;
+      padding: 10px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 50;
-      pointer-events: none;
+      pointer-events: auto;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
     }
 
     .brand-wordmark {
@@ -326,12 +333,100 @@
       font-size: 1.15rem;
       font-weight: 600;
       letter-spacing: -0.03em;
-      color: var(--text);
+      color: #18181B;
       pointer-events: auto;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
+    }
+
+    .header-center-nav {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .header-nav-link {
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: #18181B;
+      text-decoration: none;
+      padding: 6px 4px;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .header-nav-link:hover {
+      color: var(--accent);
+    }
+
+    .header-search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-search-input {
+      width: 0;
+      opacity: 0;
+      padding: 0;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.85);
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      color: #18181B;
+      outline: none;
+      transition: width 0.25s ease, opacity 0.2s ease, padding 0.25s ease, border-color 0.2s ease;
+    }
+
+    .header-search-wrap.open .header-search-input {
+      width: 150px;
+      opacity: 1;
+      padding: 6px 12px;
+      border-color: rgba(24, 24, 27, 0.2);
+    }
+
+    .header-search-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: #18181B;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .header-search-btn:hover {
+      background: rgba(24, 24, 27, 0.08);
+    }
+
+    .header-contact-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 22px;
+      border-radius: 999px;
+      background: #18181B;
+      color: #FFFFFF;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .header-contact-pill:hover {
+      background: #2E2E33;
+      transform: translateY(-1px);
     }
 
     .brand-logo-img {
@@ -1573,6 +1668,16 @@
         right: 20px;
         width: auto;
       }
+
+      .header-center-nav {
+        display: none;
+      }
+
+      .brand-header {
+        left: 14px;
+        right: 14px;
+        padding: 8px 14px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -1903,16 +2008,30 @@
   <!-- Top Progress Bar -->
   <div id="scroll-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 
-  <!-- Brand Wordmark Header -->
+  <!-- Brand Wordmark Header (Translucent Hazy Glass Navbar) -->
   <header class="brand-header">
     <a href="about.html" class="brand-wordmark" id="brand-wordmark-link" title="About MI Wardrobe">
       <img src="logo.png" alt="MI Wardrobe Logo" class="brand-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';" />
       <span id="cfg-brand-name">MI Wardrobe</span>
-      <span class="brand-tag">Prototype 2026</span>
     </a>
+
+    <nav class="header-center-nav" aria-label="Primary Navigation">
+      <a href="#models" class="header-nav-link">Products</a>
+      <a href="#operation" class="header-nav-link">Services</a>
+      <a href="#visit" class="header-nav-link">News</a>
+    </nav>
+
     <div class="header-right-group">
-      <div class="badge-label" id="header-showcase-badge">Showcase Concept</div>
-      <div id="header-auth-container">
+      <div class="header-search-wrap" id="header-search-wrap">
+        <input type="text" id="header-search-input" class="header-search-input" placeholder="Search sections..." aria-label="Search sections" onkeydown="handleHeaderSearchKey(event)" />
+        <button type="button" class="header-search-btn" aria-label="Search" onclick="toggleHeaderSearch()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+      <div id="header-auth-container" style="display: flex; align-items: center; gap: 8px;">
         <button type="button" class="btn btn-secondary btn-sm" id="btn-header-login" onclick="openAuthModal('signin')">Log in</button>
         <button type="button" class="btn btn-primary btn-sm" id="btn-header-signup" onclick="openAuthModal('signup')">Create account</button>
       </div>
@@ -1923,6 +2042,7 @@
           <span class="paired-tag" id="header-paired-tag">Mini Paired</span>
         </button>
       </div>
+      <a href="#contact" class="header-contact-pill">Contact</a>
     </div>
   </header>
 
@@ -3281,6 +3401,39 @@
       window.USER_SESSION.isPaired = false;
       updateHeaderUserState();
       window.closeOnboardingModal();
+    };
+
+    window.toggleHeaderSearch = function() {
+      const wrap = $('header-search-wrap');
+      const input = $('header-search-input');
+      if (!wrap || !input) return;
+      wrap.classList.toggle('open');
+      if (wrap.classList.contains('open')) {
+        input.focus();
+      }
+    };
+
+    window.handleHeaderSearchKey = function(e) {
+      if (e.key !== 'Enter') return;
+      const q = (e.target.value || '').trim().toLowerCase();
+      if (!q) return;
+      let targetId = '#models';
+      if (q.includes('about') || q.includes('team')) {
+        window.location.href = 'about.html';
+        return;
+      } else if (q.includes('service') || q.includes('operat') || q.includes('video') || q.includes('how')) {
+        targetId = '#operation';
+      } else if (q.includes('news') || q.includes('visit') || q.includes('expo') || q.includes('show')) {
+        targetId = '#visit';
+      } else if (q.includes('contact') || q.includes('sales') || q.includes('enquir')) {
+        targetId = '#contact';
+      } else if (q.includes('room') || q.includes('space') || q.includes('apart') || q.includes('boutique')) {
+        targetId = '#placement';
+      } else if (q.includes('explod') || q.includes('mech') || q.includes('rail')) {
+        targetId = '#scene-explosion';
+      }
+      const el = document.querySelector(targetId);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     };
   })();
   </script>
