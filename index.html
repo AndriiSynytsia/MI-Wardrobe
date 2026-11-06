@@ -4615,8 +4615,8 @@
         const pScr = easeVal(p, 0.08, 0.38);
         ['screen_body', 'screen_display'].forEach(k => {
           if (gltfParts[k]) {
-            gltfParts[k].position.z = getOrig(k).z + pScr * 0.72;
-            gltfParts[k].position.x = getOrig(k).x - pScr * 0.18;
+            gltfParts[k].position.z = getOrig(k).z + pScr * 0.95;
+            gltfParts[k].position.x = getOrig(k).x - pScr * 0.28;
           }
         });
 
@@ -4624,66 +4624,78 @@
         const pSh = easeVal(p, 0.15, 0.45);
         if (gltfParts['side_left']) gltfParts['side_left'].position.x = getOrig('side_left').x - pSh * 0.55;
         if (gltfParts['side_right']) gltfParts['side_right'].position.x = getOrig('side_right').x + pSh * 0.55;
-        if (gltfParts['roof']) gltfParts['roof'].position.y = getOrig('roof').y + pSh * 0.48;
-        if (gltfParts['power_bar']) gltfParts['power_bar'].position.y = getOrig('power_bar').y + pSh * 0.48;
+        if (gltfParts['roof']) gltfParts['roof'].position.y = getOrig('roof').y + pSh * 0.32;
+        if (gltfParts['power_bar']) gltfParts['power_bar'].position.y = getOrig('power_bar').y + pSh * 0.32;
         if (gltfParts['back']) gltfParts['back'].position.z = getOrig('back').z - pSh * 0.35;
 
-        // (4) Upper Rail Conveyor & Upper Clothes / Trousers / Hangers (lifts upward & disperses radially)
+        // (4) Upper Rail Conveyor & Upper Clothes / Trousers / Hangers (slides forward out the front)
         const pUp = easeVal(p, 0.20, 0.58);
-        if (gltfParts['rail_upper']) gltfParts['rail_upper'].position.y = getOrig('rail_upper').y + pUp * 0.50;
+        if (gltfParts['rail_upper']) {
+          gltfParts['rail_upper'].position.y = getOrig('rail_upper').y;
+          gltfParts['rail_upper'].position.z = getOrig('rail_upper').z + pUp * 0.78;
+        }
         
-        const moveUpperDisperse = (name) => {
+        const moveUpperForward = (name) => {
           if (!gltfParts[name]) return;
           const orig = getOrig(name);
-          gltfParts[name].position.y = orig.y + pUp * 0.50;
-          gltfParts[name].position.x = orig.x + (orig.x * pUp * 0.40);
-          gltfParts[name].position.z = orig.z + (orig.z * pUp * 0.45);
+          gltfParts[name].position.y = orig.y;
+          gltfParts[name].position.z = orig.z + pUp * 0.78 + (orig.z * pUp * 0.25);
+          gltfParts[name].position.x = orig.x + (orig.x * pUp * 0.28);
         };
 
         for (let u = 0; u < 40; u++) {
-          moveUpperDisperse('hook_u' + u);
-          moveUpperDisperse('garment_u' + u);
-          moveUpperDisperse('tshirt_u' + u);
+          moveUpperForward('hook_u' + u);
+          moveUpperForward('garment_u' + u);
+          moveUpperForward('tshirt_u' + u);
         }
         Object.keys(gltfParts).forEach(name => {
           if (name.includes('Spodnie') || name.startsWith('Trousers') || (name.startsWith('Hanger_') && !name.includes('_l'))) {
-            moveUpperDisperse(name);
+            moveUpperForward(name);
           }
         });
 
-        // Upper carousel supports (beams, saddles, ceiling rods & collars) lift with the upper rail
+        // Upper carousel supports slide forward with the upper rail
         Object.keys(gltfParts).forEach(name => {
-          if (/_gorny|^pret_sufit|^kolnierz_sufit/.test(name)) gltfParts[name].position.y = getOrig(name).y + pUp * 0.50;
+          if (/_gorny|^pret_sufit|^kolnierz_sufit/.test(name)) {
+            gltfParts[name].position.y = getOrig(name).y;
+            gltfParts[name].position.z = getOrig(name).z + pUp * 0.78;
+          }
         });
 
-        // (5) Lower Rail Conveyor & Lower Clothes / T-shirts (descends downward & disperses radially)
+        // (5) Lower Rail Conveyor & Lower Clothes / T-shirts (slides forward out the front)
         const pLow = easeVal(p, 0.28, 0.65);
-        if (gltfParts['rail_lower']) gltfParts['rail_lower'].position.y = getOrig('rail_lower').y - pLow * 0.36;
+        if (gltfParts['rail_lower']) {
+          gltfParts['rail_lower'].position.y = getOrig('rail_lower').y;
+          gltfParts['rail_lower'].position.z = getOrig('rail_lower').z + pLow * 0.72;
+        }
 
-        const moveLowerDisperse = (name) => {
+        const moveLowerForward = (name) => {
           if (!gltfParts[name]) return;
           const orig = getOrig(name);
-          gltfParts[name].position.y = orig.y - pLow * 0.36;
-          gltfParts[name].position.x = orig.x + (orig.x * pLow * 0.40);
-          gltfParts[name].position.z = orig.z + (orig.z * pLow * 0.45);
+          gltfParts[name].position.y = orig.y;
+          gltfParts[name].position.z = orig.z + pLow * 0.72 + (orig.z * pLow * 0.25);
+          gltfParts[name].position.x = orig.x + (orig.x * pLow * 0.28);
         };
 
         for (let l = 0; l < 20; l++) {
-          moveLowerDisperse('hook_l' + l);
-          moveLowerDisperse('garment_l' + l);
-          moveLowerDisperse('tshirt_l' + l);
+          moveLowerForward('hook_l' + l);
+          moveLowerForward('garment_l' + l);
+          moveLowerForward('tshirt_l' + l);
         }
 
-        // Lower carousel supports drop with the lower rail
+        // Lower carousel supports slide forward with the lower rail
         Object.keys(gltfParts).forEach(name => {
-          if (/_dolny/.test(name)) gltfParts[name].position.y = getOrig(name).y - pLow * 0.36;
+          if (/_dolny/.test(name)) {
+            gltfParts[name].position.y = getOrig(name).y;
+            gltfParts[name].position.z = getOrig(name).z + pLow * 0.72;
+          }
         });
 
         // (6) Central Collection Doors, Trims & Handles (moves forward)
         const pGl = easeVal(p, 0.44, 0.76);
         const glassParts = ['glass_upper', 'glass_lower', 'handle_upper', 'handle_lower', 'trim_upper_t', 'trim_upper_b', 'trim_upper_l', 'trim_upper_r', 'trim_lower_t', 'trim_lower_b', 'trim_lower_l', 'trim_lower_r'];
         glassParts.forEach(k => {
-          if (gltfParts[k]) gltfParts[k].position.z = getOrig(k).z + pGl * 0.62;
+          if (gltfParts[k]) gltfParts[k].position.z = getOrig(k).z + pGl * 1.05;
         });
 
         // (7) Base Plinth, Floor & Feet (settles at bottom)
@@ -4709,16 +4721,18 @@
         shellTop.position.y = 1.03 + pShell * 0.45;
       }
 
-      // 4. Upper Rail Conveyor (rises upward)
+      // 4. Upper Rail Conveyor (slides forward out the front)
       const pUpper = easeVal(p, 0.22, 0.54);
       if (upperRailGroup) {
-        upperRailGroup.position.y = 0.72 + pUpper * 0.42;
+        upperRailGroup.position.y = 0.72;
+        upperRailGroup.position.z = pUpper * 0.78;
       }
 
-      // 5. Lower Rail Conveyor (descends downward)
+      // 5. Lower Rail Conveyor (slides forward out the front)
       const pLower = easeVal(p, 0.30, 0.62);
       if (lowerRailGroup) {
-        lowerRailGroup.position.y = -0.28 - pLower * 0.28;
+        lowerRailGroup.position.y = -0.28;
+        lowerRailGroup.position.z = pLower * 0.72;
       }
 
       // 6. Hanger Lock & Scanner (forward)
