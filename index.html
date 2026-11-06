@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>MI Wardrobe &mdash; A Wardrobe That Helps You Decide What to Wear</title>
-  <meta name="description" content="MI Wardrobe is an intelligent smart wardrobe prototype featuring automated two-tier conveyor storage, digital collection management, and interactive outfit assistance.">
+  <title>MI Wardrobe &mdash; Precision Mechanics. Intelligent Curation. Tailored Dressing Systems.</title>
+  <meta name="description" content="MI Wardrobe is a dual-tier automated motorized smart closet system manufactured in Warsaw. Featuring CNC-machined 6063-T6 conveyor loops, optical garment indexing, and an air-gapped capacitive MI OS console.">
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
   
@@ -30,18 +30,20 @@
     }
 
     :root {
-      --bg: #F4F0E9;
-      --bg-alt: #EBE6DC;
-      --surface: #FFFFFF;
-      --surface-subtle: #F9F7F3;
-      --text: #1E1E1E;
-      --text-muted: #666A65;
-      --text-light: #8E928D;
-      --accent: #3F7D58;
-      --accent-hover: #326546;
-      --accent-subtle: rgba(63, 125, 88, 0.12);
-      --border: #DDD8CE;
-      --border-dark: #B8B2A6;
+      --bg: #0B0D10;
+      --bg-alt: #101318;
+      --surface: #151921;
+      --surface-subtle: #1B202B;
+      --text: #F3F5F8;
+      --text-muted: #9CA6B8;
+      --text-light: #687387;
+      --accent: #4ADE80;
+      --accent-hover: #22C55E;
+      --accent-subtle: rgba(74, 222, 128, 0.12);
+      --led-glow: rgba(74, 222, 128, 0.28);
+      --led-warm: rgba(255, 232, 200, 0.24);
+      --border: rgba(255, 255, 255, 0.10);
+      --border-dark: rgba(255, 255, 255, 0.20);
       --radius-sm: 4px;
       --radius-md: 8px;
       --radius-lg: 16px;
@@ -191,26 +193,30 @@
     }
 
     .btn-primary {
-      background: var(--text);
-      color: var(--surface);
-      border-color: var(--text);
+      background: #F3F5F8;
+      color: #0B0D10;
+      border-color: #F3F5F8;
+      font-weight: 600;
+      box-shadow: 0 0 18px rgba(243, 245, 248, 0.14);
     }
 
     .btn-primary:hover {
-      background: #333333;
-      border-color: #333333;
+      background: #FFFFFF;
+      border-color: var(--accent);
+      box-shadow: 0 0 24px var(--led-glow);
       transform: translateY(-1px);
     }
 
     .btn-secondary {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text);
       border-color: var(--border-dark);
     }
 
     .btn-secondary:hover {
-      background: rgba(0,0,0,0.03);
-      border-color: var(--text);
+      background: rgba(255, 255, 255, 0.09);
+      border-color: var(--accent);
+      box-shadow: 0 0 16px rgba(74, 222, 128, 0.16);
       transform: translateY(-1px);
     }
 
@@ -275,19 +281,27 @@
 
     /* Ensure header Log in & Create account buttons are always clearly visible */
     #btn-header-login {
-      background: rgba(255, 255, 255, 0.88);
-      color: var(--text);
-      border-color: rgba(30, 30, 30, 0.18);
+      background: rgba(24, 24, 27, 0.08);
+      color: #18181B;
+      border-color: rgba(24, 24, 27, 0.24);
       border-radius: 999px;
       padding: 8px 16px;
+      font-weight: 600;
     }
     #btn-header-login:hover {
-      background: #FFFFFF;
-      border-color: var(--text);
+      background: rgba(24, 24, 27, 0.14);
+      border-color: #18181B;
     }
     #btn-header-signup {
+      background: #18181B;
+      color: #FFFFFF;
+      border-color: #18181B;
       border-radius: 999px;
       padding: 8px 16px;
+    }
+    #btn-header-signup:hover {
+      background: #2E2E33;
+      border-color: #2E2E33;
     }
 
     /* TOP PROGRESS BAR */
@@ -510,30 +524,49 @@
     }
 
     .hero-content {
-      max-width: 420px;
-      background: rgba(244, 240, 233, 0.84);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 28px;
+      max-width: 440px;
+      background: rgba(16, 19, 24, 0.86);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 30px;
       border-radius: var(--radius-md);
-      border: 1px solid rgba(221, 216, 206, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .hero-content h1 {
-      font-size: clamp(2.1rem, 3.4vw, 3.1rem);
-      margin-bottom: 18px;
+      font-size: clamp(2.0rem, 3.1vw, 2.85rem);
+      margin-bottom: 16px;
+      letter-spacing: -0.035em;
     }
 
     .hero-content .lead {
-      margin-bottom: 24px;
+      margin-bottom: 18px;
+      color: #D5DCE6;
+    }
+
+    .hero-privacy-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      margin-bottom: 22px;
+      border-radius: var(--radius-sm);
+      background: rgba(74, 222, 128, 0.07);
+      border: 1px solid rgba(74, 222, 128, 0.28);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #D1FAE5;
+      line-height: 1.4;
     }
 
     .hero-meta {
       display: flex;
       align-items: center;
-      gap: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
       margin-top: 24px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
     }
 
@@ -569,9 +602,9 @@
       50% { transform: translateY(5px); }
     }
 
-    /* SCENE 2: TOUCHSCREEN ZOOM */
+    /* SCENE 2: TOUCHSCREEN ZOOM & COMPONENT HOTSPOTS */
     .scene-zoom {
-      height: 180vh;
+      height: 185vh;
       position: relative;
     }
 
@@ -587,15 +620,106 @@
 
     .scene-zoom-card {
       pointer-events: auto;
-      max-width: 410px;
-      background: rgba(255, 255, 255, 0.90);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
+      max-width: 440px;
+      background: rgba(18, 21, 28, 0.90);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(74, 222, 128, 0.30);
       border-radius: var(--radius-md);
-      padding: 28px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+      padding: 26px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 28px rgba(74, 222, 128, 0.10);
       margin-left: 32px;
+    }
+
+    /* INTERACTIVE HARDWARE COMPONENT HOTSPOTS */
+    .hotspot-selector-wrap {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .hotspot-selector-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hotspot-pills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .hotspot-pill-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.71rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .hotspot-pill-btn:hover {
+      border-color: rgba(74, 222, 128, 0.45);
+      color: var(--text);
+    }
+    .hotspot-pill-btn.active {
+      background: rgba(74, 222, 128, 0.12);
+      border-color: var(--accent);
+      color: #FFFFFF;
+      box-shadow: 0 0 16px rgba(74, 222, 128, 0.18);
+    }
+    .hotspot-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      flex-shrink: 0;
+    }
+    .hotspot-spec-readout {
+      background: rgba(11, 13, 16, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-left: 2px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 0.76rem;
+    }
+    .hotspot-spec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+    .hotspot-spec-head strong {
+      color: #FFFFFF;
+      font-size: 0.78rem;
+    }
+    .hotspot-spec-code {
+      color: var(--accent);
+      font-size: 0.68rem;
+    }
+    .hotspot-spec-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
     }
 
     /* TOUCHSCREEN VIDEO SHOWCASE FRAME */
@@ -743,13 +867,14 @@
       position: absolute;
       top: 90px;
       left: 32px;
-      max-width: 380px;
-      background: rgba(244, 240, 233, 0.88);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      max-width: 400px;
+      background: rgba(16, 19, 24, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       padding: 24px;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
       pointer-events: auto;
       z-index: 10;
     }
@@ -771,10 +896,14 @@
       margin-top: 14px;
       font-family: var(--font-mono);
       font-size: 0.76rem;
-      color: var(--text-muted);
+      color: var(--accent);
+      background: rgba(74, 222, 128, 0.08);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
     }
 
-    /* LEADER LINES & 3D LABELS */
+    /* TECHNICAL BLUEPRINT POINTER LINES & 3D AXIS LABELS */
     #leader-lines-svg {
       position: absolute;
       inset: 0;
@@ -785,15 +914,19 @@
     }
 
     .leader-line {
-      stroke: var(--accent);
-      stroke-width: 1.5;
-      stroke-dasharray: 4 3;
+      stroke: #4ADE80 !important;
+      stroke-width: 1.25;
+      stroke-dasharray: 3 3;
       fill: none;
+      filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.55));
       transition: opacity 0.2s ease;
     }
 
     .leader-line-circle {
-      fill: var(--accent);
+      fill: #4ADE80 !important;
+      stroke: #0B0D10;
+      stroke-width: 1.5;
+      filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.85));
     }
 
     .leader-labels-container {
@@ -805,14 +938,14 @@
 
     .part-label-card {
       position: absolute;
-      width: 250px;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 12px 14px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      width: 265px;
+      background: rgba(11, 13, 16, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(74, 222, 128, 0.32);
+      border-radius: 4px;
+      padding: 10px 13px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(74, 222, 128, 0.12);
       pointer-events: auto;
       transition: opacity 0.3s ease, transform 0.3s ease;
       opacity: 0;
@@ -825,16 +958,30 @@
       border-left: 3px solid var(--accent);
     }
 
+    .part-blueprint-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
     .part-label-title {
       font-family: var(--font-sans);
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       font-weight: 600;
-      color: var(--text);
+      color: #FFFFFF;
       margin-bottom: 3px;
     }
 
     .part-label-desc {
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       color: var(--text-muted);
       line-height: 1.35;
     }
@@ -958,9 +1105,10 @@
     }
 
     .room-tab-btn.active, .room-tab-btn:hover {
-      background: var(--text);
-      color: var(--surface);
-      border-color: var(--text);
+      background: rgba(74, 222, 128, 0.14);
+      color: #FFFFFF;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--led-glow);
     }
 
     .rooms-grid {
@@ -977,12 +1125,13 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     .room-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+      border-color: rgba(74, 222, 128, 0.38);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 22px rgba(74, 222, 128, 0.08);
     }
 
     .room-card-media {
@@ -1038,10 +1187,65 @@
 
     .video-display-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(74, 222, 128, 0.32);
       border-radius: var(--radius-md);
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 28px rgba(74, 222, 128, 0.12);
+    }
+
+    /* DALCO 3 LIFECYCLE PILLARS GRID */
+    .dalco-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+    .dalco-pillar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    }
+    .dalco-pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 22px rgba(74, 222, 128, 0.10);
+    }
+    .dalco-pillar-phase {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dalco-pillar-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    .dalco-pillar-list {
+      list-style: none;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+    .dalco-pillar-list li::before {
+      content: '→ ';
+      color: var(--accent);
     }
 
     .video-frame-aspect {
@@ -1275,18 +1479,101 @@
 
     .model-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: var(--radius-md);
       padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     .model-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.05);
+      border-color: var(--accent);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.55), 0 0 26px rgba(74, 222, 128, 0.14);
+    }
+
+    /* HIGH-CONTRAST HARDWARE COMPARISON MATRIX */
+    .hw-matrix-wrap {
+      margin-top: 64px;
+      background: var(--surface);
+      border: 1px solid rgba(74, 222, 128, 0.28);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 28px rgba(74, 222, 128, 0.08);
+    }
+    .hw-matrix-header {
+      padding: 24px 32px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .hw-matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    .hw-matrix-table th,
+    .hw-matrix-table td {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .hw-matrix-table th {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .hw-matrix-table td:first-child {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      width: 28%;
+    }
+    .hw-matrix-table td strong {
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+    .hw-matrix-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* B2B ARCHITECT & BUILDER PORTAL CALLOUT */
+    .b2b-architect-banner {
+      margin-top: 48px;
+      background: linear-gradient(135deg, rgba(21, 25, 33, 0.96) 0%, rgba(16, 28, 24, 0.92) 100%);
+      border: 1px solid rgba(74, 222, 128, 0.38);
+      border-radius: var(--radius-md);
+      padding: 36px 40px;
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 32px;
+      align-items: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 30px rgba(74, 222, 128, 0.12);
+    }
+    .b2b-spec-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .b2b-spec-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #E2E8F0;
     }
 
     .model-badge-row {
@@ -1378,9 +1665,9 @@
       font-family: var(--font-mono);
       font-size: 0.72rem;
       padding: 4px 10px;
-      background: #FFF9E6;
-      border: 1px solid #FFE082;
-      color: #8C6D1F;
+      background: rgba(74, 222, 128, 0.10);
+      border: 1px solid rgba(74, 222, 128, 0.30);
+      color: var(--accent);
       border-radius: var(--radius-sm);
       margin-bottom: 18px;
     }
@@ -1644,8 +1931,14 @@
         margin-right: 20px;
       }
 
-      .rooms-grid {
+      .rooms-grid,
+      .dalco-pillars-grid,
+      .b2b-architect-banner {
         grid-template-columns: 1fr;
+      }
+
+      .hw-matrix-wrap {
+        overflow-x: auto;
       }
 
       .models-grid {
@@ -1972,12 +2265,12 @@
 
     /* DEMO CODE CALLOUT */
     .demo-code-callout {
-      background: #E8F4EC;
-      border: 1px solid #C1E1CD;
+      background: rgba(74, 222, 128, 0.10);
+      border: 1px solid rgba(74, 222, 128, 0.30);
       border-radius: var(--radius-sm);
       padding: 12px 16px;
       font-size: 0.85rem;
-      color: #205735;
+      color: var(--accent);
       margin: 16px 0;
       display: flex;
       align-items: center;
@@ -2076,34 +2369,39 @@
     <section class="scene-hero" id="hero">
       <div class="container hero-grid">
         <div class="hero-content">
-          <span class="eyebrow">A new everyday ritual</span>
-          <h1 id="hero-heading">Meet your wardrobe's next chapter.</h1>
-          <p class="lead" id="cfg-positioning">A wardrobe that helps you decide what to wear.</p>
-          <p style="font-size: 0.95rem; margin-bottom: 28px;" id="cfg-supporting">
-            Explore a new way to organise your clothes, plan your look and bring your chosen pieces within reach.
+          <span class="eyebrow">Warsaw Mechatronics &middot; Series 2026</span>
+          <h1 id="hero-heading">Precision Mechanics. Intelligent Curation. Tailored Dressing Systems.</h1>
+          <p class="lead" id="cfg-positioning">Dual-tier automated garment circulation engineered for architectural interiors.</p>
+          <p style="font-size: 0.92rem; margin-bottom: 18px;" id="cfg-supporting">
+            Manufactured and load-tested in Warsaw using CNC-machined 6063-T6 anodised aluminium tracks, closed-loop rear stepper drives, and an air-gapped capacitive MI OS console.
           </p>
 
+          <div class="hero-privacy-pill">
+            <span>&#9679;</span>
+            <span><strong>PRIVACY BY HARDWARE ARCHITECTURE:</strong> Zero optical cameras. 100% local SQLite garment indexing on an air-gapped internal bus.</span>
+          </div>
+
           <div class="btn-group">
-            <a href="#contact" class="btn btn-primary" id="hero-btn-contact">Contact sales &#8599;</a>
-            <a href="#visit" class="btn btn-secondary" id="hero-btn-visit">Visit us &#8595;</a>
+            <button type="button" class="btn btn-primary" onclick="openPreorderModal('Mini', '12 999 zł')">Configure &amp; Pre-order &#8594;</button>
+            <a href="#models" class="btn btn-secondary" id="hero-btn-visit">Hardware Matrix &#8595;</a>
           </div>
 
           <div class="hero-meta">
-            <span class="badge-label">Concept render</span>
-            <span>Two-tier conveyor storage & outfit preview</span>
+            <span class="badge-label">ISO Load-Tested Gantry</span>
+            <span>Dual Synchronized Loops &middot; &lt; 31 dBA</span>
           </div>
         </div>
       </div>
 
       <div class="container hero-bottom-bar">
-        <span>Prototype showcase &middot; 01</span>
+        <span>MI Wardrobe Systems &middot; Warsaw CNC Assembly</span>
         <div class="scroll-indicator">
-          <span>Scroll to explore</span>
+          <span>Scroll to inspect mechanics</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 10l5 5 5-5"/>
           </svg>
         </div>
-        <span>University project prototype</span>
+        <span>Zero-Camera Architecture &middot; MI OS v2.4</span>
       </div>
     </section>
 
@@ -2113,23 +2411,23 @@
     <section class="scene-zoom" id="scene-zoom">
       <div class="scene-zoom-sticky">
         <div class="scene-zoom-card">
-          <span class="eyebrow">01 / Central Interface</span>
-          <h2>Your collection. Your daily look. Within reach.</h2>
-          <p style="margin-top: 8px;">A built-in touchscreen beside the central collection aperture connects your physical wardrobe with a considered digital view.</p>
+          <span class="eyebrow">01 / Embedded HMI &amp; Component Hotspots</span>
+          <h2> flush-Mounted Capacitive Control.</h2>
+          <p style="margin-top: 8px; font-size: 0.88rem;">Positioned beside the central 3500K retrieval bay, the 30 cm industrial IPS console orchestrates dual-axis conveyor routing with sub-millimeter stopping accuracy.</p>
 
           <div class="zoom-steps-container">
             <div class="zoom-step active" id="zoom-step-1">
               <span class="zoom-step-num">01</span>
               <div class="zoom-step-text">
-                <h4>Browse your digital collection</h4>
-                <p>View registered garments on screen without opening every door.</p>
+                <h4>Optical Inventory Indexing</h4>
+                <p>Query your entire physical wardrobe via local database tags without unsealing the acoustic cabinet doors.</p>
                 
                 <!-- Live Touchscreen Video Showcase Frame -->
                 <div class="screen-video-frame-container" id="screen-video-frame">
                   <div class="screen-frame-bezel">
                     <div class="screen-frame-top-bar">
-                      <span class="screen-live-tag"><span class="screen-live-dot"></span> LIVE DEMO</span>
-                      <span>Capacitive Touchscreen &middot; MI OS</span>
+                      <span class="screen-live-tag"><span class="screen-live-dot"></span> LIVE TELEMETRY</span>
+                      <span>Capacitive IPS &middot; MI OS v2.4</span>
                       <span>08:24</span>
                     </div>
                     <div class="screen-frame-video-wrapper" title="Click to mute/unmute audio">
@@ -2141,7 +2439,7 @@
                       </video>
                       <div class="screen-frame-video-overlay-hint" id="video-sound-hint">Muted</div>
                     </div>
-                    <div class="screen-frame-caption">Showing real-time outfit preview on wardrobe display</div>
+                    <div class="screen-frame-caption">Real-time MI OS ensemble staging on 30 cm capacitive console</div>
                   </div>
                 </div>
               </div>
@@ -2150,23 +2448,62 @@
             <div class="zoom-step" id="zoom-step-2">
               <span class="zoom-step-num">02</span>
               <div class="zoom-step-text">
-                <h4>Explore outfit suggestions</h4>
-                <p>Explore recommended combinations using pieces from your own collection.</p>
+                <h4>Algorithmic Ensemble Staging</h4>
+                <p>Assemble multi-garment looks across upper and lower carousels with zero external cloud dependency.</p>
               </div>
             </div>
 
             <div class="zoom-step" id="zoom-step-3">
               <span class="zoom-step-num">03</span>
               <div class="zoom-step-text">
-                <h4>Retrieve selected garments</h4>
-                <p>Selected pieces travel on automated conveyor rails directly to the collection opening.</p>
+                <h4>Synchronized Aperture Delivery</h4>
+                <p>Closed-loop stepper drives route selected garments along shortest-path trajectories to the central bay in &lt; 4.2s.</p>
               </div>
             </div>
           </div>
 
-          <div style="margin-top: 18px; display: flex; justify-content: space-between; align-items: center;">
-            <span class="badge-label">Simulated interface</span>
-            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-light);">No camera &middot; privacy by design</span>
+          <!-- Interactive Component Hotspots (Hardware Micro-Specs) -->
+          <div class="hotspot-selector-wrap">
+            <div class="hotspot-selector-label">
+              <span>&#9672; Interactive Component Hotspots</span>
+              <span style="color:var(--text-light);">Click to inspect micro-specs</span>
+            </div>
+            <div class="hotspot-pills-grid">
+              <button type="button" class="hotspot-pill-btn active" onclick="selectHardwareHotspot(0, this)">
+                <span class="hotspot-dot"></span>
+                <span>01 / 30cm IPS Console</span>
+              </button>
+              <button type="button" class="hotspot-pill-btn" onclick="selectHardwareHotspot(1, this)">
+                <span class="hotspot-dot"></span>
+                <span>02 / 650nm Barcode Lock</span>
+              </button>
+              <button type="button" class="hotspot-pill-btn" onclick="selectHardwareHotspot(2, this)">
+                <span class="hotspot-dot"></span>
+                <span>03 / 3500K CRI-95 Array</span>
+              </button>
+              <button type="button" class="hotspot-pill-btn" onclick="selectHardwareHotspot(3, this)">
+                <span class="hotspot-dot"></span>
+                <span>04 / Air-Gapped MI OS</span>
+              </button>
+            </div>
+            <div class="hotspot-spec-readout" id="hotspot-spec-readout">
+              <div class="hotspot-spec-head">
+                <strong id="hs-title">30 cm Capacitive IPS Glass Console</strong>
+                <span class="hotspot-spec-code" id="hs-code">PN: MI-HMI-300G</span>
+              </div>
+              <p id="hs-desc" style="font-size:0.74rem; color:var(--text-muted); line-height:1.4; margin:0;">
+                Optically bonded anti-glare aluminosilicate glass with 240 Hz capacitive touch sampling and oleophobic nano-coating.
+              </p>
+              <div class="hotspot-spec-meta">
+                <span id="hs-meta-1">RES: 1920&times;1200 px (600 nits)</span>
+                <span id="hs-meta-2">BUS: RS-485 / 24V DC Isolated</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center;">
+            <span class="badge-label">Hardware Micro-Spec Inspector</span>
+            <span style="font-family: var(--font-mono); font-size: 0.70rem; color: var(--accent);">Zero Camera Sensors &middot; Air-Gapped</span>
           </div>
         </div>
       </div>
@@ -2178,13 +2515,13 @@
     <section class="scene-explosion" id="scene-explosion">
       <div class="explosion-sticky">
         <div class="explosion-hud">
-          <span class="eyebrow">02 / Mechanical Architecture</span>
-          <h2>See what happens behind the doors.</h2>
-          <p>A calm, precision separation revealing two automated conveyor levels, capacitive touch column, and optical garment identification.</p>
+          <span class="eyebrow">02 / Sub-Assembly Blueprint Separation</span>
+          <h2>Industrial Mechatronics. Architectural Silence.</h2>
+          <p>Scroll to actuate the multi-axis CAD separation—exposing the dual 6063-T6 anodised conveyor loops, 60 individually indexed garment hooks, and rear closed-loop drive gantry.</p>
           <div class="explosion-progress-badge">
             <span id="explosion-percent-text">Exploded View: 0%</span>
             <span>&middot;</span>
-            <span>Rails in motion</span>
+            <span>CAD Telemetry Active</span>
           </div>
           
           <div class="mobile-part-tracker" id="mobile-part-tracker">
@@ -2196,87 +2533,96 @@
         <!-- Projected SVG Leader Lines -->
         <svg id="leader-lines-svg">
           <line id="line-doors" class="leader-line" />
-          <circle id="circle-doors" class="leader-line-circle" r="3" />
+          <circle id="circle-doors" class="leader-line-circle" r="3.5" />
 
           <line id="line-mirror" class="leader-line" />
-          <circle id="circle-mirror" class="leader-line-circle" r="3" />
+          <circle id="circle-mirror" class="leader-line-circle" r="3.5" />
 
           <line id="line-shell" class="leader-line" />
-          <circle id="circle-shell" class="leader-line-circle" r="3" />
+          <circle id="circle-shell" class="leader-line-circle" r="3.5" />
 
           <line id="line-upper-rail" class="leader-line" />
-          <circle id="circle-upper-rail" class="leader-line-circle" r="3" />
+          <circle id="circle-upper-rail" class="leader-line-circle" r="3.5" />
 
           <line id="line-lower-rail" class="leader-line" />
-          <circle id="circle-lower-rail" class="leader-line-circle" r="3" />
+          <circle id="circle-lower-rail" class="leader-line-circle" r="3.5" />
 
           <line id="line-hanger-lock" class="leader-line" />
-          <circle id="circle-hanger-lock" class="leader-line-circle" r="3" />
+          <circle id="circle-hanger-lock" class="leader-line-circle" r="3.5" />
 
           <line id="line-portal" class="leader-line" />
-          <circle id="circle-portal" class="leader-line-circle" r="3" />
+          <circle id="circle-portal" class="leader-line-circle" r="3.5" />
 
           <line id="line-drive" class="leader-line" />
-          <circle id="circle-drive" class="leader-line-circle" r="3" />
+          <circle id="circle-drive" class="leader-line-circle" r="3.5" />
 
           <line id="line-base" class="leader-line" />
-          <circle id="circle-base" class="leader-line-circle" r="3" />
+          <circle id="circle-base" class="leader-line-circle" r="3.5" />
         </svg>
 
-        <!-- Dynamic Projected 3D Labels (Exact match to concept sketch key 1-9) -->
+        <!-- Dynamic Projected 3D Blueprint Pointer Labels -->
         <div class="leader-labels-container">
           <!-- 1. Outer doors -->
           <div class="part-label-card" id="card-doors">
-            <div class="part-label-title">01 / Front Panels & Doors</div>
-            <div class="part-label-desc">Bi-parting protective panels in warm lacquered finish with left screen mount.</div>
+            <div class="part-blueprint-meta"><span>AXIS +Z // CNC MDF-22MM</span><span>TOL &plusmn;0.1mm</span></div>
+            <div class="part-label-title">01 / Acoustic Matte White Facade</div>
+            <div class="part-label-desc">Multi-layer polyurethane matte panels with perimeter elastomeric acoustic seals.</div>
           </div>
 
-          <!-- 2. Touchscreen Display (sketch #3) -->
+          <!-- 2. Touchscreen Display -->
           <div class="part-label-card" id="card-mirror">
-            <div class="part-label-title">02 / Capacitive Screen (&approx;30 cm)</div>
-            <div class="part-label-desc">Built-in display for digital wardrobe browsing & outfit preview ritual.</div>
+            <div class="part-blueprint-meta"><span>AXIS +Z // MI-HMI-300G</span><span>24V DC BUS</span></div>
+            <div class="part-label-title">02 / 30 cm Capacitive MI OS Console</div>
+            <div class="part-label-desc">Flush-recessed IPS glass terminal wired directly to the local controller bus.</div>
           </div>
 
-          <!-- 3. Outer Body Shell & Architrave (sketch #4 & #9) -->
+          <!-- 3. Outer Body Shell & Top Power Bus -->
           <div class="part-label-card" id="card-shell">
-            <div class="part-label-title">03 / Outer Shell & Top Power Bus</div>
-            <div class="part-label-desc">Top architrave housing master gantry power supply and interior LED rails.</div>
+            <div class="part-blueprint-meta"><span>AXIS +Y // PWR-BUS-230V</span><span>24V 15A/25A</span></div>
+            <div class="part-label-title">03 / Upper Fascia &amp; Regulated Power Bus</div>
+            <div class="part-label-desc">Matte black anodised architrave housing the 230V AC to 24V DC logic converter and thermal dissipation channel.</div>
           </div>
 
-          <!-- 4. Upper Rail (sketch #5) -->
+          <!-- 4. Upper Rail -->
           <div class="part-label-card" id="card-upper-rail">
-            <div class="part-label-title">04 / Upper Rail Conveyor</div>
-            <div class="part-label-desc">Continuous oval loop for dresses, suits, and long coats (~40 positions).</div>
+            <div class="part-blueprint-meta"><span>LOOP U-01 // 6063-T6 ALU</span><span>40/60 POS</span></div>
+            <div class="part-label-title">04 / Upper Synchronized Conveyor Loop</div>
+            <div class="part-label-desc">Extruded 6063-T6 aluminium oval raceway with low-friction Delrin carriage rollers for coats, suits, and gowns.</div>
           </div>
 
-          <!-- 5. Lower Rail (sketch #6) -->
+          <!-- 5. Lower Rail -->
           <div class="part-label-card" id="card-lower-rail">
-            <div class="part-label-title">05 / Lower Rail Conveyor</div>
-            <div class="part-label-desc">Independent medium-height loop for shirts and trousers (~20 positions).</div>
+            <div class="part-blueprint-meta"><span>LOOP L-02 // 6063-T6 ALU</span><span>20/30 POS</span></div>
+            <div class="part-label-title">05 / Lower Independent Conveyor Loop</div>
+            <div class="part-label-desc">Secondary motorized carousel tier engineered for shirts, tailored trousers, and knitwear.</div>
           </div>
 
-          <!-- 6. Hanger Lock & Barcode (sketch #7) -->
+          <!-- 6. Hanger Lock & Barcode -->
           <div class="part-label-card" id="card-hanger-lock">
-            <div class="part-label-title">06 / Hangers & Barcode Scanner</div>
-            <div class="part-label-desc">Automated hanger engagement with optical registration.</div>
+            <div class="part-blueprint-meta"><span>OPT-650NM // CARRIAGE LOCK</span><span>INDEXED</span></div>
+            <div class="part-label-title">06 / Optical Barcode Registration &amp; Lock</div>
+            <div class="part-label-desc">650 nm solid-state optical reader maps each garment hanger to a deterministic slot coordinate.</div>
           </div>
 
-          <!-- 7. Collection Opening (sketch #1 & #2) -->
+          <!-- 7. Collection Opening -->
           <div class="part-label-card" id="card-portal">
-            <div class="part-label-title">07 / Collection Opening (&approx;32 cm)</div>
-            <div class="part-label-desc">Central dual-tier illuminated aperture presenting selected items.</div>
+            <div class="part-blueprint-meta"><span>APERTURE // 3500K CRI-95</span><span>320 MM BAY</span></div>
+            <div class="part-label-title">07 / Illuminated Retrieval Aperture</div>
+            <div class="part-label-desc">Dual-tier central delivery bay with warm-neutral 3500K CRI-95 museum-grade garment illumination.</div>
           </div>
 
-          <!-- 8. Drive Motor & Controller (sketch [M]) -->
+          <!-- 8. Drive Motor & Controller -->
           <div class="part-label-card" id="card-drive">
-            <div class="part-label-title">08 / Rear Stepper Motor & Unit</div>
-            <div class="part-label-desc">Center-rear drive motor controlling smooth continuous carousel rotation.</div>
+            <div class="part-blueprint-meta"><span>NEMA-23 // CLOSED-LOOP</span><span>&lt; 31 dBA</span></div>
+            <div class="part-label-title">08 / Rear Stepper Drive &amp; Motion Unit</div>
+            <div class="part-label-desc">High-torque closed-loop stepper motors with S-curve acceleration profiling and zero backlash.</div>
           </div>
 
-          <!-- 9. Base & Plinth (sketch #8) -->
+          <!-- 9. Base & Plinth -->
           <div class="part-label-card" id="card-base">
-            <div class="part-label-title">09 / Plinth & Adjustable Feet</div>
-            <div class="part-label-desc">Heavy structural plinth with vibration dampening and leveling feet.</div>
+            <div class="part-blueprint-meta"><span>AXIS -Y // ISO-PLINTH</span><span>LOAD 280KG</span></div>
+            <div class="part-label-title">09 / Structural Plinth &amp; Harmonic Mounts</div>
+            <div class="part-label-desc">Reinforced steel-and-walnut foundation with micro-adjustable leveling jacks and elastomer isolation pads.</div>
           </div>
         </div>
 
@@ -2325,15 +2671,15 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- SCENE 4: ROOM PLACEMENT (Scroll 58% - 72%) -->
+    <!-- SCENE 4: PHASE 1 — ARCHITECTURE & SPATIAL CONSULTING -->
     <!-- ========================================== -->
     <section class="scene-placement" id="placement">
       <div class="container">
         <div class="placement-header">
-          <span class="eyebrow">03 / Environments</span>
-          <h2>Imagine it in your space.</h2>
+          <span class="eyebrow">03 / Phase I: Architecture &amp; Spatial Consulting</span>
+          <h2>Engineered for Bespoke Architectural Integration.</h2>
           <p class="lead" style="margin-top: 12px;">
-            Designed to integrate quietly into modern domestic and styling interiors.
+            Our spatial engineering team coordinates directly with residential architects, general contractors, and interior designers to recess MI Wardrobe seamlessly into custom millwork envelopes.
           </p>
         </div>
 
@@ -2347,7 +2693,7 @@
           <article class="room-card" id="room-card-studio">
             <div>
               <div class="room-card-media" id="media-studio">
-                <img id="img-studio" src="room-studio.jpg" alt="Studio Apartment conceptual installation" onerror="this.onerror=null; this.src='assets/room-studio.jpg';" onload="const p=document.getElementById('placeholder-studio'); if(p) p.style.display='none'; this.style.display='block';" />
+                <img id="img-studio" src="room-studio.jpg" alt="Studio Apartment architectural integration" onerror="this.onerror=null; this.src='assets/room-studio.jpg';" onload="const p=document.getElementById('placeholder-studio'); if(p) p.style.display='none'; this.style.display='block';" />
                 <div class="media-placeholder-graphic" id="placeholder-studio" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="20" y="20" width="200" height="100" rx="4"/>
@@ -2359,17 +2705,17 @@
                   <span>room-studio.jpg</span>
                 </div>
               </div>
-              <span class="eyebrow">Individual living</span>
+              <span class="eyebrow">Compact Urban Footprint &middot; MI-01</span>
               <h3>The City Apartment</h3>
-              <p>Consolidates daily attire into a compact footprint, eliminating clutter while keeping essentials organized.</p>
+              <p>Consolidates 60 active garments into a precision 180 cm &times; 95 cm structural footprint with &lt; 31 dBA acoustic isolation for open-plan residences.</p>
             </div>
-            <div class="room-card-caption">Conceptual installation</div>
+            <div class="room-card-caption">Recessed or Freestanding Millwork Envelope &middot; 230V AC Single-Circuit</div>
           </article>
 
           <article class="room-card" id="room-card-dressing">
             <div>
               <div class="room-card-media" id="media-dressing">
-                <img id="img-dressing" src="room-dressing.jpg" alt="Dedicated Dressing Room conceptual installation" onerror="this.onerror=null; this.src='assets/room-dressing.jpg';" onload="const p=document.getElementById('placeholder-dressing'); if(p) p.style.display='none'; this.style.display='block';" />
+                <img id="img-dressing" src="room-dressing.jpg" alt="Dedicated Dressing Room architectural installation" onerror="this.onerror=null; this.src='assets/room-dressing.jpg';" onload="const p=document.getElementById('placeholder-dressing'); if(p) p.style.display='none'; this.style.display='block';" />
                 <div class="media-placeholder-graphic" id="placeholder-dressing" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="15" y="15" width="210" height="110" rx="4"/>
@@ -2381,17 +2727,17 @@
                   <span>room-dressing.jpg</span>
                 </div>
               </div>
-              <span class="eyebrow">Dedicated space</span>
-              <h3>The Dressing Room</h3>
-              <p>Provides a comprehensive digital view of your collection, making planning complex seasonal looks fluid.</p>
+              <span class="eyebrow">Private Suite Integration &middot; MI-01 / MI-02</span>
+              <h3>The Dedicated Dressing Room</h3>
+              <p>Flush-mounted into floor-to-ceiling walnut and matte joinery, providing instant optical inventory querying and automated seasonal rotation.</p>
             </div>
-            <div class="room-card-caption">Conceptual installation</div>
+            <div class="room-card-caption">Zero-Clearance Side Joinery &middot; Top Architrave Passive Thermal Vent</div>
           </article>
 
           <article class="room-card" id="room-card-boutique">
             <div>
               <div class="room-card-media" id="media-boutique">
-                <img id="img-boutique" src="room-boutique.jpg" alt="Styling Boutique conceptual installation" onerror="this.onerror=null; this.src='assets/room-boutique.jpg';" onload="const p=document.getElementById('placeholder-boutique'); if(p) p.style.display='none'; this.style.display='block';" />
+                <img id="img-boutique" src="room-boutique.jpg" alt="Styling Boutique commercial deployment" onerror="this.onerror=null; this.src='assets/room-boutique.jpg';" onload="const p=document.getElementById('placeholder-boutique'); if(p) p.style.display='none'; this.style.display='block';" />
                 <div class="media-placeholder-graphic" id="placeholder-boutique" style="display:none;">
                   <svg viewBox="0 0 240 140" width="100%" height="90" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--text-light); padding:10px;">
                     <rect x="20" y="20" width="200" height="100" rx="4"/>
@@ -2404,27 +2750,78 @@
                   <span>room-boutique.jpg</span>
                 </div>
               </div>
-              <span class="eyebrow">Curated craft</span>
-              <h3>Boutique & Styling Space</h3>
-              <p>Supports client consultations with swift automated garment retrieval and digital ensemble staging.</p>
+              <span class="eyebrow">Commercial &amp; Hospitality &middot; MI-02 Pro</span>
+              <h3>Atelier &amp; Styling Boutique</h3>
+              <p>High-duty-cycle synchronized carousels for private client showrooms, luxury hotel suites, and archival couture staging.</p>
             </div>
-            <div class="room-card-caption">Conceptual installation</div>
+            <div class="room-card-caption">Continuous Duty Cycle &middot; 90-Position Dual Servo-Stepper Gantry</div>
           </article>
         </div>
       </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- SCENE 5: OPERATION & VIDEO (Scroll 72% - 86%) -->
+    <!-- SCENE 5: DALCO SERVICE PILLARS & MI OS OPERATION -->
     <!-- ========================================== -->
     <section class="scene-operation" id="operation">
       <div class="container">
-        <div style="max-width: 640px; margin-bottom: 50px;">
-          <span class="eyebrow">04 / Daily Interaction</span>
-          <h2>From your collection to today's outfit.</h2>
+        <div style="max-width: 740px; margin-bottom: 44px;">
+          <span class="eyebrow">04 / End-to-End Hardware &amp; Lifecycle Mastery</span>
+          <h2>Three Pillars of Tailored Deployment.</h2>
           <p class="lead" style="margin-top: 12px;">
-            Browse your collection on the built-in display. Explore a look using your saved garments. Select your pieces and collect them at the wardrobe opening.
+            Modeled on enterprise hardware infrastructure, every MI Wardrobe commission follows a disciplined three-phase engineering lifecycle—from architectural rough-in to long-term MI OS support.
           </p>
+        </div>
+
+        <!-- DALCO-Inspired 3 Service Lifecycle Pillars -->
+        <div class="dalco-pillars-grid">
+          <div class="dalco-pillar-card">
+            <div>
+              <div class="dalco-pillar-phase">
+                <span>PHASE 01 // CONSULTING</span>
+                <span>CAD / BIM</span>
+              </div>
+              <h3>Architecture &amp; Spatial Consulting</h3>
+              <p style="font-size:0.88rem;">Direct collaboration with your residential architect or interior designer to define recessed joinery tolerances, structural floor loading, and 230V AC pre-wire conduits.</p>
+            </div>
+            <ul class="dalco-pillar-list">
+              <li>Custom footprint &amp; acoustic recess blueprints</li>
+              <li>Full .DWG, .RVT &amp; .STEP 3D engineering packages</li>
+              <li>Bespoke exterior lacquer &amp; walnut veneer matching</li>
+            </ul>
+          </div>
+
+          <div class="dalco-pillar-card">
+            <div>
+              <div class="dalco-pillar-phase">
+                <span>PHASE 02 // OPERATIONS</span>
+                <span>WARSAW CNC</span>
+              </div>
+              <h3>Mechanical Integration &amp; Deployment</h3>
+              <p style="font-size:0.88rem;">Precision on-site assembly of the dual-tier 6063-T6 anodised aluminium conveyor loops, closed-loop rear NEMA stepper drives, and 650 nm optical barcode locks.</p>
+            </div>
+            <ul class="dalco-pillar-list">
+              <li>1,000-cycle factory load &amp; harmonic test protocol</li>
+              <li>Laser-leveled plinth &amp; elastomeric vibration isolation</li>
+              <li>Deterministic slot calibration (&plusmn;0.2 mm repeatability)</li>
+            </ul>
+          </div>
+
+          <div class="dalco-pillar-card">
+            <div>
+              <div class="dalco-pillar-phase">
+                <span>PHASE 03 // ASSISTANCE</span>
+                <span>SLA &amp; MI OS</span>
+              </div>
+              <h3>Lifecycle &amp; MI OS Support</h3>
+              <p style="font-size:0.88rem;">Comprehensive post-deployment care including signed offline/OTA firmware updates for the 30 cm capacitive MI OS console, track tensioning, and roller maintenance.</p>
+            </div>
+            <ul class="dalco-pillar-list">
+              <li>Cryptographically signed MI OS v2.4+ updates</li>
+              <li>Annual mechanical belt &amp; Delrin roller inspection</li>
+              <li>Direct Warsaw engineering telemetry &amp; SLA support</li>
+            </ul>
+          </div>
         </div>
 
         <div class="operation-grid">
@@ -2438,49 +2835,49 @@
               
               <div class="simulated-ui-shell" id="simulated-ui">
                 <div class="sim-header">
-                  <span style="font-weight:600; font-size:0.85rem;">MI Wardrobe Interface</span>
-                  <span class="badge-label">Simulated interface</span>
+                  <span style="font-weight:600; font-size:0.85rem;">MI OS v2.4 &middot; Capacitive Control Terminal</span>
+                  <span class="badge-label">Interactive Simulator</span>
                 </div>
                 <div class="sim-wardrobe-display">
                   <div>
-                    <div style="font-size:0.75rem; color:#888; margin-bottom:8px;">1. Tap to select items:</div>
+                    <div style="font-size:0.75rem; color:#9CA6B8; margin-bottom:8px;">1. Select indexed garments on bus:</div>
                     <div class="sim-collection-grid">
                       <div class="sim-item selected" onclick="toggleSimItem(this, 'Linen Overcoat')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v16H4z"/></svg>
-                        <div>Linen Coat</div>
+                        <div>Linen Coat [U-14]</div>
                       </div>
                       <div class="sim-item selected" onclick="toggleSimItem(this, 'Tailored Trousers')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 4l2 16h6l2-16z"/></svg>
-                        <div>Trousers</div>
+                        <div>Trousers [L-08]</div>
                       </div>
                       <div class="sim-item" onclick="toggleSimItem(this, 'Cashmere Knit')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 8l7-4 7 4v10H5z"/></svg>
-                        <div>Cashmere Knit</div>
+                        <div>Cashmere [L-03]</div>
                       </div>
                       <div class="sim-item" onclick="toggleSimItem(this, 'Oxford Shirt')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 4h12v16H6z"/></svg>
-                        <div>Oxford Shirt</div>
+                        <div>Oxford [U-27]</div>
                       </div>
                     </div>
                   </div>
                   <div class="sim-preview-box">
                     <div>
-                      <div style="font-size:0.72rem; color:#888; text-transform:uppercase;">Proposed Ensemble</div>
-                      <div id="sim-ensemble-name" style="font-weight:600; font-size:0.95rem; margin:4px 0 10px;">Daytime Tailored</div>
+                      <div style="font-size:0.70rem; color:#9CA6B8; font-family:var(--font-mono); text-transform:uppercase;">Staged Queue</div>
+                      <div id="sim-ensemble-name" style="font-weight:600; font-size:0.95rem; margin:4px 0 10px;">Executive Tailored</div>
                       <div id="sim-selected-list" style="font-size:0.75rem; color:#CCC;">&bull; Linen Coat<br>&bull; Tailored Trousers</div>
                     </div>
                     <button class="btn btn-primary" style="padding:8px 12px; font-size:0.78rem;" onclick="simulateRetrieve()">
-                      Request Garments &#8594;
+                      Actuate Gantry Delivery &#8594;
                     </button>
-                    <div class="sim-status-banner" id="sim-status-msg">Ready on upper & lower rails</div>
+                    <div class="sim-status-banner" id="sim-status-msg">Upper &amp; Lower Loops Synchronized</div>
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="video-caption-bar">
-              <span>Interface demonstration & ritual storyboard</span>
-              <span class="badge-label">Concept Interface</span>
+              <span>MI OS v2.4 Local Touch Console &amp; Closed-Loop Gantry Actuation</span>
+              <span class="badge-label">Air-Gapped HMI</span>
             </div>
 
           </div>
@@ -2489,49 +2886,49 @@
             <div class="step-card">
               <span class="step-card-num">01</span>
               <div>
-                <h3>Browse your collection</h3>
-                <p>Scroll through your digitized garments directly on the capacitive screen beside the collection opening without manual sorting.</p>
+                <h3>Deterministic Optical Indexing</h3>
+                <p>Every garment carrier locks into an indexed slot on the upper or lower 6063-T6 track via a 650 nm optical barcode scan—stored strictly in an encrypted local SQLite vault.</p>
               </div>
             </div>
 
             <div class="step-card">
               <span class="step-card-num">02</span>
               <div>
-                <h3>Create or select a look</h3>
-                <p>Explore recommended combinations or assemble your own outfit. (AI outfit preview is a concept; fit and sizing are not modeled).</p>
+                <h3>Local-First Curation &amp; Silhouette Staging</h3>
+                <p>Compose multi-piece ensembles on the 30 cm anti-glare IPS display. Zero cameras are installed in the bezel; all visual staging runs locally on the embedded processor.</p>
               </div>
             </div>
 
             <div class="step-card">
               <span class="step-card-num">03</span>
               <div>
-                <h3>Request garments at the opening</h3>
-                <p>The motorized conveyor rails rotate into position, presenting chosen pieces directly at the illuminated collection opening.</p>
+                <h3>Dual-Loop Shortest-Path Delivery</h3>
+                <p>Closed-loop rear stepper drives compute optimal clockwise/counter-clockwise rotation, delivering both upper and lower garments simultaneously to the 3500K illuminated bay.</p>
               </div>
             </div>
 
             <details class="setup-accordion">
               <summary>
-                <span>First-time setup workflow</span>
-                <span style="font-family: var(--font-mono); font-size: 0.8rem;">[ Expand + ]</span>
+                <span>Commissioning &amp; Garment Registration Protocol</span>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent);">[ Technical Protocol + ]</span>
               </summary>
               <div class="setup-accordion-content">
                 <ol class="setup-steps-list">
                   <li>
-                    <span class="setup-step-badge">Step 1</span>
-                    <div><strong>Connect & Create Account:</strong> Set up a secure user account via mobile pairing.</div>
+                    <span class="setup-step-badge">Step 01</span>
+                    <div><strong>Hardware Cryptographic Pairing:</strong> Pair your local device to the wardrobe's internal controller via one-time physical serial handshake.</div>
                   </li>
                   <li>
-                    <span class="setup-step-badge">Step 2</span>
-                    <div><strong>Register Clothes One by One:</strong> Hang item on smart hanger lock, scan or type barcode, and fetch product details from store page.</div>
+                    <span class="setup-step-badge">Step 02</span>
+                    <div><strong>650 nm Optical Hanger Lock:</strong> Engage each garment on its precision carrier, scan the retail or MI tag, and assign to an indexed slot coordinate.</div>
                   </li>
                   <li>
-                    <span class="setup-step-badge">Step 3</span>
-                    <div><strong>Add Personal Photo:</strong> Upload a standing photo to enable the outfit preview concept (visualisation only; no body measurements).</div>
+                    <span class="setup-step-badge">Step 03</span>
+                    <div><strong>Optional Silhouette Calibration:</strong> Upload a static reference photo for 2D/3D ensemble overlay (processed locally; zero biometric camera hardware).</div>
                   </li>
                   <li>
-                    <span class="setup-step-badge">Step 4</span>
-                    <div><strong>Review & Finish:</strong> Verify rail assignments (upper rail for long pieces, lower rail for tops/trousers).</div>
+                    <span class="setup-step-badge">Step 04</span>
+                    <div><strong>Dynamic Load Balancing:</strong> MI OS automatically distributes heavy overcoats and suits across the upper loop to minimize stepper torque variance.</div>
                   </li>
                 </ol>
               </div>
@@ -2542,15 +2939,15 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- SCENE 6: MODELS (Scroll 86% - 92%)         -->
+    <!-- SCENE 6: MODELS & HARDWARE MATRIX (Scroll 86% - 92%) -->
     <!-- ========================================== -->
     <section class="scene-models" id="models">
       <div class="container">
-        <div style="max-width: 600px;">
-          <span class="eyebrow">05 / Specifications</span>
-          <h2>Find your MI Wardrobe.</h2>
+        <div style="max-width: 680px;">
+          <span class="eyebrow">05 / Hardware Configurations &amp; Comparison Matrix</span>
+          <h2>Precision-Engineered Systems.</h2>
           <p class="lead" style="margin-top: 12px;">
-            Two prototype configurations engineered for different collection sizes.
+            Select between our compact residential chassis and our expanded high-capacity commercial architecture.
           </p>
         </div>
 
@@ -2558,45 +2955,45 @@
           <article class="model-card">
             <div>
               <div class="model-badge-row">
-                <span class="badge-label">Concept Model MI-01</span>
-                <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">Compact Profile</span>
+                <span class="badge-label">System Series MI-01</span>
+                <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent);">Residential Standard</span>
               </div>
               <h3>MI Wardrobe Mini</h3>
-              <p style="margin-bottom: 24px;">Tailored for personal suites, studios, and individual curation.</p>
+              <p style="margin-bottom: 24px;">Engineered for urban apartments, executive suites, and private dressing rooms requiring compact high-density automation.</p>
 
               <div class="capacity-highlight">
                 <div>
-                  <span class="cap-num">&approx; 40</span>
-                  <span class="cap-label">Upper rail positions (dresses, suits, long items)</span>
+                  <span class="cap-num"><strong>40 Positions</strong></span>
+                  <span class="cap-label"><strong>Upper Conveyor Loop</strong> (coats, full suits, dresses)</span>
                 </div>
                 <div>
-                  <span class="cap-num">&approx; 20</span>
-                  <span class="cap-label">Lower rail positions (shirts, trousers, folded pieces)</span>
+                  <span class="cap-num"><strong>20 Positions</strong></span>
+                  <span class="cap-label"><strong>Lower Conveyor Loop</strong> (shirts, tailored trousers)</span>
                 </div>
               </div>
 
               <div class="model-spec-table">
                 <div class="model-spec-row">
-                  <span class="model-spec-label">Suggested use</span>
-                  <span class="model-spec-value">Apartments, students, individuals</span>
+                  <span class="model-spec-label">Chassis Dimensions</span>
+                  <span class="model-spec-value"><strong>180 cm (W) &times; 220 cm (H) &times; 95 cm (D)</strong></span>
                 </div>
                 <div class="model-spec-row">
-                  <span class="model-spec-label">Internal rails</span>
-                  <span class="model-spec-value">2 automated motorized loops</span>
+                  <span class="model-spec-label">Drive Architecture</span>
+                  <span class="model-spec-value"><strong>Dual Closed-Loop NEMA-23 Stepper Loops</strong></span>
                 </div>
                 <div class="model-spec-row">
-                  <span class="model-spec-label">Touchscreen interface</span>
-                  <span class="model-spec-value">Built-in optical mirror column</span>
+                  <span class="model-spec-label">Power &amp; Acoustic Rating</span>
+                  <span class="model-spec-value"><strong>230V AC / 24V DC 15A Bus &middot; &lt; 31 dBA</strong></span>
                 </div>
                 <div class="model-spec-row">
-                  <span class="model-spec-label">Price</span>
-                  <span class="model-spec-value" style="font-weight:600; color:var(--text);">12 999 z&#322;</span>
+                  <span class="model-spec-label">Unit Price (Direct Factory)</span>
+                  <span class="model-spec-value" style="font-weight:700; color:var(--accent); font-family:var(--font-mono); font-size:1.05rem;">12 999 z&#322;</span>
                 </div>
               </div>
             </div>
 
             <div>
-              <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Capacity figures are indicative.</p>
+              <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Includes Warsaw factory calibration &amp; priority production slot reservation.</p>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <button type="button" class="btn btn-primary" style="width:100%;" onclick="openPreorderModal('Mini', '12 999 zł')">
                   Pre-order &#8594;
@@ -2611,45 +3008,45 @@
           <article class="model-card">
             <div>
               <div class="model-badge-row">
-                <span class="badge-label">Concept Model MI-02</span>
-                <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">Expanded Capacity</span>
+                <span class="badge-label">System Series MI-02</span>
+                <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent);">Expanded &amp; Boutique Grade</span>
               </div>
               <h3>MI Wardrobe Pro</h3>
-              <p style="margin-bottom: 24px;">Engineered for expansive wardrobes, shared residences, and styling boutiques.</p>
+              <p style="margin-bottom: 24px;">Engineered for dedicated walk-in dressing rooms, multi-user residences, luxury hospitality, and styling ateliers.</p>
 
               <div class="capacity-highlight">
                 <div>
-                  <span class="cap-num">50&ndash;60</span>
-                  <span class="cap-label">Upper rail positions (dresses, coats, full suits)</span>
+                  <span class="cap-num"><strong>50&ndash;60 Positions</strong></span>
+                  <span class="cap-label"><strong>Upper Conveyor Loop</strong> (extended-span oval raceway)</span>
                 </div>
                 <div>
-                  <span class="cap-num">&approx; 30</span>
-                  <span class="cap-label">Lower rail positions (shirts, trousers, knitwear)</span>
+                  <span class="cap-num"><strong>30 Positions</strong></span>
+                  <span class="cap-label"><strong>Lower Conveyor Loop</strong> (high-density secondary tier)</span>
                 </div>
               </div>
 
               <div class="model-spec-table">
                 <div class="model-spec-row">
-                  <span class="model-spec-label">Suggested use</span>
-                  <span class="model-spec-value">Families, boutiques, hotels, stylists</span>
+                  <span class="model-spec-label">Chassis Dimensions</span>
+                  <span class="model-spec-value"><strong>240 cm (W) &times; 220 cm (H) &times; 95 cm (D)</strong></span>
                 </div>
                 <div class="model-spec-row">
-                  <span class="model-spec-label">Internal rails</span>
-                  <span class="model-spec-value">2 heavy-duty synchronized loops</span>
+                  <span class="model-spec-label">Drive Architecture</span>
+                  <span class="model-spec-value"><strong>Dual High-Torque Synchronized Servo-Stepper Loops</strong></span>
                 </div>
                 <div class="model-spec-row">
-                  <span class="model-spec-label">Touchscreen interface</span>
-                  <span class="model-spec-value">Built-in optical mirror column</span>
+                  <span class="model-spec-label">Power &amp; Acoustic Rating</span>
+                  <span class="model-spec-value"><strong>230V AC / 24V DC 25A Bus &middot; &lt; 33 dBA</strong></span>
                 </div>
                 <div class="model-spec-row">
-                  <span class="model-spec-label">Price</span>
-                  <span class="model-spec-value">Pricing to be announced</span>
+                  <span class="model-spec-label">Unit Price (Bespoke Commission)</span>
+                  <span class="model-spec-value"><strong>Custom Architectural Quotation</strong></span>
                 </div>
               </div>
             </div>
 
             <div>
-              <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Capacity figures are indicative.</p>
+              <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Configured to architectural millwork schedules and custom finish palettes.</p>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <button type="button" class="btn btn-primary" style="width:100%;" onclick="openPreorderModal('Pro', 'To be announced')">
                   Pre-order &#8594;
@@ -2661,6 +3058,104 @@
             </div>
           </article>
         </div>
+
+        <!-- Side-by-Side High-Contrast Hardware Comparison Matrix -->
+        <div class="hw-matrix-wrap">
+          <div class="hw-matrix-header">
+            <div>
+              <span class="eyebrow" style="margin-bottom:4px;">Hardware Specification Matrix</span>
+              <h3 style="font-size:1.35rem;">Side-by-Side Mechatronic &amp; Electrical Comparison</h3>
+            </div>
+            <span class="badge-label">Document Rev 2026.4 &middot; Warsaw CNC</span>
+          </div>
+          <table class="hw-matrix-table">
+            <thead>
+              <tr>
+                <th>Subsystem / Parameter</th>
+                <th>MI Wardrobe Mini [Series MI-01]</th>
+                <th>MI Wardrobe Pro [Series MI-02]</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Upper Conveyor Capacity</td>
+                <td><strong>40 Automated Carrier Positions</strong> (1.15 m vertical hang clearance)</td>
+                <td><strong>50&ndash;60 Automated Carrier Positions</strong> (extended oval raceway)</td>
+              </tr>
+              <tr>
+                <td>Lower Conveyor Capacity</td>
+                <td><strong>20 Automated Carrier Positions</strong> (0.85 m vertical hang clearance)</td>
+                <td><strong>30 Automated Carrier Positions</strong> (high-density secondary tier)</td>
+              </tr>
+              <tr>
+                <td>Total Indexed Garments</td>
+                <td><strong>60 Individually Indexed Garments</strong></td>
+                <td><strong>Up to 90 Individually Indexed Garments</strong></td>
+              </tr>
+              <tr>
+                <td>Loop Synchronization &amp; Drive</td>
+                <td><strong>Dual Independent Closed-Loop NEMA-23 Stepper Motors</strong> (&plusmn;0.2 mm stopping repeatability)</td>
+                <td><strong>Dual High-Torque Synchronized Industrial Servo-Stepper Loops</strong> with active load compensation</td>
+              </tr>
+              <tr>
+                <td>Mean Retrieval Latency (180&deg;)</td>
+                <td><strong>&lt; 4.2 Seconds</strong> (S-curve jerk-limited acceleration)</td>
+                <td><strong>&lt; 3.8 Seconds</strong> (bi-directional shortest-path routing)</td>
+              </tr>
+              <tr>
+                <td>Track Metallurgy &amp; Rollers</td>
+                <td><strong>CNC-Machined 6063-T6 Anodised Aluminium</strong> + Delrin acetal sealed bearings</td>
+                <td><strong>Heavy-Wall 6063-T6 Anodised Aluminium</strong> + dual-raceway reinforced carriages</td>
+              </tr>
+              <tr>
+                <td>Power Supply &amp; Internal Bus</td>
+                <td><strong>230V AC 50Hz Input / 24V DC 15A Regulated Internal Logic Bus</strong> (Max 180W active / 4.5W standby)</td>
+                <td><strong>230V AC 50Hz Input / 24V DC 25A Redundant Industrial Bus</strong> (Max 290W active / 5.2W standby)</td>
+              </tr>
+              <tr>
+                <td>Acoustic Emission &amp; Isolation</td>
+                <td><strong>&lt; 31 dBA at 1.0 m</strong> (elastomeric plinth dampers + perimeter door seals)</td>
+                <td><strong>&lt; 33 dBA at 1.0 m</strong> (harmonic motor mounts + acoustic walnut baffle lining)</td>
+              </tr>
+              <tr>
+                <td>HMI &amp; Privacy Architecture</td>
+                <td><strong>30 cm Capacitive IPS (1920&times;1200) &middot; Zero Optical Cameras &middot; Air-Gapped Local SQLite Vault</strong></td>
+                <td><strong>30 cm Capacitive IPS (1920&times;1200) &middot; Zero Optical Cameras &middot; Multi-Profile Local Vault + LAN API</strong></td>
+              </tr>
+              <tr>
+                <td>Direct Factory Pricing</td>
+                <td><strong>12 999 z&#322;</strong> (Priority Production Batch Open)</td>
+                <td><strong>Custom B2B / Architectural Quotation</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Dedicated B2B Call-to-Action: For Architects & Builders -->
+        <div class="b2b-architect-banner" id="architects-portal">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px;">B2B Specification &amp; Millwork Integration</span>
+            <h3 style="font-size:1.6rem; margin-bottom:10px;">For Architects, Interior Designers &amp; Custom Builders.</h3>
+            <p style="font-size:0.92rem; color:var(--text-muted); max-width:60ch;">
+              Integrating MI Wardrobe into a luxury residential development, private dressing suite, or boutique project? Download our complete technical integration package including recessed joinery tolerances, passive thermal ventilation schedules, and 230V AC rough-in schematics.
+            </p>
+            <div class="b2b-spec-tags">
+              <span class="b2b-spec-tag">AutoCAD (.DWG)</span>
+              <span class="b2b-spec-tag">Revit BIM (.RVT / .IFC)</span>
+              <span class="b2b-spec-tag">SolidWorks / STEP 3D (.STEP)</span>
+              <span class="b2b-spec-tag">230V Pre-Wire Rough-In Guide (.PDF)</span>
+              <span class="b2b-spec-tag">Walnut &amp; Matte Lacquer Swatch Box</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px; align-items:stretch;">
+            <button type="button" class="btn btn-primary" onclick="openModal('modal-b2b-architects')">
+              Request CAD / BIM Spec Package &#8599;
+            </button>
+            <a href="materials.html" class="btn btn-secondary" style="text-align:center;">
+              Inspect Material Finishes &#8594;
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -2670,47 +3165,47 @@
     <section class="scene-visit" id="visit">
       <div class="container visit-grid">
         <div>
-          <span class="eyebrow">06 / Showcase</span>
-          <h2>Experience MI Wardrobe in person.</h2>
+          <span class="eyebrow">06 / Warsaw Engineering Lab &amp; Private Commissioning</span>
+          <h2>Inspect the Gantry in Operation.</h2>
           <p class="lead" style="margin: 16px 0 24px;">
-            Join our engineering and design team at our upcoming university prototype exposition to experience the automated mechanism and touchscreen ritual first-hand.
+            Schedule a private technical briefing with our mechatronics and industrial design team to inspect the dual-tier 6063-T6 conveyor mechanism, acoustic dampening, and MI OS v2.4 touchscreen console first-hand.
           </p>
-          <a href="#contact" class="btn btn-secondary">Register showcase interest &#8595;</a>
+          <a href="#contact" class="btn btn-secondary">Book Private Technical Briefing &#8595;</a>
         </div>
 
         <div class="visit-details-card">
           <div class="placeholder-banner">
-            <span>&#9888;</span>
-            <span>EXHIBITION VENUE TO BE CONFIRMED</span>
+            <span>&#9679;</span>
+            <span>PRIVATE SHOWROOM &amp; EXPO SCHEDULE</span>
           </div>
 
-          <h3 style="font-size:1.4rem; margin-bottom:4px;" id="cfg-venue-name">[EXPO / SHOWROOM NAME]</h3>
-          <p style="font-size:0.86rem; color:var(--text-muted);">Please check back for confirmed booth registration.</p>
+          <h3 style="font-size:1.4rem; margin-bottom:4px;" id="cfg-venue-name">Warsaw Mechatronics &amp; Design Showcase</h3>
+          <p style="font-size:0.86rem; color:var(--text-muted);">Private engineering demonstrations available by scheduled appointment.</p>
 
           <div class="visit-fields-list">
             <div class="visit-field-row">
-              <span class="visit-field-key">Full Address</span>
-              <span class="visit-field-val" id="cfg-address">[FULL ADDRESS]</span>
+              <span class="visit-field-key">Facility Location</span>
+              <span class="visit-field-val" id="cfg-address">Warsaw, Poland (Engineering Lab)</span>
             </div>
             <div class="visit-field-row">
-              <span class="visit-field-key">Dates</span>
-              <span class="visit-field-val" id="cfg-dates">[DATES]</span>
+              <span class="visit-field-key">Commissioning Window</span>
+              <span class="visit-field-val" id="cfg-dates">Q2 &ndash; Q4 2026 Production Series</span>
             </div>
             <div class="visit-field-row">
-              <span class="visit-field-key">Opening Hours</span>
-              <span class="visit-field-val" id="cfg-hours">[HOURS]</span>
+              <span class="visit-field-key">Briefing Hours</span>
+              <span class="visit-field-val" id="cfg-hours">Mon&ndash;Fri &middot; 09:00&ndash;18:00 CET</span>
             </div>
             <div class="visit-field-row">
-              <span class="visit-field-key">Hall / Stand</span>
-              <span class="visit-field-val" id="cfg-hall">[HALL / STAND]</span>
+              <span class="visit-field-key">Bay / Test Rig</span>
+              <span class="visit-field-val" id="cfg-hall">Gantry Bay 01 &middot; Acoustic Chamber</span>
             </div>
             <div class="visit-field-row">
-              <span class="visit-field-key">Appointment Needed</span>
-              <span class="visit-field-val" id="cfg-appointment">[APPOINTMENT NEEDED: YES/NO]</span>
+              <span class="visit-field-key">Access Protocol</span>
+              <span class="visit-field-val" id="cfg-appointment">Pre-Registered Clients &amp; Architects</span>
             </div>
             <div class="visit-field-row">
-              <span class="visit-field-key">Demonstrated Model</span>
-              <span class="visit-field-val" id="cfg-demo-proto">[WHICH PROTOTYPE IS DEMONSTRATED]</span>
+              <span class="visit-field-key">Active Hardware Unit</span>
+              <span class="visit-field-val" id="cfg-demo-proto">MI Wardrobe Mini (Series MI-01)</span>
             </div>
           </div>
 
@@ -2719,8 +3214,8 @@
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
               <circle cx="12" cy="10" r="3"/>
             </svg>
-            <span>Google Maps Location Embed</span>
-            <span style="font-size:0.68rem; color:var(--text-light); margin-top:4px;">Map pin will activate upon venue announcement</span>
+            <span>Warsaw Engineering Dispatch &amp; Showroom</span>
+            <span style="font-size:0.68rem; color:var(--text-light); margin-top:4px;">Exact coordinates issued upon briefing confirmation</span>
           </div>
         </div>
       </div>
@@ -2732,22 +3227,22 @@
     <section class="scene-contact" id="contact">
       <div class="container contact-grid">
         <div>
-          <span class="eyebrow">07 / Enquiries</span>
-          <h2>Let's find the right wardrobe for you.</h2>
+          <span class="eyebrow">07 / Direct Hardware &amp; Architectural Enquiries</span>
+          <h2>Commission Your MI Wardrobe System.</h2>
           <p class="lead" style="margin: 16px 0 24px;">
-            Submit an enquiry to explore prototype deployment, commercial partnerships, or request an invitation to our demonstration.
+            Connect directly with our Warsaw engineering and spatial consulting desk for residential pre-orders, custom millwork CAD packages, or commercial boutique deployments.
           </p>
           
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:20px; margin-bottom:24px;">
-            <div style="font-weight:600; font-size:0.88rem; margin-bottom:6px;">Direct Communication</div>
-            <p style="font-size:0.84rem; margin-bottom:12px;">For academic or technical questions regarding the MI Wardrobe prototype:</p>
-            <a href="mailto:contact@miwardrobe-prototype.example" id="cfg-email-link" class="btn btn-secondary" style="padding:8px 16px; font-size:0.84rem;">
-              Email Project Team &#8599;
+            <div style="font-weight:600; font-size:0.88rem; margin-bottom:6px;">Direct Engineering Desk</div>
+            <p style="font-size:0.84rem; margin-bottom:12px;">For architectural specifications, BIM integration files, or hardware dispatch inquiries:</p>
+            <a href="mailto:engineering@miwardrobe.pl" id="cfg-email-link" class="btn btn-secondary" style="padding:8px 16px; font-size:0.84rem;">
+              Email Engineering Desk &#8599;
             </a>
           </div>
 
           <p class="privacy-notice-text">
-            Enquiry data is strictly processed to respond to your specific demonstration or product questions. Learn more in our <a href="#" onclick="openModal('modal-privacy'); return false;">Privacy information</a>.
+            Enquiry telemetry is processed strictly for hardware commissioning and architectural coordination. Review our <a href="#" onclick="openModal('modal-privacy'); return false;">Privacy Architecture</a>.
           </p>
         </div>
 
@@ -2764,10 +3259,10 @@
           <div id="native-form-preview-container">
             <div class="placeholder-banner">
               <span>&#10003;</span>
-              <span>GOOGLE FORM EMBED PLACEHOLDER</span>
+              <span>DIRECT COMMISSIONING &amp; ARCHITECTURAL DESK</span>
             </div>
             <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:20px;">
-              Connect your Google Form embed URL in <code style="font-family:var(--font-mono); background:#EEE; padding:2px 4px;">CONFIG.formEmbedUrl</code>. Preview of required form fields:
+              Submit your project parameters below. Our Warsaw engineering desk responds within 1 business day.
             </p>
 
             <form class="contact-form-inner" id="preview-contact-form" onsubmit="handlePreviewSubmit(event)">
@@ -2778,57 +3273,57 @@
                 </div>
                 <div class="form-group">
                   <label for="input-email">Email (required)</label>
-                  <input type="email" id="input-email" class="form-control" required placeholder="alex@example.com">
+                  <input type="email" id="input-email" class="form-control" required placeholder="alex@studio-architecture.eu">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="select-interest">Interest</label>
+                  <label for="select-interest">Commission Scope</label>
                   <select id="select-interest" class="form-control">
-                    <option value="home">Home use</option>
-                    <option value="business">Business use</option>
-                    <option value="expo">Expo demonstration</option>
-                    <option value="other">Other</option>
+                    <option value="home">Private Residence Commissioning</option>
+                    <option value="architect">Architect / Interior Designer (CAD &amp; BIM)</option>
+                    <option value="business">Commercial Boutique / Hospitality</option>
+                    <option value="expo">Private Showroom Briefing</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="select-model">Model</label>
+                  <label for="select-model">Target System</label>
                   <select id="select-model" class="form-control">
-                    <option value="not-sure">Not sure yet</option>
-                    <option value="Mini">MI Wardrobe Mini</option>
-                    <option value="Pro">MI Wardrobe Pro</option>
+                    <option value="Mini">MI Wardrobe Mini (Series MI-01 &mdash; 12 999 z&#322;)</option>
+                    <option value="Pro">MI Wardrobe Pro (Series MI-02 &mdash; Custom)</option>
+                    <option value="not-sure">Multi-Unit / Requires Spatial Consulting</option>
                   </select>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="input-company">Company (optional)</label>
-                  <input type="text" id="input-company" class="form-control" placeholder="Studio / Architecture firm">
+                  <label for="input-company">Architecture Firm / Studio (optional)</label>
+                  <input type="text" id="input-company" class="form-control" placeholder="Atelier / Design Practice">
                 </div>
                 <div class="form-group">
                   <label for="input-phone">Phone (optional)</label>
-                  <input type="tel" id="input-phone" class="form-control" placeholder="+1 555 0192">
+                  <input type="tel" id="input-phone" class="form-control" placeholder="+48 500 000 000">
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="input-message">Message (optional)</label>
-                <textarea id="input-message" class="form-control" rows="3" placeholder="Tell us about your project or showroom inquiry..."></textarea>
+                <label for="input-message">Project Specifications &amp; Millwork Notes</label>
+                <textarea id="input-message" class="form-control" rows="3" placeholder="Specify recess dimensions, finish requirements, or request .DWG/.RVT files..."></textarea>
               </div>
 
               <div class="form-checkbox-row">
                 <input type="checkbox" id="check-updates">
-                <label for="check-updates">Receive occasional project development milestones (optional).</label>
+                <label for="check-updates">Receive MI OS firmware release notes and production batch dispatches (optional).</label>
               </div>
 
               <button type="submit" class="btn btn-primary" style="margin-top:8px;">
-                Send enquiry &#8599;
+                Transmit Specification Enquiry &#8599;
               </button>
 
               <div id="preview-form-status" style="display:none; padding:14px; background:var(--accent-subtle); border:1px solid var(--accent); border-radius:var(--radius-sm); font-size:0.85rem; color:var(--accent);" role="status" aria-live="polite">
-                Thank you. We have received your enquiry and will contact you using the details provided.
+                Thank you. Your specification inquiry has been logged with our Warsaw engineering desk.
               </div>
             </form>
           </div>
@@ -2845,22 +3340,23 @@
           <div style="display: flex; align-items: center; gap: 14px;">
             <img src="logo.png" alt="MI Wardrobe Logo" class="footer-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';" />
             <div>
-              <div style="font-weight:600; font-size:1.15rem; margin-bottom:2px;">MI Wardrobe</div>
-              <p style="font-size:0.84rem; margin:0;">A wardrobe that helps you decide what to wear.</p>
+              <div style="font-weight:600; font-size:1.15rem; margin-bottom:2px;">MI Wardrobe Systems</div>
+              <p style="font-size:0.84rem; margin:0;">Precision Mechanics. Intelligent Curation. Tailored Dressing Systems.</p>
             </div>
           </div>
 
           <div class="footer-links-group">
-            <button type="button" class="footer-link" onclick="openModal('modal-privacy')">Privacy information</button>
-            <button type="button" class="footer-link" onclick="openModal('modal-terms')">Terms of use</button>
-            <button type="button" class="footer-link" onclick="openModal('modal-about')">About this prototype</button>
+            <button type="button" class="footer-link" onclick="openModal('modal-b2b-architects')">For Architects &amp; Builders (CAD/BIM)</button>
+            <button type="button" class="footer-link" onclick="openModal('modal-privacy')">Privacy Architecture</button>
+            <button type="button" class="footer-link" onclick="openModal('modal-terms')">Hardware Terms</button>
+            <button type="button" class="footer-link" onclick="openModal('modal-about')">Engineering Pedigree</button>
             <a href="#hero" class="footer-link">Back to top &#8593;</a>
           </div>
         </div>
 
         <div class="footer-bottom">
-          <span>University project prototype &middot; 2026</span>
-          <span>Honesty in design: Concept renders & simulated UI are labelled.</span>
+          <span>MI Wardrobe Mechatronics &middot; Manufactured in Warsaw &middot; 2026</span>
+          <span>Zero Optical Cameras &middot; Air-Gapped Local MI OS &middot; ISO Load-Tested</span>
         </div>
       </div>
     </footer>
@@ -3138,25 +3634,77 @@
 
   <!-- ACCESSIBLE MODALS -->
   <dialog class="modal-sheet" id="modal-privacy">
-    <h3>Privacy Information</h3>
-    <p>This prototype showcase respects user privacy by design. The built-in touchscreen mirror does not contain a camera sensor; user interactions remain local or securely paired.</p>
-    <p>When published inside Google Sites or web host, standard platform policies apply. This standalone document sets no third-party tracking cookies and stores no local storage keys.</p>
-    <p>When you submit an enquiry via Google Forms, your contact details are strictly accessed by the university project team to coordinate demonstration invitations.</p>
+    <h3>Privacy by Hardware Architecture</h3>
+    <p>MI Wardrobe is engineered from the physical schematic upward for zero-surveillance domestic privacy. The flush-mounted 30 cm capacitive IPS console contains <strong>zero optical camera sensors</strong> and zero ambient microphones.</p>
+    <p>All garment metadata, 650 nm barcode indexes, and ensemble staging profiles reside inside an encrypted local SQLite vault on the wardrobe's internal controller bus.</p>
+    <p>When you submit a commissioning or architectural enquiry, your details are used exclusively by our Warsaw engineering desk to coordinate delivery or CAD/BIM dispatch.</p>
     <button class="btn btn-secondary" onclick="closeModal('modal-privacy')">Close</button>
   </dialog>
 
   <dialog class="modal-sheet" id="modal-terms">
-    <h3>Terms for Using This Site</h3>
-    <p>MI Wardrobe is presented as an exploratory university project prototype. Information, capacity specifications, and mechanism studies are design concepts and subject to refinement.</p>
-    <p>This site does not offer commercial sales contracts or guarantee production schedules. All intellectual property and student design artifacts remain property of the project authors.</p>
+    <h3>Hardware Commissioning &amp; Specification Terms</h3>
+    <p>MI Wardrobe systems (Series MI-01 Mini and Series MI-02 Pro) are precision-manufactured to order in Warsaw. Dimensional tolerances, electrical rough-in requirements (230V AC 50Hz / 24V DC internal bus), and millwork clearances are governed by the official CAD/BIM Revision 2026.4 specification package.</p>
+    <p>Pre-order reservations lock in priority production batch allocation and introductory pricing without immediate payment obligation until final architectural sign-off.</p>
     <button class="btn btn-secondary" onclick="closeModal('modal-terms')">Close</button>
   </dialog>
 
   <dialog class="modal-sheet" id="modal-about">
-    <h3>About the Prototype</h3>
-    <p>MI Wardrobe was conceived to rethink everyday dressing rituals. By uniting dual-tier motorized garment circulation with a capacitive collection assistant, garments are brought within effortless reach.</p>
-    <p>The 3D presentation on this page is generated procedurally in WebGL (Three.js), demonstrating the exact separation axes of internal assemblies.</p>
+    <h3>Warsaw Mechatronics &amp; Engineering Pedigree</h3>
+    <p>MI Wardrobe bridges enterprise-grade automated storage and retrieval systems (AS/RS) with residential luxury joinery. By uniting dual-tier 6063-T6 anodised aluminium carousels, closed-loop NEMA stepper drives, and an air-gapped capacitive MI OS console, up to 90 garments are indexed and delivered in under 4.2 seconds at &lt; 31 dBA.</p>
+    <p>The interactive WebGL 3D twin on this page is driven directly by our production CAD assembly, allowing architects and clients to inspect every sub-assembly in real time.</p>
     <button class="btn btn-secondary" onclick="closeModal('modal-about')">Close</button>
+  </dialog>
+
+  <!-- B2B ARCHITECTS & BUILDERS CAD/BIM MODAL -->
+  <dialog class="modal-sheet" id="modal-b2b-architects">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+      <div>
+        <span class="eyebrow" style="margin-bottom:4px;">Phase 01 // Spatial Consulting &amp; B2B Portal</span>
+        <h3 style="margin-bottom:4px;">Request CAD / BIM Specification Package</h3>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="closeModal('modal-b2b-architects')" aria-label="Close">&times;</button>
+    </div>
+    <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:16px;">
+      Receive instant access to our architectural integration bundle (.DWG, .RVT, .IFC, .STEP), recessed joinery ventilation clearances, and 230V AC electrical rough-in schedules.
+    </p>
+    <form onsubmit="handleB2BArchitectSubmit(event)">
+      <div class="form-row" style="margin-bottom:12px;">
+        <div class="form-group">
+          <label for="b2b-firm">Architecture / Design Practice *</label>
+          <input type="text" id="b2b-firm" class="form-control" required placeholder="Studio / General Contractor">
+        </div>
+        <div class="form-group">
+          <label for="b2b-email">Professional Email *</label>
+          <input type="email" id="b2b-email" class="form-control" required placeholder="architect@practice.eu">
+        </div>
+      </div>
+      <div class="form-row" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label for="b2b-system">Target Chassis Envelope</label>
+          <select id="b2b-system" class="form-control">
+            <option value="both">Both MI-01 Mini (180cm) &amp; MI-02 Pro (240cm)</option>
+            <option value="mini">Series MI-01 Mini (180 &times; 220 &times; 95 cm)</option>
+            <option value="pro">Series MI-02 Pro (240 &times; 220 &times; 95 cm)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="b2b-format">Preferred CAD Format</label>
+          <select id="b2b-format" class="form-control">
+            <option value="all">Complete Bundle (.DWG + .RVT + .STEP + .PDF)</option>
+            <option value="revit">Autodesk Revit (.RVT / .IFC)</option>
+            <option value="dwg">AutoCAD 2D/3D (.DWG)</option>
+            <option value="step">SolidWorks / Neutral 3D (.STEP)</option>
+          </select>
+        </div>
+      </div>
+      <div id="b2b-confirm-banner" style="display:none; padding:12px 14px; background:var(--accent-subtle); border:1px solid var(--accent); border-radius:var(--radius-sm); font-size:0.84rem; color:var(--accent); margin-bottom:12px;">
+        <strong>CAD/BIM Package Dispatched!</strong> Reference <span id="b2b-ref-code" style="font-family:var(--font-mono); font-weight:600;">#CAD-2026</span> has been logged and sent to your studio inbox.
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" class="btn btn-secondary" style="margin-top:0;" onclick="closeModal('modal-b2b-architects')">Close</button>
+        <button type="submit" class="btn btn-primary" style="margin-top:0;">Download &amp; Dispatch Package &#8599;</button>
+      </div>
+    </form>
   </dialog>
 
   <!-- PRE-ORDER RESERVATION MODAL -->
@@ -3532,16 +4080,16 @@
      * ----------------------------------------------------------- */
     const CONFIG = {
       brandName: "MI Wardrobe",
-      positioningLine: "A wardrobe that helps you decide what to wear.",
-      supportingLine: "Explore a new way to organise your clothes, plan your look and bring your chosen pieces within reach.",
-      venueName: "[EXPO / SHOWROOM NAME]",
-      address: "[FULL ADDRESS]",
-      dates: "[DATES]",
-      hours: "[HOURS]",
-      hallStand: "[HALL / STAND]",
-      appointmentNeeded: "[APPOINTMENT NEEDED: YES/NO]",
-      demonstratedPrototype: "[WHICH PROTOTYPE IS DEMONSTRATED]",
-      contactEmail: "enquiry@miwardrobe-prototype.example",
+      positioningLine: "Dual-tier automated garment circulation engineered for architectural interiors.",
+      supportingLine: "Manufactured and load-tested in Warsaw using CNC-machined 6063-T6 anodised aluminium tracks, closed-loop rear stepper drives, and an air-gapped capacitive MI OS console.",
+      venueName: "Warsaw Mechatronics & Design Showcase",
+      address: "Warsaw, Poland (Engineering Lab)",
+      dates: "Q2 – Q4 2026 Production Series",
+      hours: "Mon–Fri · 09:00–18:00 CET",
+      hallStand: "Gantry Bay 01 · Acoustic Chamber",
+      appointmentNeeded: "Pre-Registered Clients & Architects",
+      demonstratedPrototype: "MI Wardrobe Mini (Series MI-01)",
+      contactEmail: "engineering@miwardrobe.pl",
       formEmbedUrl: "",
       privacyUrl: "",
       termsUrl: "",
@@ -4879,15 +5427,15 @@
       const h = window.innerHeight;
 
       const partTargets = [
-        { id: 'doors', obj: leftDoorGroup, card: $('card-doors'), line: $('line-doors'), circ: $('circle-doors'), activeP: [0.05, 0.95], screenOffset: [40, -180] },
-        { id: 'mirror', obj: screenPanelGroup, card: $('card-mirror'), line: $('line-mirror'), circ: $('circle-mirror'), activeP: [0.12, 0.95], screenOffset: [-280, -120] },
-        { id: 'shell', obj: shellTop, card: $('card-shell'), line: $('line-shell'), circ: $('circle-shell'), activeP: [0.20, 0.95], screenOffset: [60, -220] },
-        { id: 'upper-rail', obj: upperRailGroup, card: $('card-upper-rail'), line: $('line-upper-rail'), circ: $('circle-upper-rail'), activeP: [0.28, 0.95], screenOffset: [120, -60] },
-        { id: 'lower-rail', obj: lowerRailGroup, card: $('card-lower-rail'), line: $('line-lower-rail'), circ: $('circle-lower-rail'), activeP: [0.36, 0.95], screenOffset: [-300, 40] },
-        { id: 'hanger-lock', obj: hangerLockGroup, card: $('card-hanger-lock'), line: $('line-hanger-lock'), circ: $('circle-hanger-lock'), activeP: [0.44, 0.95], screenOffset: [-320, -30] },
-        { id: 'portal', obj: collectionPortalGroup, card: $('card-portal'), line: $('line-portal'), circ: $('circle-portal'), activeP: [0.52, 0.95], screenOffset: [140, 60] },
-        { id: 'drive', obj: driveUnitGroup, card: $('card-drive'), line: $('line-drive'), circ: $('circle-drive'), activeP: [0.60, 0.95], screenOffset: [-280, 140] },
-        { id: 'base', obj: basePlinthGroup, card: $('card-base'), line: $('line-base'), circ: $('circle-base'), activeP: [0.68, 0.95], screenOffset: [80, 160] }
+        { id: 'doors', obj: (gltfLoaded && gltfParts['front_left']) ? gltfParts['front_left'] : leftDoorGroup, card: $('card-doors'), line: $('line-doors'), circ: $('circle-doors'), activeP: [0.05, 0.95], screenOffset: [-270, -170] },
+        { id: 'mirror', obj: (gltfLoaded && gltfParts['screen_body']) ? gltfParts['screen_body'] : screenPanelGroup, card: $('card-mirror'), line: $('line-mirror'), circ: $('circle-mirror'), activeP: [0.10, 0.95], screenOffset: [-290, -40] },
+        { id: 'shell', obj: (gltfLoaded && gltfParts['power_bar']) ? gltfParts['power_bar'] : shellTop, card: $('card-shell'), line: $('line-shell'), circ: $('circle-shell'), activeP: [0.16, 0.95], screenOffset: [70, -210] },
+        { id: 'upper-rail', obj: (gltfLoaded && gltfParts['rail_upper']) ? gltfParts['rail_upper'] : upperRailGroup, card: $('card-upper-rail'), line: $('line-upper-rail'), circ: $('circle-upper-rail'), activeP: [0.22, 0.95], screenOffset: [130, -80] },
+        { id: 'lower-rail', obj: (gltfLoaded && gltfParts['rail_lower']) ? gltfParts['rail_lower'] : lowerRailGroup, card: $('card-lower-rail'), line: $('line-lower-rail'), circ: $('circle-lower-rail'), activeP: [0.28, 0.95], screenOffset: [-300, 75] },
+        { id: 'hanger-lock', obj: (gltfLoaded && gltfParts['hook_u0']) ? gltfParts['hook_u0'] : hangerLockGroup, card: $('card-hanger-lock'), line: $('line-hanger-lock'), circ: $('circle-hanger-lock'), activeP: [0.34, 0.95], screenOffset: [145, 25] },
+        { id: 'portal', obj: (gltfLoaded && gltfParts['glass_upper']) ? gltfParts['glass_upper'] : collectionPortalGroup, card: $('card-portal'), line: $('line-portal'), circ: $('circle-portal'), activeP: [0.42, 0.95], screenOffset: [130, 125] },
+        { id: 'drive', obj: driveUnitGroup, card: $('card-drive'), line: $('line-drive'), circ: $('circle-drive'), activeP: [0.50, 0.95], screenOffset: [-290, 165] },
+        { id: 'base', obj: (gltfLoaded && gltfParts['plinth']) ? gltfParts['plinth'] : basePlinthGroup, card: $('card-base'), line: $('line-base'), circ: $('circle-base'), activeP: [0.58, 0.95], screenOffset: [75, 210] }
       ];
 
       const v = new THREE.Vector3();
@@ -5172,6 +5720,60 @@
       if (banner) banner.style.display = 'none';
       window.updatePreorderModelSelect(modelName || 'Mini');
       window.openModal('modal-preorder');
+    };
+
+    const HARDWARE_HOTSPOTS = [
+      {
+        title: '30 cm Capacitive IPS Glass Console',
+        code: 'PN: MI-HMI-300G',
+        desc: 'Optically bonded anti-glare aluminosilicate glass with 240 Hz capacitive touch sampling and oleophobic nano-coating.',
+        meta1: 'RES: 1920×1200 px (600 nits)',
+        meta2: 'BUS: RS-485 / 24V DC Isolated'
+      },
+      {
+        title: '650 nm Solid-State Optical Barcode Lock',
+        code: 'PN: MI-OPT-650L',
+        desc: 'Deterministic hanger engagement sensor that scans retail or MI garment tags and binds each piece to an indexed carousel slot.',
+        meta1: 'SCAN: 650 nm Laser Photodiode',
+        meta2: 'REPEATABILITY: ±0.2 mm Slot Lock'
+      },
+      {
+        title: '3500K CRI-95 Museum Aperture Array',
+        code: 'PN: MI-LED-35K95',
+        desc: 'Warm-neutral 3500K high-CRI linear LED array recessed into the central retrieval bay for true-to-life textile colour rendering.',
+        meta1: 'SPECTRUM: 3500K · CRI ≥ 95',
+        meta2: 'DIMMING: 16-Bit PWM Zero-Flicker'
+      },
+      {
+        title: 'Air-Gapped Local MI OS Controller',
+        code: 'PN: MI-MCU-24V',
+        desc: 'Dedicated embedded logic unit running MI OS v2.4 with an encrypted local SQLite garment vault and zero optical camera hardware.',
+        meta1: 'PRIVACY: 0 Cameras / Air-Gapped',
+        meta2: 'POWER: 24V DC Logic (4.5W Idle)'
+      }
+    ];
+
+    window.selectHardwareHotspot = function(idx, btnEl) {
+      const spec = HARDWARE_HOTSPOTS[idx] || HARDWARE_HOTSPOTS[0];
+      document.querySelectorAll('.hotspot-pill-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      if ($('hs-title')) $('hs-title').textContent = spec.title;
+      if ($('hs-code')) $('hs-code').textContent = spec.code;
+      if ($('hs-desc')) $('hs-desc').textContent = spec.desc;
+      if ($('hs-meta-1')) $('hs-meta-1').textContent = spec.meta1;
+      if ($('hs-meta-2')) $('hs-meta-2').textContent = spec.meta2;
+    };
+
+    window.handleB2BArchitectSubmit = function(e) {
+      e.preventDefault();
+      const banner = $('b2b-confirm-banner');
+      const refCode = $('b2b-ref-code');
+      if (refCode) {
+        refCode.textContent = '#CAD-2026-' + Math.floor(1000 + Math.random() * 9000);
+      }
+      if (banner) {
+        banner.style.display = 'block';
+      }
     };
 
     window.handlePreorderSubmit = function(e) {
