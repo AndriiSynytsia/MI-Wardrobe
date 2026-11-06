@@ -267,12 +267,8 @@
     }
 
     /* Keep text legible while it floats over the dark stage */
-    body.stage-dark .placement-header h2,
     body.stage-dark .mobile-part-tracker strong { color: #F2EEE7; }
-    body.stage-dark .placement-header p,
-    body.stage-dark .hero-bottom-bar { color: #A8A49D; }
-    body.stage-dark .placement-header .eyebrow { color: #8FC2A3; }
-    body.stage-dark .hero-bottom-bar { border-top-color: rgba(255, 255, 255, 0.12); }
+    body.stage-dark .hero-bottom-bar { color: #A8A49D; border-top-color: rgba(255, 255, 255, 0.12); }
     body.stage-dark .leader-line { stroke: rgba(242, 238, 231, 0.55); }
     body.stage-dark .leader-line-circle { fill: #E8D3AE; }
     .brand-wordmark, .brand-tag, .explosion-hud h2, .explosion-hud p, .placement-header h2, .placement-header p, .hero-bottom-bar { transition: color 0.5s ease, border-color 0.5s ease; }
@@ -930,6 +926,8 @@
     .scene-placement {
       min-height: 120vh;
       padding: 120px 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
     }
 
     .placement-header {
@@ -2592,16 +2590,21 @@
                 </div>
                 <div class="model-spec-row">
                   <span class="model-spec-label">Price</span>
-                  <span class="model-spec-value">Pricing to be announced</span>
+                  <span class="model-spec-value" style="font-weight:600; color:var(--text);">12 999 z&#322;</span>
                 </div>
               </div>
             </div>
 
             <div>
               <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Capacity figures are indicative.</p>
-              <a href="#contact" class="btn btn-primary" style="width:100%;" onclick="selectModelInForm('Mini')">
-                Contact sales &#8599;
-              </a>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <button type="button" class="btn btn-primary" style="width:100%;" onclick="openPreorderModal('Mini', '12 999 zł')">
+                  Pre-order &#8594;
+                </button>
+                <a href="#contact" class="btn btn-secondary" style="width:100%;" onclick="selectModelInForm('Mini')">
+                  Contact sales &#8599;
+                </a>
+              </div>
             </div>
           </article>
 
@@ -2647,9 +2650,14 @@
 
             <div>
               <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:16px;">Capacity figures are indicative.</p>
-              <a href="#contact" class="btn btn-primary" style="width:100%;" onclick="selectModelInForm('Pro')">
-                Contact sales &#8599;
-              </a>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <button type="button" class="btn btn-primary" style="width:100%;" onclick="openPreorderModal('Pro', 'To be announced')">
+                  Pre-order &#8594;
+                </button>
+                <a href="#contact" class="btn btn-secondary" style="width:100%;" onclick="selectModelInForm('Pro')">
+                  Contact sales &#8599;
+                </a>
+              </div>
             </div>
           </article>
         </div>
@@ -3149,6 +3157,65 @@
     <p>MI Wardrobe was conceived to rethink everyday dressing rituals. By uniting dual-tier motorized garment circulation with a capacitive collection assistant, garments are brought within effortless reach.</p>
     <p>The 3D presentation on this page is generated procedurally in WebGL (Three.js), demonstrating the exact separation axes of internal assemblies.</p>
     <button class="btn btn-secondary" onclick="closeModal('modal-about')">Close</button>
+  </dialog>
+
+  <!-- PRE-ORDER RESERVATION MODAL -->
+  <dialog class="modal-sheet" id="modal-preorder">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+      <div>
+        <span class="eyebrow" style="margin-bottom:4px;">Priority Production Batch</span>
+        <h3 style="margin-bottom:4px;" id="preorder-modal-title">Pre-order MI Wardrobe Mini</h3>
+      </div>
+      <button type="button" class="modal-close-btn" onclick="closeModal('modal-preorder')" aria-label="Close">&times;</button>
+    </div>
+
+    <div style="background:var(--surface-subtle); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:18px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <strong id="preorder-summary-model" style="display:block; font-size:0.95rem;">MI Wardrobe Mini (MI-01)</strong>
+        <span style="font-size:0.78rem; color:var(--text-muted);">Matte White &amp; Black Exterior &middot; Natural Walnut Interior</span>
+      </div>
+      <div id="preorder-summary-price" style="font-family:var(--font-mono); font-size:1.1rem; font-weight:600; color:var(--accent);">12 999 z&#322;</div>
+    </div>
+
+    <form id="form-preorder" onsubmit="handlePreorderSubmit(event)">
+      <div class="form-row" style="margin-bottom:12px;">
+        <div class="form-group">
+          <label for="preorder-model-select">Configuration</label>
+          <select id="preorder-model-select" class="form-control" onchange="updatePreorderModelSelect(this.value)">
+            <option value="Mini">MI Wardrobe Mini &mdash; 12 999 z&#322;</option>
+            <option value="Pro">MI Wardrobe Pro &mdash; Pricing TBA</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="preorder-name">Full Name *</label>
+          <input type="text" id="preorder-name" class="form-control" required placeholder="Jan Kowalski">
+        </div>
+      </div>
+
+      <div class="form-row" style="margin-bottom:12px;">
+        <div class="form-group">
+          <label for="preorder-email">Email Address *</label>
+          <input type="email" id="preorder-email" class="form-control" required placeholder="jan@example.com">
+        </div>
+        <div class="form-group">
+          <label for="preorder-city">Delivery City &amp; Country *</label>
+          <input type="text" id="preorder-city" class="form-control" required placeholder="Warsaw, Poland">
+        </div>
+      </div>
+
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:14px;">
+        No payment is charged today. Placing a pre-order reserves your priority build slot and locks in the introductory price of <strong>12 999 z&#322;</strong> for MI Wardrobe Mini.
+      </p>
+
+      <div id="preorder-confirm-banner" style="display:none; padding:14px; background:var(--accent-subtle); border:1px solid var(--accent); border-radius:var(--radius-sm); font-size:0.86rem; color:var(--accent); margin-bottom:12px;">
+        <strong>Pre-order Reserved!</strong> Your priority reservation <span id="preorder-ref-code" style="font-family:var(--font-mono); font-weight:600;">#MIW-2026</span> has been registered. Our Warsaw team will contact you with delivery scheduling.
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" class="btn btn-secondary" style="margin-top:0;" onclick="closeModal('modal-preorder')">Cancel</button>
+        <button type="submit" class="btn btn-primary" style="margin-top:0;" id="btn-preorder-submit">Confirm Pre-order &#8594;</button>
+      </div>
+    </form>
   </dialog>
 
   <!-- ========================================== -->
@@ -5081,6 +5148,42 @@
     window.selectModelInForm = function(modelName) {
       const select = $('select-model');
       if (select) select.value = modelName;
+    };
+
+    window.updatePreorderModelSelect = function(modelName) {
+      const title = $('preorder-modal-title');
+      const sumModel = $('preorder-summary-model');
+      const sumPrice = $('preorder-summary-price');
+      const sel = $('preorder-model-select');
+      if (sel) sel.value = modelName;
+      if (modelName === 'Pro') {
+        if (title) title.textContent = 'Pre-order MI Wardrobe Pro';
+        if (sumModel) sumModel.textContent = 'MI Wardrobe Pro (MI-02)';
+        if (sumPrice) sumPrice.textContent = 'Pricing TBA';
+      } else {
+        if (title) title.textContent = 'Pre-order MI Wardrobe Mini';
+        if (sumModel) sumModel.textContent = 'MI Wardrobe Mini (MI-01)';
+        if (sumPrice) sumPrice.textContent = '12 999 zł';
+      }
+    };
+
+    window.openPreorderModal = function(modelName) {
+      const banner = $('preorder-confirm-banner');
+      if (banner) banner.style.display = 'none';
+      window.updatePreorderModelSelect(modelName || 'Mini');
+      window.openModal('modal-preorder');
+    };
+
+    window.handlePreorderSubmit = function(e) {
+      e.preventDefault();
+      const banner = $('preorder-confirm-banner');
+      const refCode = $('preorder-ref-code');
+      if (refCode) {
+        refCode.textContent = '#MIW-2026-' + Math.floor(1000 + Math.random() * 9000);
+      }
+      if (banner) {
+        banner.style.display = 'block';
+      }
     };
 
     window.handlePreviewSubmit = function(e) {
