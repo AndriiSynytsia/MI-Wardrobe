@@ -467,40 +467,54 @@
     /* LIGHT MODE THEME OVERRIDES                 */
     /* ========================================== */
     html[data-theme="light"] {
-      --bg: #F4EFE6;
-      --bg-alt: #EAE2D6;
-      --surface: #FFFFFF;
-      --surface-subtle: #EFE8DC;
+      --bg: #697254;
+      --bg-alt: #9BA485;
+      --surface: #AAB09D;
+      --surface-subtle: #9FA68D;
       --text: #1C232D;
       --text-muted: #363C44;
-      --text-light: #7A7062;
+      --text-light: #272E20;
       --accent: #363C44;
       --accent-hover: #1C232D;
       --accent-subtle: rgba(149, 138, 122, 0.18);
       --led-glow: rgba(149, 138, 122, 0.28);
       --led-warm: rgba(224, 209, 185, 0.45);
-      --border: rgba(54, 60, 68, 0.16);
-      --border-dark: rgba(28, 35, 45, 0.28);
+      --border: rgba(28, 35, 45, 0.20);
+      --border-dark: rgba(28, 35, 45, 0.34);
     }
 
     html[data-theme="light"] #canvas-container {
       background:
-        radial-gradient(ellipse 50% 52% at 32% 28%, rgba(255, 255, 255, 0.75) 0%, transparent 70%),
-        radial-gradient(ellipse 65% 50% at 75% 70%, rgba(224, 209, 185, 0.45) 0%, transparent 70%),
-        radial-gradient(ellipse 80% 70% at 45% 45%, #F7F3EB 0%, #EAE1D3 52%, #DDD2C0 100%);
+        radial-gradient(ellipse 50% 52% at 32% 28%, rgba(228, 213, 195, 0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 65% 50% at 75% 70%, rgba(182, 156, 133, 0.40) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 70% at 45% 45%, #718598 0%, #b8ac8e 52%, #B89D83 100%);
     }
 
     html[data-theme="light"] #canvas-container::after {
-      background: radial-gradient(ellipse 85% 80% at 45% 45%, transparent 50%, rgba(149, 138, 122, 0.18) 82%, rgba(54, 60, 68, 0.32) 100%);
+      background: radial-gradient(ellipse 85% 80% at 45% 45%, transparent 55%, rgba(50, 58, 36, 0.12) 84%, rgba(35, 42, 24, 0.24) 100%);
+    }
+
+    /* Glass navigation bar in the bubble colour + legible footer strip over the stage */
+    html[data-theme="light"] .brand-header {
+      background: rgba(170, 176, 157, 0.88);
+      border-color: rgba(196, 201, 184, 0.7);
+      box-shadow: 0 8px 28px rgba(35, 42, 24, 0.18), inset 0 1px 0 rgba(196, 201, 184, 0.6);
+    }
+    html[data-theme="light"] body.stage-dark .hero-bottom-bar {
+      color: #23291A;
+      border-top-color: rgba(54, 60, 68, 0.2);
+    }
+    html[data-theme="light"] body.stage-dark .mobile-part-tracker strong {
+      color: #1C232D;
     }
 
     html[data-theme="light"] .hero-content,
     html[data-theme="light"] .scene-zoom-card,
     html[data-theme="light"] .explosion-hud,
     html[data-theme="light"] .part-label-card {
-      background: rgba(255, 255, 255, 0.90);
-      border-color: rgba(149, 138, 122, 0.42);
-      box-shadow: 0 20px 50px rgba(28, 35, 45, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      background: rgba(170, 176, 157, 0.95); /* text bubbles: #AAB09D */
+      border-color: rgba(28, 35, 45, 0.22);
+      box-shadow: 0 20px 50px rgba(28, 35, 45, 0.16), inset 0 1px 0 rgba(196, 201, 184, 0.6);
       color: #1C232D;
     }
 
@@ -595,16 +609,6 @@
       background: rgba(255, 255, 255, 0.75);
       border-color: rgba(54, 60, 68, 0.22);
       color: #1C232D;
-    }
-
-    html[data-theme="light"] .theme-toggle-pill {
-      background: #E0D1B9;
-      color: #1C232D;
-      border-color: #958A7A;
-    }
-
-    html[data-theme="light"] .theme-toggle-pill svg {
-      stroke: #1C232D;
     }
 
     .brand-logo-img {
@@ -1043,6 +1047,45 @@
     .explosion-hud h2 {
       font-size: 1.75rem;
       margin-bottom: 8px;
+    }
+
+    /* "Make the rails rotate" button (sits just above the heading) */
+    .rail-rotate-btn {
+      display: flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      margin: 2px 0 14px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-dark);
+      background: var(--accent-subtle);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    }
+    .rail-rotate-btn svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+    .rail-rotate-btn:hover:not(:disabled) {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+    .rail-rotate-btn:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+    .rail-rotate-btn:disabled svg {
+      animation: railBtnSpin 1.8s linear infinite;
+    }
+    @keyframes railBtnSpin {
+      to { transform: rotate(360deg); }
     }
 
     .explosion-hud p {
@@ -1632,10 +1675,13 @@
       padding: 120px 0;
     }
 
+    /* Two equal columns; every card row (photo, badges, title, text, capacity, each spec, note, button)
+       is a shared grid row, so both cards line up row for row. */
     .models-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 32px;
+      row-gap: 0;
       margin-top: 48px;
     }
 
@@ -1644,10 +1690,41 @@
       border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: var(--radius-md);
       padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: subgrid;
+      grid-row: span 11;
+      row-gap: 0;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .model-card-body,
+    .model-card-foot {
+      display: contents;
+    }
+    .model-card-desc {
+      margin-bottom: 20px;
+    }
+    .model-card-note {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-bottom: 14px;
+    }
+    .model-card .btn {
+      width: 100%;
+      align-self: end;
+    }
+    @supports not (grid-template-rows: subgrid) {
+      .model-card {
+        display: flex;
+        flex-direction: column;
+      }
+      .model-card-body,
+      .model-card-foot {
+        display: block;
+      }
+      .model-card-foot {
+        margin-top: auto;
+      }
     }
 
     .model-card:hover {
@@ -1751,17 +1828,29 @@
     }
 
     .model-spec-table {
-      margin: 32px 0;
+      margin: 4px 0 28px;
       border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: subgrid;
+      grid-row: span 4;
     }
 
     .model-spec-row {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
+      gap: 16px;
       padding: 14px 0;
       border-bottom: 1px solid var(--border);
       font-size: 0.9rem;
+    }
+
+    .model-price-val {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
     }
 
     .model-spec-label {
@@ -1776,11 +1865,19 @@
 
     .capacity-highlight {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
       margin-bottom: 28px;
+    }
+
+    .capacity-highlight > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      min-height: 92px;
       background: var(--surface-subtle);
-      padding: 18px;
+      padding: 16px 18px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
     }
@@ -1792,6 +1889,8 @@
       color: var(--text);
       line-height: 1.1;
       display: block;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
 
     .cap-label {
@@ -2104,7 +2203,15 @@
       }
 
       .models-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .model-card + .model-card {
+        margin-top: 28px;
+      }
+
+      .model-card {
+        padding: 28px 22px;
       }
 
       .form-row {
@@ -2127,10 +2234,6 @@
         left: 20px;
         right: 20px;
         width: auto;
-      }
-
-      .header-center-nav {
-        display: none;
       }
 
       .brand-header {
@@ -2535,12 +2638,16 @@
     }
 
     /* SETTINGS POPOVER */
-    .brand-settings-wrapper {
+    .brand-settings-wrapper,
+    .brand-menu-wrapper {
       position: relative;
       display: inline-flex;
       align-items: center;
+      flex-shrink: 0;
     }
     .brand-wordmark-btn {
+      text-decoration: none;
+      white-space: nowrap;
       background: none;
       border: none;
       font-family: inherit;
@@ -2559,20 +2666,150 @@
     .brand-wordmark-btn:hover {
       background: rgba(24, 24, 27, 0.08);
     }
-    .settings-gear-icon {
-      width: 15px;
-      height: 15px;
-      stroke: #71717A;
-      transition: transform 0.3s ease, stroke 0.2s ease;
+    .header-settings-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: #18181B;
+      cursor: pointer;
+      transition: background 0.2s ease;
     }
-    .brand-wordmark-btn:hover .settings-gear-icon {
-      transform: rotate(45deg);
+    .header-settings-btn:hover,
+    .header-settings-btn[aria-expanded="true"] {
+      background: rgba(24, 24, 27, 0.08);
+    }
+    .settings-gear-icon {
+      width: 18px;
+      height: 18px;
       stroke: #18181B;
+      transition: transform 0.3s ease;
+    }
+    .header-settings-btn:hover .settings-gear-icon,
+    .header-settings-btn[aria-expanded="true"] .settings-gear-icon {
+      transform: rotate(45deg);
+    }
+
+    /* Compact bar (set by updateHeaderLayout() whenever the full bar would not fit):
+       only the name, Log in, Create account and settings stay; the name opens the menu. */
+    .header-nav-link,
+    #btn-header-login,
+    #btn-header-signup {
+      white-space: nowrap;
+    }
+    .brand-menu-chevron {
+      display: none;
+      width: 14px;
+      height: 14px;
+      stroke: #52525B;
+      flex-shrink: 0;
+      transition: transform 0.25s ease;
+    }
+    .brand-header.nav-compact .brand-menu-chevron {
+      display: block;
+    }
+    .brand-header.menu-open .brand-menu-chevron {
+      transform: rotate(180deg);
+    }
+    .brand-header.nav-compact .header-center-nav,
+    .brand-header.nav-compact .header-search-wrap {
+      display: none;
+    }
+    .brand-menu-popover {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 0;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: var(--surface);
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(224, 209, 185, 0.1);
+      z-index: 100;
+    }
+    .brand-menu-popover[hidden] {
+      display: none;
+    }
+    .brand-menu-link {
+      display: block;
+      padding: 11px 14px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s ease;
+    }
+    .brand-menu-link:hover,
+    .brand-menu-link:focus-visible {
+      background: var(--accent-subtle);
+    }
+    html[data-theme="light"] .refined-table th {
+      background: var(--surface-subtle);
+    }
+    html[data-theme="light"] .lang-switch-btn.active {
+      color: #E3E6DA;
+    }
+    html[data-theme="light"] .settings-popover,
+    html[data-theme="light"] .brand-menu-popover {
+      box-shadow: 0 16px 40px rgba(35, 42, 24, 0.25);
+    }
+    @media (max-width: 560px) {
+      .brand-header {
+        top: 10px;
+        left: 8px;
+        right: 8px;
+        min-height: 54px;
+        padding: 6px 10px;
+      }
+      .header-right-group {
+        gap: 6px;
+      }
+      #header-auth-container {
+        gap: 6px !important;
+      }
+      #btn-header-login,
+      #btn-header-signup {
+        padding: 7px 10px;
+        font-size: 0.74rem;
+      }
+      .brand-wordmark-btn {
+        font-size: 1rem;
+        gap: 6px;
+        padding: 4px;
+      }
+      .brand-logo-img {
+        width: 26px;
+        height: 26px;
+      }
+      .header-settings-btn {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    @media (max-width: 400px) {
+      .brand-logo-img {
+        display: none;
+      }
+      #btn-header-login,
+      #btn-header-signup {
+        padding: 6px 8px;
+        font-size: 0.7rem;
+      }
     }
     .settings-popover {
       position: absolute;
       top: calc(100% + 12px);
-      left: 0;
+      right: 0;
       width: 240px;
       background: var(--surface);
       border: 1px solid var(--border-dark);
@@ -2645,18 +2882,19 @@
     .spaces-carousel-track {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start; /* goToSpace() translates the track from its left edge to centre the active card */
       gap: 28px;
       transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
       will-change: transform;
     }
     .space-card {
-      flex: 0 0 min(680px, 82vw);
+      flex: 0 0 min(680px, 82vw, calc((100vh - 330px) * 1.3386));
+      min-width: 240px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.10); /* centred: same on all four sides */
       transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
                   opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1),
                   filter 0.6s cubic-bezier(0.25, 1, 0.5, 1),
@@ -2667,8 +2905,18 @@
       transform: scale(1.0);
       opacity: 1;
       filter: none;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 28px rgba(224, 209, 185, 0.14);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
       cursor: default;
+    }
+    /* Hover: light shadow with no x/y offset, so it is equal on top, bottom, left and right */
+    .space-card:hover,
+    .space-card.active:hover,
+    .space-card.side:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+    html:not([data-theme="light"]) .space-card.active,
+    html:not([data-theme="light"]) .space-card:hover {
+      box-shadow: 0 0 20px rgba(224, 209, 185, 0.16);
     }
     .space-card.side {
       transform: scale(0.86);
@@ -2681,15 +2929,18 @@
     }
     .space-card-img-wrap {
       width: 100%;
-      height: 380px;
+      aspect-ratio: 1024 / 765; /* matches the room photos, so the full image always fits */
       background: var(--bg-alt);
-      overflow: hidden;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .space-card-img-wrap img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
       display: block;
     }
     .space-card-info {
@@ -2768,7 +3019,13 @@
     }
     .refined-table {
       width: 100%;
+      min-width: 560px;
       border-collapse: collapse;
+      table-layout: fixed; /* Mini and Pro columns are always the same width */
+    }
+    .refined-table th:nth-child(2),
+    .refined-table th:nth-child(3) {
+      width: 36%;
     }
     .refined-table th {
       padding: 16px 28px;
@@ -2823,7 +3080,6 @@
     }
     .expo-interior-slot {
       width: 100%;
-      height: 260px;
       border-radius: var(--radius-sm);
       background: var(--bg-alt);
       border: 1px solid var(--border);
@@ -2834,17 +3090,17 @@
       justify-content: center;
     }
     .expo-interior-slot img {
+      display: block;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+      object-position: center;
     }
 
     @media (max-width: 900px) {
       .exhibition-grid {
         grid-template-columns: 1fr;
-      }
-      .space-card-img-wrap {
-        height: 260px;
       }
     }
 
@@ -2877,28 +3133,23 @@
   <div id="scroll-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 
   <!-- Brand Wordmark Header (Translucent Hazy Glass Navbar) -->
-  <header class="brand-header">
-    <div class="brand-settings-wrapper" id="brand-settings-wrapper">
-      <button type="button" class="brand-wordmark-btn" id="brand-settings-trigger" onclick="toggleSettingsPopover(event)" aria-haspopup="true" aria-expanded="false" title="Mi Wardrobe Settings / Ustawienia">
+  <header class="brand-header" id="brand-header">
+    <!-- Brand name: goes straight to About Us on wide screens; opens the six-item menu when the full bar does not fit -->
+    <div class="brand-menu-wrapper" id="brand-menu-wrapper">
+      <a href="about.html" class="brand-wordmark-btn" id="brand-home-link" onclick="handleBrandClick(event)">
         <img src="logo.png" alt="Mi Wardrobe Logo" class="brand-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';" />
         <span id="cfg-brand-name">Mi Wardrobe</span>
-        <svg class="settings-gear-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        <svg class="brand-menu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 9l6 6 6-6"></path>
         </svg>
-      </button>
-      <div class="settings-popover" id="settings-popover" style="display:none;" role="menu">
-        <div class="settings-popover-title" data-i18n="settings_title">Settings</div>
-        <div class="settings-row">
-          <span class="settings-label" data-i18n="settings_lang">Language:</span>
-          <div class="lang-switch-group">
-            <button type="button" class="lang-switch-btn active" id="btn-lang-en" onclick="setSiteLanguage('en')">EN</button>
-            <button type="button" class="lang-switch-btn" id="btn-lang-pl" onclick="setSiteLanguage('pl')">PL</button>
-          </div>
-        </div>
-        <div class="settings-row" style="margin-bottom:0; padding-top:8px; border-top:1px solid var(--border);">
-          <a href="about.html" class="settings-link" data-i18n="nav_about">About Us &rarr;</a>
-        </div>
+      </a>
+      <div class="brand-menu-popover" id="brand-menu-popover" hidden>
+        <a href="#models" class="brand-menu-link" data-i18n="nav_products">Products</a>
+        <a href="#operation" class="brand-menu-link" data-i18n="nav_services">Services</a>
+        <a href="materials.html" class="brand-menu-link" data-i18n="nav_materials">Materials</a>
+        <a href="#visit" class="brand-menu-link" data-i18n="nav_news">News</a>
+        <a href="chat.html" class="brand-menu-link" data-i18n="nav_chat">Chat with us</a>
+        <a href="about.html" class="brand-menu-link" data-i18n="nav_about">About Us</a>
       </div>
     </div>
 
@@ -2921,8 +3172,8 @@
         </button>
       </div>
       <div id="header-auth-container" style="display: flex; align-items: center; gap: 8px;">
-        <button type="button" class="btn btn-secondary btn-sm" id="btn-header-login" onclick="openAuthModal('signin')">Log in</button>
-        <button type="button" class="btn btn-primary btn-sm" id="btn-header-signup" onclick="openAuthModal('signup')">Create account</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-header-login" onclick="openAuthModal('signin')" data-i18n="nav_login">Log in</button>
+        <button type="button" class="btn btn-primary btn-sm" id="btn-header-signup" onclick="openAuthModal('signup')" data-i18n="nav_signup">Create account</button>
       </div>
       <div id="header-user-badge" style="display: none;">
         <button type="button" class="user-pill-btn" onclick="openWardrobePortal()">
@@ -2931,23 +3182,32 @@
           <span class="paired-tag" id="header-paired-tag">Mini Paired</span>
         </button>
       </div>
-      <button type="button" class="theme-toggle-pill" id="theme-toggle-btn" onclick="toggleSiteTheme()" aria-label="Toggle Light/Dark Mode">
-        <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-        <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-        <span id="theme-toggle-label">Light</span>
-      </button>
+      <!-- Settings (far right on every device): language, then light / dark mode -->
+      <div class="brand-settings-wrapper" id="brand-settings-wrapper">
+        <button type="button" class="header-settings-btn" id="brand-settings-trigger" onclick="toggleSettingsPopover(event)" aria-haspopup="true" aria-expanded="false" aria-label="Settings / Ustawienia" title="Settings / Ustawienia">
+          <svg class="settings-gear-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+        <div class="settings-popover" id="settings-popover" style="display:none;">
+          <div class="settings-popover-title" data-i18n="settings_title">Settings</div>
+          <div class="settings-row">
+            <span class="settings-label" data-i18n="settings_lang">Language</span>
+            <div class="lang-switch-group">
+              <button type="button" class="lang-switch-btn active" id="btn-lang-en" onclick="setSiteLanguage('en')">EN</button>
+              <button type="button" class="lang-switch-btn" id="btn-lang-pl" onclick="setSiteLanguage('pl')">PL</button>
+            </div>
+          </div>
+          <div class="settings-row" style="margin-bottom:0;">
+            <span class="settings-label" data-i18n="settings_theme">Mode</span>
+            <div class="lang-switch-group">
+              <button type="button" class="lang-switch-btn" id="btn-theme-light" onclick="applySiteTheme('light')" data-i18n="theme_light">Light</button>
+              <button type="button" class="lang-switch-btn active" id="btn-theme-dark" onclick="applySiteTheme('dark')" data-i18n="theme_dark">Dark</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -2988,17 +3248,6 @@
             <button type="button" class="btn btn-primary" onclick="openPreorderModal('Mini', '12 999 zł')" data-i18n="hero_btn_preorder">Configure &amp; Pre-order &#8594;</button>
           </div>
         </div>
-      </div>
-
-      <div class="container hero-bottom-bar">
-        <span>Mi Wardrobe</span>
-        <div class="scroll-indicator">
-          <span data-i18n="hero_scroll">Scroll to explore</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M7 10l5 5 5-5"/>
-          </svg>
-        </div>
-        <span>Designed for Living</span>
       </div>
     </section>
 
@@ -3060,6 +3309,13 @@
       <div class="explosion-sticky">
         <div class="explosion-hud">
           <span class="eyebrow" data-i18n="expl_eyebrow">02 / Interior Architecture</span>
+          <button type="button" class="rail-rotate-btn" id="btn-rail-rotate" onclick="startRailRotation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 1 1-3-6.7"></path>
+              <polyline points="21 3 21 9 15 9"></polyline>
+            </svg>
+            <span data-i18n="expl_btn_rotate">Make the rails rotate</span>
+          </button>
           <h2 data-i18n="expl_title">Crafted from the Inside Out</h2>
           <p data-i18n="expl_lead">Scroll to reveal the smooth motorized rails, illuminated garment bays, and quiet drive system.</p>
           <div class="explosion-progress-badge">
@@ -3329,7 +3585,7 @@
         <div class="models-grid">
           <!-- Mi Wardrobe Mini -->
           <article class="model-card">
-            <div>
+            <div class="model-card-body">
               <!-- Image slot for Mini -->
               <div class="model-img-slot" id="slot-model-mini">
                 <img id="img-model-mini" src="wardrobe-mini.jpg" alt="Mi Wardrobe Mini" onerror="this.style.display='none'; document.getElementById('placeholder-model-mini').style.display='flex';" />
@@ -3348,23 +3604,23 @@
                 <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent);" data-i18n="mini_tag">Residential Standard</span>
               </div>
               <h3 data-i18n="mini_title">Mi Wardrobe Mini</h3>
-              <p style="margin-bottom: 20px;" data-i18n="mini_desc">Ideal for bedrooms and urban apartments, combining generous two-tier capacity with a sleek footprint.</p>
+              <p class="model-card-desc" data-i18n="mini_desc">Ideal for bedrooms and urban apartments, combining generous two-tier capacity with a sleek footprint.</p>
 
               <div class="capacity-highlight">
                 <div>
-                  <span class="cap-num"><strong data-i18n="mini_cap_upper">40 Garments</strong></span>
-                  <span class="cap-label" data-i18n="mini_cap_upper_sub">Upper Rail (Coats, jackets, dresses)</span>
+                  <span class="cap-num"><strong data-i18n="mini_cap_upper">40</strong></span>
+                  <span class="cap-label" data-i18n="mini_cap_upper_sub">Garments, upper rail</span>
                 </div>
                 <div>
-                  <span class="cap-num"><strong data-i18n="mini_cap_lower">20 Garments</strong></span>
-                  <span class="cap-label" data-i18n="mini_cap_lower_sub">Lower Rail (Shirts, trousers)</span>
+                  <span class="cap-num"><strong data-i18n="mini_cap_lower">20</strong></span>
+                  <span class="cap-label" data-i18n="mini_cap_lower_sub">Garments, lower rail</span>
                 </div>
               </div>
 
               <div class="model-spec-table">
                 <div class="model-spec-row">
-                  <span class="model-spec-label" data-i18n="mini_spec_dim_label">Dimensions</span>
-                  <span class="model-spec-value"><strong data-i18n="mini_spec_dim_val">180 cm (W) × 220 cm (H) × 95 cm (D)</strong></span>
+                  <span class="model-spec-label" data-i18n="mini_spec_dim_label">Size (W × H × D)</span>
+                  <span class="model-spec-value"><strong data-i18n="mini_spec_dim_val">180 × 220 × 95 cm</strong></span>
                 </div>
                 <div class="model-spec-row">
                   <span class="model-spec-label" data-i18n="mini_spec_sound_label">Sound Level</span>
@@ -3372,18 +3628,18 @@
                 </div>
                 <div class="model-spec-row">
                   <span class="model-spec-label" data-i18n="mini_spec_finish_label">Finish</span>
-                  <span class="model-spec-value"><strong data-i18n="mini_spec_finish_val">Matte White &amp; Black / Natural Walnut</strong></span>
+                  <span class="model-spec-value"><strong data-i18n="mini_spec_finish_val">Matte white &amp; walnut</strong></span>
                 </div>
                 <div class="model-spec-row">
                   <span class="model-spec-label" data-i18n="mini_price_label">Direct Price</span>
-                  <span class="model-spec-value" style="font-weight:700; color:var(--accent); font-family:var(--font-mono); font-size:1.1rem;" data-i18n="mini_price_val">12 999 zł</span>
+                  <span class="model-spec-value model-price-val" data-i18n="mini_price_val">12 999 zł</span>
                 </div>
               </div>
             </div>
 
-            <div>
-              <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:14px;" data-i18n="mini_note">Reserve your build slot with priority delivery reservation.</p>
-              <button type="button" class="btn btn-primary" style="width:100%;" onclick="openPreorderModal('Mini', '12 999 zł')" data-i18n="btn_preorder">
+            <div class="model-card-foot">
+              <p class="model-card-note" data-i18n="mini_note">Reserve your build slot with priority delivery.</p>
+              <button type="button" class="btn btn-primary" onclick="openPreorderModal('Mini', '12 999 zł')" data-i18n="btn_preorder">
                 Pre-order &#8594;
               </button>
             </div>
@@ -3391,7 +3647,7 @@
 
           <!-- Mi Wardrobe Pro -->
           <article class="model-card">
-            <div>
+            <div class="model-card-body">
               <!-- Image slot for Pro -->
               <div class="model-img-slot" id="slot-model-pro">
                 <img id="img-model-pro" src="wardrobe-pro.jpg" alt="Mi Wardrobe Pro" onerror="this.style.display='none'; document.getElementById('placeholder-model-pro').style.display='flex';" />
@@ -3411,23 +3667,23 @@
                 <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent);" data-i18n="pro_tag">Expanded Suite</span>
               </div>
               <h3 data-i18n="pro_title">Mi Wardrobe Pro</h3>
-              <p style="margin-bottom: 20px;" data-i18n="pro_desc">Designed for walk-in dressing rooms and boutique suites, offering expanded double-tier capacity.</p>
+              <p class="model-card-desc" data-i18n="pro_desc">Designed for walk-in dressing rooms and boutique suites, offering expanded double-tier capacity.</p>
 
               <div class="capacity-highlight">
                 <div>
-                  <span class="cap-num"><strong data-i18n="pro_cap_upper">50–60 Garments</strong></span>
-                  <span class="cap-label" data-i18n="pro_cap_upper_sub">Upper Rail (Extended raceway)</span>
+                  <span class="cap-num"><strong data-i18n="pro_cap_upper">50–60</strong></span>
+                  <span class="cap-label" data-i18n="pro_cap_upper_sub">Garments, upper rail</span>
                 </div>
                 <div>
-                  <span class="cap-num"><strong data-i18n="pro_cap_lower">30 Garments</strong></span>
-                  <span class="cap-label" data-i18n="pro_cap_lower_sub">Lower Rail (Secondary tier)</span>
+                  <span class="cap-num"><strong data-i18n="pro_cap_lower">30</strong></span>
+                  <span class="cap-label" data-i18n="pro_cap_lower_sub">Garments, lower rail</span>
                 </div>
               </div>
 
               <div class="model-spec-table">
                 <div class="model-spec-row">
-                  <span class="model-spec-label" data-i18n="pro_spec_dim_label">Dimensions</span>
-                  <span class="model-spec-value"><strong data-i18n="pro_spec_dim_val">240 cm (W) × 220 cm (H) × 95 cm (D)</strong></span>
+                  <span class="model-spec-label" data-i18n="pro_spec_dim_label">Size (W × H × D)</span>
+                  <span class="model-spec-value"><strong data-i18n="pro_spec_dim_val">240 × 220 × 95 cm</strong></span>
                 </div>
                 <div class="model-spec-row">
                   <span class="model-spec-label" data-i18n="pro_spec_sound_label">Sound Level</span>
@@ -3435,18 +3691,18 @@
                 </div>
                 <div class="model-spec-row">
                   <span class="model-spec-label" data-i18n="pro_spec_finish_label">Finish</span>
-                  <span class="model-spec-value"><strong data-i18n="pro_spec_finish_val">Bespoke Walnut &amp; Architectural Lacquer</strong></span>
+                  <span class="model-spec-value"><strong data-i18n="pro_spec_finish_val">Walnut &amp; custom lacquer</strong></span>
                 </div>
                 <div class="model-spec-row">
                   <span class="model-spec-label" data-i18n="pro_price_label">Direct Price</span>
-                  <span class="model-spec-value"><strong data-i18n="pro_price_val">Custom Quotation</strong></span>
+                  <span class="model-spec-value model-price-val" data-i18n="pro_price_val">Custom quote</span>
                 </div>
               </div>
             </div>
 
-            <div>
-              <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:14px;" data-i18n="pro_note">Configured to your architectural requirements and materials.</p>
-              <button type="button" class="btn btn-primary" style="width:100%;" onclick="openPreorderModal('Pro', 'Custom')" data-i18n="btn_preorder">
+            <div class="model-card-foot">
+              <p class="model-card-note" data-i18n="pro_note">Configured to your room layout and materials.</p>
+              <button type="button" class="btn btn-primary" onclick="openPreorderModal('Pro', 'Custom')" data-i18n="btn_preorder">
                 Pre-order &#8594;
               </button>
             </div>
@@ -3506,12 +3762,13 @@
                 </tr>
                 <tr>
                   <td data-i18n="mat_row_screen">Touch Console</td>
-                  <td colspan="2" style="text-align:center;"><strong data-i18n="mat_val_screen_all">30 cm capacitive display with private local storage</strong></td>
+                  <td><strong data-i18n="mat_val_screen_mini">OLED display, 11.8 × 7.1 in</strong></td>
+                  <td><strong data-i18n="mat_val_screen_pro">OLED display, 11.8 × 7.1 in</strong></td>
                 </tr>
                 <tr>
                   <td data-i18n="mat_row_price">Price</td>
                   <td><strong style="color:var(--accent); font-family:var(--font-mono); font-size:1.05rem;" data-i18n="mat_val_price_mini">12 999 zł</strong></td>
-                  <td><strong data-i18n="mat_val_price_pro">Bespoke Quotation</strong></td>
+                  <td><strong style="color:var(--accent); font-family:var(--font-mono); font-size:1.05rem;" data-i18n="mat_val_price_pro">Bespoke Quotation</strong></td>
                 </tr>
               </tbody>
             </table>
@@ -3563,16 +3820,7 @@
             <span class="badge-label" data-i18n="expo_interior_caption">Exhibition interior showcase preview</span>
             <!-- Image slot for exhibition interior -->
             <div class="expo-interior-slot" id="slot-expo-interior">
-              <img id="img-expo-interior" src="exhibition-interior.jpg" alt="Mi Wardrobe Exhibition Interior" onerror="this.style.display='none'; document.getElementById('placeholder-expo-interior').style.display='flex';" />
-              <div class="model-img-placeholder" id="placeholder-expo-interior" style="height:100%;">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                  <polyline points="21 15 16 10 5 21"></polyline>
-                </svg>
-                <span>Exhibition Interior Photo</span>
-                <span style="font-size:0.68rem; color:var(--text-light); text-transform:none;">exhibition-interior.jpg</span>
-              </div>
+              <img id="img-expo-interior" src="exhibition-interior.jpg" width="1024" height="559" loading="lazy" alt="Inside the Mi Wardrobe exhibition" data-i18n-alt="expo_interior_alt" onerror="this.onerror=null; this.src='assets/exhibition-interior.jpg';" />
             </div>
 
             <div style="margin-top: 20px;">
@@ -4637,6 +4885,14 @@
       }
     }
 
+    // Declared before the scene boots so a scroll update fired during start-up can never hit it uninitialised.
+    const explosionState = { progress: 0 };
+
+    // LCD screensaver GIF state (used by drawScreenTexture, which runs during scene start-up)
+    const LCD_GIF_URL = 'assets/image_4_screen.gif';
+    const LCD_MESH_ASPECT = 0.28 / 0.50; // screen_display surface in the GLB: 28 cm wide x 50 cm tall
+    const lcdGif = { started: false, ready: false, complete: false, decoder: null, index: 0, nextAt: 0, failures: 0, timer: 0, img: null };
+
     if (!isWebGLAvailable()) {
       $('static-webgl-fallback').style.display = 'flex';
     } else {
@@ -5293,7 +5549,7 @@
                     }
                     child.geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
                   }
-                  child.material = screenVideoMat;
+                  child.material = screenTextureMat; // plain black until the touchscreen demo step plays
                 }
                 if (child.name.includes('glass') || (child.material && child.material.name === 'glass')) {
                   // Frosted / hazy glass: see-through but softly clouded
@@ -5412,114 +5668,108 @@
     }
 
     function drawScreenTexture(state) {
-      if (!screenCtx) return;
-      const ctx = screenCtx;
-      const w = 512, h = 800;
-
-      // Dark capacitive glass background
-      ctx.fillStyle = '#181A1D';
-      ctx.fillRect(0, 0, w, h);
-
-      // Subtle top header
-      ctx.fillStyle = '#7E8691';
-      ctx.font = '22px Inter, sans-serif';
-      ctx.fillText('08:24', 36, 44);
-      ctx.fillText('MI OS', 420, 44);
-
-      if (state === 1) {
-        // STATE 1: EXACT MATCH TO SKETCH SCREEN #3
-        // Human avatar silhouette with outfit preview
-        ctx.fillStyle = '#A0C4FF'; // Avatar head
-        ctx.beginPath();
-        ctx.arc(256, 170, 36, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Avatar Dress / Suit Silhouette
-        ctx.fillStyle = '#5390D9';
-        ctx.beginPath();
-        ctx.moveTo(256, 215);
-        ctx.lineTo(200, 260);
-        ctx.lineTo(170, 420);
-        ctx.lineTo(342, 420);
-        ctx.lineTo(312, 260);
-        ctx.closePath();
-        ctx.fill();
-
-        // Legs
-        ctx.fillStyle = '#3F4954';
-        ctx.fillRect(225, 420, 24, 90);
-        ctx.fillRect(263, 420, 24, 90);
-
-        // 3 Color Preset Buttons from palette
-        const swatches = ['#1C232D', '#958A7A', '#E0D1B9'];
-        swatches.forEach((col, i) => {
-          ctx.fillStyle = col;
-          ctx.beginPath();
-          safeRoundRect(ctx, 80 + i * 80, 560, 60, 60, 8);
-        });
-
-        // Champagne "OK" confirmation button
-        ctx.fillStyle = '#E0D1B9';
-        ctx.beginPath();
-        safeRoundRect(ctx, 330, 560, 110, 60, 8);
-
-        ctx.fillStyle = '#1C232D';
-        ctx.font = 'bold 26px Inter, sans-serif';
-        ctx.fillText('OK', 365, 600);
-
-        ctx.fillStyle = '#958A7A';
-        ctx.font = '18px monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText('TAP OK TO RETRIEVE OUTFIT', 256, 680);
-        ctx.textAlign = 'left';
-      } else if (state === 2) {
-        // STATE 2: OUTFIT DETAILS
-        ctx.fillStyle = '#E0D1B9';
-        ctx.font = '22px Inter, sans-serif';
-        ctx.fillText('SELECTED PIECES', 36, 120);
-
-        ctx.fillStyle = '#22252A';
-        ctx.beginPath();
-        safeRoundRect(ctx, 36, 160, 440, 440, 18);
-
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 26px Inter, sans-serif';
-        ctx.fillText('Dual-Rail Combination', 60, 220);
-
-        ctx.fillStyle = '#C8BCA9';
-        ctx.font = '20px Inter, sans-serif';
-        ctx.fillText('• Upper Rail #04: Cashmere Overcoat', 60, 280);
-        ctx.fillText('• Upper Rail #12: Navy Blazer', 60, 330);
-        ctx.fillText('• Lower Rail #02: White Oxford Shirt', 60, 380);
-        ctx.fillText('• Lower Rail #08: Pleated Trousers', 60, 430);
-
-        ctx.fillStyle = '#E0D1B9';
-        ctx.beginPath();
-        safeRoundRect(ctx, 60, 490, 392, 80, 12);
-
-        ctx.fillStyle = '#1C232D';
-        ctx.font = 'bold 24px Inter, sans-serif';
-        ctx.fillText('Confirm Garment Delivery', 95, 540);
-      } else if (state === 3) {
-        // STATE 3: RETRIEVAL IN PROGRESS
-        ctx.strokeStyle = '#E0D1B9';
-        ctx.lineWidth = 10;
-        ctx.beginPath();
-        ctx.arc(256, 320, 80, 0, Math.PI * 1.5);
-        ctx.stroke();
-
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 28px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('Rails Rotating...', 256, 460);
-
-        ctx.fillStyle = '#E0D1B9';
-        ctx.font = '20px monospace';
-        ctx.fillText('Ready at Collection Opening (Center)', 256, 510);
-        ctx.textAlign = 'left';
-      }
-
+      // Idle LCD: the looping screensaver GIF (see below). It is only black until the first GIF frame arrives.
+      // No avatar, swatches, buttons or status text.
+      if (!screenCtx || lcdGif.ready) return;
+      screenCtx.fillStyle = '#000000';
+      screenCtx.fillRect(0, 0, 512, 800);
       if (screenTexture) screenTexture.needsUpdate = true;
+    }
+
+    /* -------------------------------------------------------------
+     * LCD SCREENSAVER: assets/image_4_screen.gif
+     * Plays in an endless loop on the wardrobe screen whenever the screen is idle.
+     * While the interface demo video is showing, the video keeps the screen exactly
+     * as before; when it ends the GIF is back. Frames are decoded one at a time and
+     * painted onto the existing screen canvas texture (no extra meshes or materials),
+     * so the scroll-driven scenes are not involved at all.
+     * ----------------------------------------------------------- */
+    function lcdDrawFrame(source, sw, sh) {
+      if (!screenCtx || !sw || !sh) return;
+      const cw = screenCanvas.width, ch = screenCanvas.height;
+      // Physical width / height of the screen surface, so the picture is never stretched
+      const aspect = gltfScreenDisplay ? LCD_MESH_ASPECT : cw / ch;
+      let cropW = sw, cropH = sh;
+      if (sw / sh > aspect) cropW = sh * aspect; else cropH = sw / aspect;
+      screenCtx.drawImage(source, (sw - cropW) / 2, (sh - cropH) / 2, cropW, cropH, 0, 0, cw, ch);
+      lcdGif.ready = true;
+      if (screenTexture) screenTexture.needsUpdate = true;
+    }
+
+    function lcdIdleScreenVisible() {
+      // Skip decoding while the tab is hidden, the demo video owns the screen, or the 3D stage is faded out
+      return !document.hidden && !isVideoShowing && !(container && container.style.opacity === '0.00');
+    }
+
+    function lcdGifTick() {
+      const g = lcdGif;
+      if (!g.decoder) return;
+      if (g.ready && !lcdIdleScreenVisible()) {
+        g.nextAt = 0;
+        g.timer = setTimeout(lcdGifTick, 250);
+        return;
+      }
+      g.decoder.decode({ frameIndex: g.index }).then(function(result) {
+        const frame = result.image;
+        lcdDrawFrame(frame, frame.displayWidth, frame.displayHeight);
+        const dur = Math.max(20, (frame.duration || 80000) / 1000);
+        frame.close();
+        g.failures = 0;
+        const track = g.decoder.tracks.selectedTrack;
+        const next = g.index + 1;
+        g.index = (g.complete && track && next >= track.frameCount) ? 0 : next; // seamless loop
+        const now = performance.now();
+        g.nextAt = (g.nextAt && g.nextAt > now - 400) ? g.nextAt + dur : now + dur;
+        g.timer = setTimeout(lcdGifTick, Math.max(0, g.nextAt - now));
+      }).catch(function() {
+        // Past the last frame (or a frame that could not be read): start the loop again
+        g.failures++;
+        g.index = 0;
+        g.nextAt = 0;
+        if (g.failures < 20) g.timer = setTimeout(lcdGifTick, 150);
+      });
+    }
+
+    function startLcdGifFallback() {
+      // Browsers without ImageDecoder: let the browser animate the GIF and copy its current frame
+      const img = new Image();
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      img.style.cssText = 'position:fixed;right:0;bottom:0;width:2px;height:2px;opacity:0.01;pointer-events:none;';
+      img.onload = function() {
+        setInterval(function() {
+          if (lcdGif.ready && !lcdIdleScreenVisible()) return;
+          try { lcdDrawFrame(img, img.naturalWidth, img.naturalHeight); } catch (e) {}
+        }, 60);
+      };
+      img.src = LCD_GIF_URL;
+      document.body.appendChild(img);
+      lcdGif.img = img;
+    }
+
+    function startLcdGif() {
+      if (lcdGif.started || !screenCtx) return;
+      lcdGif.started = true;
+      if (typeof ImageDecoder === 'undefined' || typeof fetch === 'undefined') {
+        startLcdGifFallback();
+        return;
+      }
+      ImageDecoder.isTypeSupported('image/gif').then(function(ok) {
+        if (!ok) throw new Error('GIF decoding not supported');
+        return fetch(LCD_GIF_URL);
+      }).then(function(response) {
+        if (!response.ok || !response.body) throw new Error('GIF not available');
+        const decoder = new ImageDecoder({ data: response.body, type: 'image/gif' });
+        lcdGif.decoder = decoder;
+        decoder.completed.then(function() { lcdGif.complete = true; }).catch(function() {});
+        return decoder.tracks.ready;
+      }).then(function() {
+        lcdGifTick();
+      }).catch(function(err) {
+        console.warn('MI Wardrobe: LCD GIF decoder unavailable, using <img> fallback.', err);
+        lcdGif.decoder = null;
+        startLcdGifFallback();
+      });
     }
 
     function onWindowResize() {
@@ -5569,7 +5819,6 @@
     /* -------------------------------------------------------------
      * 4. SCENE 3: EXPLOSION ANIMATION TIMELINE
      * ----------------------------------------------------------- */
-    const explosionState = { progress: 0 };
 
     function updateExplosionProgress(p) {
       explosionState.progress = p;
@@ -5793,6 +6042,169 @@
           artCard.classList.remove('visible');
         }
       }
+    }
+
+    /* -------------------------------------------------------------
+     * 4b. OPTIONAL RAIL ROTATION PREVIEW
+     * Button above "Crafted from the Inside Out". Carries the garments a short
+     * way along both conveyor loops, then stops on its own.
+     * It only offsets each garment's rest position, so the scroll-driven exploded
+     * view above is not modified and keeps running on top of it. Any scrolling
+     * eases the rails back to their original position.
+     * ----------------------------------------------------------- */
+    const RAIL_SPIN_STEP = 3;       // hanger positions travelled on the upper rail per click
+    const RAIL_SPIN_MS = 3600;      // slow, eased rotation
+    const RAIL_RETURN_MS = 900;     // smooth return when the user scrolls
+    const railSpin = { shift: 0, from: 0, to: 0, t0: 0, dur: 0, mode: 'idle', raf: 0, rails: null, startY: 0 };
+    const railSpinTarget = new THREE.Vector3();
+    const railSpinTurn = new THREE.Quaternion();
+    const railSpinInv = new THREE.Quaternion();
+    const railSpinCamPos = new THREE.Vector3();
+    const railSpinCamQuat = new THREE.Quaternion();
+
+    function buildRailSpinData() {
+      if (!gltfModel || !gltfParts['tshirt_u0']) return null;
+      const makeRail = (count, factor, describe) => {
+        const slots = [];
+        for (let i = 0; i < count; i++) {
+          const d = describe(i);
+          if (!d || !d.anchor) return null;
+          const anchor = d.anchor;
+          const anchorPos = anchor.userData.originPos.clone();
+          slots.push({
+            pos: anchorPos,
+            quat: anchor.quaternion.clone(),
+            parts: d.parts.filter(o => o && o.parent === anchor.parent).map(o => ({
+              obj: o,
+              basePos: o.userData.originPos.clone(),
+              baseQuat: o.quaternion.clone(),
+              rel: o.userData.originPos.clone().sub(anchorPos)
+            }))
+          });
+        }
+        return { slots: slots, factor: factor };
+      };
+      const upper = makeRail(40, 1, (u) => {
+        const prefix = 'Spodnie_u' + u + '_';
+        const waist = gltfParts[prefix + 'Trousers_Waistband'];
+        if (waist) {
+          return { anchor: waist, parts: Object.keys(gltfParts).filter(n => n.indexOf(prefix) === 0).map(n => gltfParts[n]) };
+        }
+        const shirt = gltfParts['tshirt_u' + u];
+        return { anchor: shirt, parts: [shirt, gltfParts['hook_u' + u], gltfParts['garment_u' + u]] };
+      });
+      // The lower rail has half as many hangers, so half a slot covers the same distance; it runs the opposite way.
+      const lower = makeRail(20, -0.5, (l) => {
+        let tName = 'tshirt_l' + l;
+        if (l === 13) tName = gltfParts['tshirt_l12001'] ? 'tshirt_l12001' : (gltfParts['tshirt_l12.001'] ? 'tshirt_l12.001' : 'tshirt_l13');
+        if (l === 14) tName = gltfParts['tshirt_l12002'] ? 'tshirt_l12002' : (gltfParts['tshirt_l12.002'] ? 'tshirt_l12.002' : 'tshirt_l14');
+        if (l === 15) tName = gltfParts['tshirt_l12003'] ? 'tshirt_l12003' : (gltfParts['tshirt_l12.003'] ? 'tshirt_l12.003' : 'tshirt_l15');
+        const shirt = gltfParts[tName];
+        return { anchor: shirt, parts: [shirt, gltfParts['hook_l' + l], gltfParts['garment_l' + l]] };
+      });
+      const rails = [upper, lower].filter(Boolean);
+      return rails.length ? rails : null;
+    }
+
+    function applyRailSpin(shift) {
+      const rails = railSpin.rails;
+      if (!rails) return;
+      rails.forEach(rail => {
+        const n = rail.slots.length;
+        const s = shift * rail.factor;
+        rail.slots.forEach((slot, i) => {
+          if (shift === 0) {
+            // Exact original pose
+            slot.parts.forEach(pt => {
+              pt.obj.userData.originPos.copy(pt.basePos);
+              pt.obj.quaternion.copy(pt.baseQuat);
+            });
+            return;
+          }
+          const x = i + s;
+          const k = Math.floor(x);
+          const f = x - k;
+          const a = rail.slots[((k % n) + n) % n];
+          const b = rail.slots[(((k + 1) % n) + n) % n];
+          railSpinTarget.copy(a.pos).lerp(b.pos, f);
+          railSpinTarget.y = slot.pos.y;
+          railSpinTurn.copy(a.quat).slerp(b.quat, f).multiply(railSpinInv.copy(slot.quat).invert());
+          slot.parts.forEach(pt => {
+            pt.obj.userData.originPos.copy(pt.rel).applyQuaternion(railSpinTurn).add(railSpinTarget);
+            pt.obj.quaternion.copy(railSpinTurn).multiply(pt.baseQuat);
+          });
+        });
+      });
+      // Re-pose the model from the shifted rest positions at the current scroll progress.
+      // The camera is left exactly where the scroll-driven scenes put it.
+      if (camera) {
+        railSpinCamPos.copy(camera.position);
+        railSpinCamQuat.copy(camera.quaternion);
+      }
+      updateExplosionProgress(explosionState.progress);
+      if (camera) {
+        camera.position.copy(railSpinCamPos);
+        camera.quaternion.copy(railSpinCamQuat);
+      }
+    }
+
+    function setRailButtonBusy(busy) {
+      const btn = $('btn-rail-rotate');
+      if (!btn) return;
+      btn.disabled = busy;
+      btn.setAttribute('aria-busy', busy ? 'true' : 'false');
+    }
+
+    function railSpinFrame(now) {
+      const k = Math.max(0, Math.min(1, (now - railSpin.t0) / railSpin.dur));
+      const eased = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; // easeInOutCubic
+      railSpin.shift = k >= 1 ? railSpin.to : railSpin.from + (railSpin.to - railSpin.from) * eased;
+      applyRailSpin(railSpin.shift);
+      if (k < 1) {
+        railSpin.raf = requestAnimationFrame(railSpinFrame);
+        return;
+      }
+      railSpin.raf = 0;
+      railSpin.mode = 'idle';
+      setRailButtonBusy(false);
+    }
+
+    function runRailSpin(to, dur, mode) {
+      if (railSpin.raf) cancelAnimationFrame(railSpin.raf);
+      railSpin.from = railSpin.shift;
+      railSpin.to = to;
+      railSpin.dur = dur;
+      railSpin.mode = mode;
+      railSpin.t0 = performance.now();
+      setRailButtonBusy(true);
+      railSpin.raf = requestAnimationFrame(railSpinFrame);
+    }
+
+    window.startRailRotation = function() {
+      if (railSpin.mode !== 'idle') return;
+      if (!railSpin.rails) railSpin.rails = buildRailSpinData();
+      if (!railSpin.rails) return; // 3D model not ready yet
+      railSpin.startY = window.scrollY;
+      runRailSpin(railSpin.shift + RAIL_SPIN_STEP, RAIL_SPIN_MS, 'spin');
+    };
+
+    function cancelRailSpin() {
+      if (!railSpin.rails || railSpin.mode === 'return') return;
+      if (railSpin.mode === 'idle' && railSpin.shift === 0) return;
+      runRailSpin(0, RAIL_RETURN_MS, 'return');
+    }
+
+    // Any scrolling (during or after the rotation) sends the rails home.
+    window.addEventListener('wheel', cancelRailSpin, { passive: true });
+    window.addEventListener('touchmove', cancelRailSpin, { passive: true });
+    window.addEventListener('scroll', function() {
+      if (Math.abs(window.scrollY - railSpin.startY) > 24) cancelRailSpin();
+    }, { passive: true });
+
+    if (document.readyState === 'complete') {
+      startLcdGif();
+    } else {
+      window.addEventListener('load', startLcdGif);
     }
 
     function updateProjectedLabels() {
@@ -6152,6 +6564,12 @@
         goToSpace(currentSpaceIdx);
       });
 
+      // Re-centre whenever the carousel itself changes size (fonts, scrollbar, late layout)
+      window.addEventListener('load', () => { goToSpace(currentSpaceIdx); });
+      if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(() => { goToSpace(currentSpaceIdx); }).observe(wrap);
+      }
+
       // Initial center alignment
       setTimeout(() => { goToSpace(0); }, 100);
     })();
@@ -6204,15 +6622,20 @@
         nav_news: "News",
         nav_chat: "Chat with us",
         nav_about: "About Us",
+        nav_login: "Log in",
+        nav_signup: "Create account",
         settings_title: "Settings",
         settings_lang: "Language",
+        settings_theme: "Mode",
+        theme_light: "Light",
+        theme_dark: "Dark",
         hero_eyebrow: "Luxury Modular Wardrobe",
         hero_tagline: "Your wardrobe, reimagined.",
         hero_lead: "Automated dual-tier garment curation tailored effortlessly for your home.",
         hero_btn_preorder: "Configure & Pre-order →",
-        hero_scroll: "Scroll to explore",
         expl_eyebrow: "02 / Interior Architecture",
         expl_title: "Crafted from the Inside Out",
+        expl_btn_rotate: "Make the rails rotate",
         expl_lead: "Scroll to reveal the smooth motorized rails, illuminated garment bays, and quiet drive system.",
         expl_badge_prefix: "Exploded View: ",
         expl_active: "Active",
@@ -6261,37 +6684,37 @@
         mini_tag: "Residential Standard",
         mini_title: "Mi Wardrobe Mini",
         mini_desc: "Ideal for bedrooms and urban apartments, combining generous two-tier capacity with a sleek footprint.",
-        mini_cap_upper: "40 Garments",
-        mini_cap_upper_sub: "Upper Rail (Coats, jackets, dresses)",
-        mini_cap_lower: "20 Garments",
-        mini_cap_lower_sub: "Lower Rail (Shirts, trousers)",
-        mini_spec_dim_label: "Dimensions",
-        mini_spec_dim_val: "180 cm (W) × 220 cm (H) × 95 cm (D)",
+        mini_cap_upper: "40",
+        mini_cap_upper_sub: "Garments, upper rail",
+        mini_cap_lower: "20",
+        mini_cap_lower_sub: "Garments, lower rail",
+        mini_spec_dim_label: "Size (W × H × D)",
+        mini_spec_dim_val: "180 × 220 × 95 cm",
         mini_spec_sound_label: "Sound Level",
         mini_spec_sound_val: "Whisper-quiet (< 31 dBA)",
         mini_spec_finish_label: "Finish",
-        mini_spec_finish_val: "Matte White & Black / Natural Walnut",
+        mini_spec_finish_val: "Matte white & walnut",
         mini_price_label: "Direct Price",
         mini_price_val: "12 999 zł",
-        mini_note: "Reserve your build slot with priority delivery reservation.",
+        mini_note: "Reserve your build slot with priority delivery.",
         btn_preorder: "Pre-order →",
         pro_badge: "Series MI-02",
         pro_tag: "Expanded Suite",
         pro_title: "Mi Wardrobe Pro",
         pro_desc: "Designed for walk-in dressing rooms and boutique suites, offering expanded double-tier capacity.",
-        pro_cap_upper: "50–60 Garments",
-        pro_cap_upper_sub: "Upper Rail (Extended raceway)",
-        pro_cap_lower: "30 Garments",
-        pro_cap_lower_sub: "Lower Rail (Secondary tier)",
-        pro_spec_dim_label: "Dimensions",
-        pro_spec_dim_val: "240 cm (W) × 220 cm (H) × 95 cm (D)",
+        pro_cap_upper: "50–60",
+        pro_cap_upper_sub: "Garments, upper rail",
+        pro_cap_lower: "30",
+        pro_cap_lower_sub: "Garments, lower rail",
+        pro_spec_dim_label: "Size (W × H × D)",
+        pro_spec_dim_val: "240 × 220 × 95 cm",
         pro_spec_sound_label: "Sound Level",
         pro_spec_sound_val: "Whisper-quiet (< 33 dBA)",
         pro_spec_finish_label: "Finish",
-        pro_spec_finish_val: "Bespoke Walnut & Architectural Lacquer",
+        pro_spec_finish_val: "Walnut & custom lacquer",
         pro_price_label: "Direct Price",
-        pro_price_val: "Custom Quotation",
-        pro_note: "Configured to your architectural requirements and materials.",
+        pro_price_val: "Custom quote",
+        pro_note: "Configured to your room layout and materials.",
         matrix_title: "Specification Overview",
         matrix_col_param: "Feature",
         matrix_col_mini: "Mi Wardrobe Mini",
@@ -6319,7 +6742,8 @@
         mat_val_dim_pro: "240 × 220 × 95 cm",
         mat_val_finish_mini: "Matte White, Black fascia & Natural Walnut",
         mat_val_finish_pro: "Bespoke veneer & architectural lacquer",
-        mat_val_screen_all: "30 cm capacitive display with private local storage",
+        mat_val_screen_mini: "OLED display, 11.8 × 7.1 in",
+        mat_val_screen_pro: "OLED display, 11.8 × 7.1 in",
         mat_val_price_mini: "12 999 zł",
         mat_val_price_pro: "Bespoke Quotation",
         expo_eyebrow: "Private Viewings",
@@ -6333,6 +6757,7 @@
         expo_hours_val: "By private appointment (Mon–Fri)",
         expo_map_link: "Open in Google Maps →",
         expo_interior_caption: "Exhibition interior showcase preview",
+        expo_interior_alt: "Inside the Mi Wardrobe exhibition",
         contact_eyebrow: "Personal Consultation",
         contact_title: "Commission Your Mi Wardrobe",
         contact_lead: "Share your room ideas with us. We reply within one business day.",
@@ -6364,13 +6789,18 @@
         nav_news: "Aktualności",
         nav_chat: "Napisz do nas",
         nav_about: "O nas",
+        nav_login: "Zaloguj się",
+        nav_signup: "Załóż konto",
         settings_title: "Ustawienia",
         settings_lang: "Język",
+        settings_theme: "Tryb",
+        theme_light: "Jasny",
+        theme_dark: "Ciemny",
         hero_eyebrow: "Luksusowa Szafa Modułowa",
         hero_tagline: "Twoja szafa, na nowo.",
         hero_lead: "Zautomatyzowany, dwupoziomowy obieg ubrań stworzony dla nowoczesnych wnętrz.",
         hero_btn_preorder: "Skonfiguruj i zamów w przedsprzedaży →",
-        hero_scroll: "Przewiń, aby poznać",
+        expl_btn_rotate: "Uruchom obrót szyn",
         feat_eyebrow: "Inteligentne sterowanie",
         feat_title: "Flush-mounted touch controls",
         feat_desc: "Dyskretny ekran dotykowy wbudowany w ramę sprawia, że cała garderoba jest na wyciągnięcie ręki w kilka sekund.",
@@ -6410,37 +6840,37 @@
         mini_tag: "Standard mieszkaniowy",
         mini_title: "Mi Wardrobe Mini",
         mini_desc: "Idealna do sypialni i mieszkań w mieście – łączy dwupoziomową pojemność ze zwartą formą.",
-        mini_cap_upper: "40 Ubrań",
-        mini_cap_upper_sub: "Górna szyna (Płaszcze, garnitury, sukienki)",
-        mini_cap_lower: "20 Ubrań",
-        mini_cap_lower_sub: "Dolna szyna (Koszule, spodnie)",
-        mini_spec_dim_label: "Wymiary",
-        mini_spec_dim_val: "180 cm (szer.) × 220 cm (wys.) × 95 cm (gł.)",
+        mini_cap_upper: "40",
+        mini_cap_upper_sub: "Ubrań, górna szyna",
+        mini_cap_lower: "20",
+        mini_cap_lower_sub: "Ubrań, dolna szyna",
+        mini_spec_dim_label: "Wymiary (szer. × wys. × gł.)",
+        mini_spec_dim_val: "180 × 220 × 95 cm",
         mini_spec_sound_label: "Głośność",
         mini_spec_sound_val: "Szeptem cicha (< 31 dBA)",
         mini_spec_finish_label: "Wykończenie",
-        mini_spec_finish_val: "Matowa biel i czerń / Naturalny orzech",
+        mini_spec_finish_val: "Matowa biel i orzech",
         mini_price_label: "Cena bezpośrednia",
         mini_price_val: "12 999 zł",
-        mini_note: "Gwarancja pierwszeństwa w kolejce produkcyjnej.",
+        mini_note: "Zarezerwuj miejsce w kolejce z priorytetową dostawą.",
         btn_preorder: "Zamów w przedsprzedaży →",
         pro_badge: "Seria MI-02",
         pro_tag: "Wariant powiększony",
         pro_title: "Mi Wardrobe Pro",
-        pro_desc: "Stworzona do przestronnych garderób typu walk-in i butików – oferuje zwiększoną pojemność na obu poziomach.",
-        pro_cap_upper: "50–60 Ubrań",
-        pro_cap_upper_sub: "Górna szyna (Powiększona pętla)",
-        pro_cap_lower: "30 Ubrań",
-        pro_cap_lower_sub: "Dolna szyna (Drugi poziom)",
-        pro_spec_dim_label: "Wymiary",
-        pro_spec_dim_val: "240 cm (szer.) × 220 cm (wys.) × 95 cm (gł.)",
+        pro_desc: "Stworzona do garderób typu walk-in i butików – oferuje większą pojemność na obu poziomach.",
+        pro_cap_upper: "50–60",
+        pro_cap_upper_sub: "Ubrań, górna szyna",
+        pro_cap_lower: "30",
+        pro_cap_lower_sub: "Ubrań, dolna szyna",
+        pro_spec_dim_label: "Wymiary (szer. × wys. × gł.)",
+        pro_spec_dim_val: "240 × 220 × 95 cm",
         pro_spec_sound_label: "Głośność",
         pro_spec_sound_val: "Szeptem cicha (< 33 dBA)",
         pro_spec_finish_label: "Wykończenie",
-        pro_spec_finish_val: "Dedykowany orzech i lakier meblowy",
+        pro_spec_finish_val: "Orzech i lakier na wymiar",
         pro_price_label: "Cena bezpośrednia",
         pro_price_val: "Wycena indywidualna",
-        pro_note: "Dopasowana do indywidualnego projektu architektonicznego.",
+        pro_note: "Dopasowana do układu pomieszczenia i materiałów.",
         matrix_title: "Zestawienie parametrów",
         matrix_col_param: "Parametr",
         matrix_col_mini: "Mi Wardrobe Mini",
@@ -6468,7 +6898,8 @@
         mat_val_dim_pro: "240 × 220 × 95 cm",
         mat_val_finish_mini: "Matowa biel, czarna fasada i naturalny orzech",
         mat_val_finish_pro: "Fornir na zamówienie i lakier architektoniczny",
-        mat_val_screen_all: "Ekran pojemnościowy 30 cm z lokalnym bezpiecznym zapisem",
+        mat_val_screen_mini: "Wyświetlacz OLED, 11,8 × 7,1 cala",
+        mat_val_screen_pro: "Wyświetlacz OLED, 11,8 × 7,1 cala",
         mat_val_price_mini: "12 999 zł",
         mat_val_price_pro: "Wycena indywidualna",
         expo_eyebrow: "Prywatne pokazy",
@@ -6482,6 +6913,7 @@
         expo_hours_val: "Po uprzednim umówieniu terminu (Pn–Pt)",
         expo_map_link: "Otwórz w Mapach Google →",
         expo_interior_caption: "Podgląd wnętrza wystawy pokazowej",
+        expo_interior_alt: "Wnętrze wystawy Mi Wardrobe",
         contact_eyebrow: "Indywidualne zamówienie",
         contact_title: "Zamów swoją szafę Mi Wardrobe",
         contact_lead: "Napisz do nas o swoich potrzebach. Odpowiadamy w ciągu jednego dnia roboczego.",
@@ -6541,6 +6973,10 @@
         const k = el.getAttribute('data-i18n-ph');
         if (dict[k]) el.setAttribute('placeholder', dict[k]);
       });
+      document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+        const k = el.getAttribute('data-i18n-alt');
+        if (dict[k]) el.setAttribute('alt', dict[k]);
+      });
 
       // Update settings popover & about modal buttons
       const btnEn = $('btn-lang-en');
@@ -6552,16 +6988,8 @@
       if (abtEn) abtEn.classList.toggle('active', lang === 'en');
       if (abtPl) abtPl.classList.toggle('active', lang === 'pl');
 
-      // Update theme toggle label language
-      const themeLabel = $('theme-toggle-label');
-      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-      if (themeLabel) {
-        if (lang === 'pl') {
-          themeLabel.textContent = currentTheme === 'light' ? 'Ciemny' : 'Jasny';
-        } else {
-          themeLabel.textContent = currentTheme === 'light' ? 'Dark' : 'Light';
-        }
-      }
+      // Labels changed width: re-check whether the full navigation bar still fits
+      if (window.updateHeaderLayout) window.updateHeaderLayout();
     };
 
     let selectedFirstVisitLang = 'en';
@@ -6585,30 +7013,119 @@
       if (modal) modal.classList.add('hidden');
     };
 
+    /* Header popovers: settings (gear, far right) and the brand menu (compact bar only) */
+    function setSettingsPopover(open) {
+      const popover = $('settings-popover');
+      const trigger = $('brand-settings-trigger');
+      if (popover) popover.style.display = open ? 'block' : 'none';
+      if (trigger) trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function setBrandMenu(open) {
+      const header = $('brand-header');
+      const menu = $('brand-menu-popover');
+      const link = $('brand-home-link');
+      if (menu) menu.hidden = !open;
+      if (header) header.classList.toggle('menu-open', open);
+      if (link && link.hasAttribute('aria-expanded')) link.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
     window.toggleSettingsPopover = function(e) {
       if (e) e.stopPropagation();
       const popover = $('settings-popover');
-      const trigger = $('brand-settings-trigger');
       if (!popover) return;
-      const isVisible = popover.style.display === 'block';
-      popover.style.display = isVisible ? 'none' : 'block';
-      if (trigger) trigger.setAttribute('aria-expanded', !isVisible);
+      setBrandMenu(false);
+      setSettingsPopover(popover.style.display !== 'block');
     };
 
-    document.addEventListener('click', (e) => {
-      const popover = $('settings-popover');
-      const wrap = $('brand-settings-wrapper');
-      if (popover && wrap && !wrap.contains(e.target)) {
-        popover.style.display = 'none';
-        const trigger = $('brand-settings-trigger');
-        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    // Wide bar: the name is a plain link to About Us. Compact bar: it opens the six-item menu instead.
+    window.handleBrandClick = function(e) {
+      const header = $('brand-header');
+      const menu = $('brand-menu-popover');
+      if (!header || !menu || !header.classList.contains('nav-compact')) return;
+      e.preventDefault();
+      e.stopPropagation();
+      setSettingsPopover(false);
+      setBrandMenu(menu.hidden);
+    };
+
+    // Switches between the full bar and the compact bar based on what actually fits.
+    window.updateHeaderLayout = function() {
+      const header = $('brand-header');
+      if (!header) return;
+      const nav = header.querySelector('.header-center-nav');
+      const brand = $('brand-menu-wrapper');
+      const right = header.querySelector('.header-right-group');
+      const search = $('header-search-wrap');
+      const link = $('brand-home-link');
+      if (!nav || !brand || !right) return;
+      if (search && search.classList.contains('open') && !header.classList.contains('nav-compact')) return;
+
+      header.classList.remove('nav-compact');
+      const n = nav.getBoundingClientRect();
+      const b = brand.getBoundingClientRect();
+      const r = right.getBoundingClientRect();
+      const h = header.getBoundingClientRect();
+      const gap = 20;
+      const fits = n.width > 0 && n.left >= b.right + gap && n.right <= r.left - gap && b.left >= h.left && r.right <= h.right;
+      header.classList.toggle('nav-compact', !fits);
+
+      if (link) {
+        if (fits) {
+          link.removeAttribute('aria-haspopup');
+          link.removeAttribute('aria-expanded');
+        } else {
+          link.setAttribute('aria-haspopup', 'true');
+          link.setAttribute('aria-expanded', header.classList.contains('menu-open') ? 'true' : 'false');
+        }
       }
+      if (fits) setBrandMenu(false);
+    };
+
+    (function initResponsiveHeader() {
+      const header = $('brand-header');
+      if (!header) return;
+      let queued = false;
+      const schedule = function() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function() {
+          queued = false;
+          window.updateHeaderLayout();
+        });
+      };
+      window.addEventListener('resize', schedule);
+      window.addEventListener('orientationchange', schedule);
+      window.addEventListener('load', schedule);
+      if (typeof ResizeObserver !== 'undefined') {
+        const ro = new ResizeObserver(schedule);
+        ro.observe(header);
+        const right = header.querySelector('.header-right-group');
+        if (right) ro.observe(right);
+      }
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+
+      // Choosing a menu item goes to that section / page and closes the menu
+      const menu = $('brand-menu-popover');
+      if (menu) {
+        menu.addEventListener('click', function(e) {
+          if (e.target.closest('a')) setBrandMenu(false);
+        });
+      }
+      window.updateHeaderLayout();
+    })();
+
+    document.addEventListener('click', (e) => {
+      const settingsWrap = $('brand-settings-wrapper');
+      const menuWrap = $('brand-menu-wrapper');
+      if (settingsWrap && !settingsWrap.contains(e.target)) setSettingsPopover(false);
+      if (menuWrap && !menuWrap.contains(e.target)) setBrandMenu(false);
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        const popover = $('settings-popover');
-        if (popover) popover.style.display = 'none';
+        setSettingsPopover(false);
+        setBrandMenu(false);
       }
     });
 
@@ -6681,21 +7198,17 @@
     };
 
     window.applySiteTheme = function(theme) {
-      const root = document.documentElement;
-      const sunIcon = $('theme-icon-sun');
-      const moonIcon = $('theme-icon-moon');
-      const label = $('theme-toggle-label');
-      const isPl = (root.lang === 'pl');
-      if (theme === 'light') {
-        root.setAttribute('data-theme', 'light');
-        if (sunIcon) sunIcon.style.display = 'none';
-        if (moonIcon) moonIcon.style.display = 'inline-block';
-        if (label) label.textContent = isPl ? 'Ciemny' : 'Dark';
-      } else {
-        root.setAttribute('data-theme', 'dark');
-        if (sunIcon) sunIcon.style.display = 'inline-block';
-        if (moonIcon) moonIcon.style.display = 'none';
-        if (label) label.textContent = isPl ? 'Jasny' : 'Light';
+      theme = theme === 'light' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+      const btnLight = $('btn-theme-light');
+      const btnDark = $('btn-theme-dark');
+      if (btnLight) {
+        btnLight.classList.toggle('active', theme === 'light');
+        btnLight.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+      }
+      if (btnDark) {
+        btnDark.classList.toggle('active', theme === 'dark');
+        btnDark.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
       }
       try {
         localStorage.setItem('mi_wardrobe_theme', theme);
