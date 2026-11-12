@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Materials &mdash; MI Wardrobe</title>
-  <meta name="description" content="Explore the architectural finishes, natural walnut interior, and precision mechanical materials of the MI Wardrobe prototype.">
+  <meta name="description" content="Explore the architectural finishes, natural walnut interior, and precision mechanical materials of MI Wardrobe.">
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +23,13 @@
     body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
     a { color: inherit; text-decoration: none; }
 
+    html[data-theme="light"] {
+      --bg: #F4EFE6; --bg-alt: #EAE2D6; --surface: #FFFFFF;
+      --text: #1C232D; --text-muted: #363C44; --text-light: #7A7062;
+      --accent: #363C44; --accent-hover: #1C232D; --accent-subtle: rgba(149,138,122,0.18);
+      --border: rgba(54,60,68,0.16);
+    }
+
     .brand-header {
       position: fixed; top: 16px; left: 24px; right: 24px; min-height: 62px; padding: 10px 22px;
       z-index: 100; display: flex; justify-content: space-between; align-items: center;
@@ -37,33 +44,85 @@
       transform: translateY(-130%);
       pointer-events: none;
     }
-    .brand-wordmark { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.1rem; color: #18181B; }
+    .brand-wordmark-btn {
+      display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.05rem; color: #18181B;
+      background: none; border: none; cursor: pointer; padding: 4px 6px; border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+    .brand-wordmark-btn:hover { background: rgba(0, 0, 0, 0.05); }
     .brand-logo-img { width: 32px; height: 32px; border-radius: 6px; object-fit: cover; }
-    .header-center-nav { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 30px; }
+    .header-center-nav { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 28px; }
     .header-nav-link { font-size: 0.9rem; font-weight: 500; color: #18181B; transition: color .2s; }
-    .header-nav-link:hover, .header-nav-link.active { color: var(--accent); }
+    .header-nav-link:hover, .header-nav-link.active { color: #958A7A; }
     .header-actions { display: flex; align-items: center; gap: 10px; }
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; border: 1px solid var(--border); background: var(--surface); transition: background .2s, border-color .2s; }
+
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; transition: background .2s, border-color .2s; }
     .btn:hover { border-color: var(--text); }
-    .header-contact-pill,
+
     .theme-toggle-pill {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 8px 18px; border-radius: 999px; background: #1C232D; color: #F5EFE6;
+      padding: 8px 16px; border-radius: 999px; background: #1C232D; color: #F5EFE6;
       border: 1px solid rgba(28,35,45,0.25); font-size: 0.85rem; font-weight: 600; cursor: pointer;
     }
     .theme-toggle-pill svg { width: 15px; height: 15px; stroke: #E0D1B9; }
-    html[data-theme="light"] {
-      --bg: #F4EFE6; --bg-alt: #EAE2D6; --surface: #FFFFFF;
-      --text: #1C232D; --text-muted: #363C44; --text-light: #7A7062;
-      --accent: #363C44; --accent-hover: #1C232D; --accent-subtle: rgba(149,138,122,0.18);
-      --border: rgba(54,60,68,0.16);
-    }
     html[data-theme="light"] .theme-toggle-pill { background: #E0D1B9; color: #1C232D; border-color: #958A7A; }
     html[data-theme="light"] .theme-toggle-pill svg { stroke: #1C232D; }
 
+    /* SETTINGS POPOVER */
+    .settings-popover {
+      position: fixed;
+      top: 86px;
+      left: 28px;
+      z-index: 250;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      min-width: 250px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      display: none;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .settings-popover.active { display: block; }
+    .settings-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .settings-label { font-size: 0.82rem; font-weight: 500; color: var(--text); }
+    .lang-switch-group { display: inline-flex; background: rgba(0,0,0,0.18); padding: 2px; border-radius: 999px; border: 1px solid var(--border); }
+    .lang-switch-btn { border: none; background: transparent; padding: 4px 10px; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); border-radius: 999px; cursor: pointer; }
+    .lang-switch-btn.active { background: var(--accent); color: #1C232D; }
+
+    /* FIRST-VISIT POPUP */
+    .first-visit-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(10, 14, 20, 0.78);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .first-visit-overlay.active { display: flex; }
+    .first-visit-dialog {
+      background: #1C232D; border: 1px solid rgba(224, 209, 185, 0.35); border-radius: 18px;
+      max-width: 480px; width: 100%; padding: 32px; color: #F5EFE6;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.65), 0 0 35px rgba(224, 209, 185, 0.12);
+      text-align: center;
+    }
+    .first-visit-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 10px; }
+    .first-visit-sub { font-size: 0.88rem; color: #C8BCA9; margin-bottom: 22px; line-height: 1.45; }
+    .first-visit-btn-row { display: flex; gap: 12px; justify-content: center; margin-bottom: 18px; }
+    .first-visit-choice-btn {
+      flex: 1; padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(149, 138, 122, 0.35);
+      background: #242B35; color: #F5EFE6; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;
+    }
+    .first-visit-choice-btn.selected { border-color: #E0D1B9; background: rgba(224, 209, 185, 0.16); color: #FFFFFF; }
+    .first-visit-save-btn {
+      width: 100%; padding: 13px; border-radius: 10px; border: none; background: #E0D1B9; color: #1C232D;
+      font-weight: 600; font-size: 0.92rem; cursor: pointer; transition: background 0.2s;
+    }
+    .first-visit-save-btn:hover { background: #C8BCA9; }
+    .first-visit-cookie-note { font-size: 0.72rem; color: #958A7A; margin-top: 14px; font-family: var(--font-mono); }
+
     main { max-width: 1120px; margin: 0 auto; padding: 140px 32px 80px; }
     .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
-    .hero h1 { font-size: clamp(2.4rem, 4.8vw, 3.8rem); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; margin: 12px 0 20px; max-width: 18ch; }
+    .hero h1 { font-size: clamp(2.4rem, 4.8vw, 3.8rem); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; margin: 12px 0 20px; max-width: 20ch; }
     .hero .lead { font-size: 1.12rem; color: var(--text-muted); max-width: 64ch; }
 
     .swatch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 56px; }
@@ -87,28 +146,68 @@
 
     footer { border-top: 1px solid var(--border); padding: 24px 32px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-light); max-width: 1120px; margin: 0 auto; }
 
+    [data-i18n] { transition: opacity .2s ease; }
+    .lang-fading [data-i18n] { opacity: 0; }
+
     @media (max-width: 900px) {
       .swatch-grid { grid-template-columns: 1fr; }
       .header-center-nav { display: none; }
       main { padding: 110px 20px 60px; }
+      .brand-header { left: 16px; right: 16px; }
     }
   </style>
 </head>
 <body>
+  <!-- First-Visit Language Selection Modal -->
+  <div class="first-visit-overlay" id="first-visit-modal">
+    <div class="first-visit-dialog">
+      <div class="first-visit-title" id="fv-title">Language Selection / Wybór języka</div>
+      <p class="first-visit-sub" id="fv-desc">Would you like the site in Polish or English?<br>Czy wolisz stronę po polsku czy po angielsku?</p>
+      <div class="first-visit-btn-row">
+        <button type="button" class="first-visit-choice-btn" id="fv-btn-en" onclick="selectFirstVisitLang('en')">English</button>
+        <button type="button" class="first-visit-choice-btn" id="fv-btn-pl" onclick="selectFirstVisitLang('pl')">Polski</button>
+      </div>
+      <button type="button" class="first-visit-save-btn" id="fv-btn-save" onclick="saveFirstVisitLang()">Accept &amp; Save / Zapisz wybór</button>
+      <div class="first-visit-cookie-note">Your language preference and functional cookies will be stored on this device.</div>
+    </div>
+  </div>
+
+  <!-- Settings Popover -->
+  <div class="settings-popover" id="settings-popover">
+    <div class="settings-row">
+      <span class="settings-label" data-i18n="settings_title">Settings</span>
+      <button type="button" onclick="toggleSettingsPopover()" style="background:none; border:none; color:var(--text-muted); cursor:pointer;">&times;</button>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label" data-i18n="settings_lang">Language:</span>
+      <div class="lang-switch-group">
+        <button type="button" class="lang-switch-btn active" id="btn-lang-en" onclick="setSiteLanguage('en')">EN</button>
+        <button type="button" class="lang-switch-btn" id="btn-lang-pl" onclick="setSiteLanguage('pl')">PL</button>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border); padding-top:10px; margin-top:8px;">
+      <a href="about.html" style="font-size:0.8rem; color:var(--accent); text-decoration:underline;" data-i18n="nav_about">About Us &amp; Story &rarr;</a>
+    </div>
+  </div>
+
   <header class="brand-header" id="main-brand-header">
-    <a href="about.html" class="brand-wordmark">
+    <button type="button" class="brand-wordmark-btn" onclick="toggleSettingsPopover()" title="Click for Settings &amp; Language">
       <img src="logo.png" alt="MI Wardrobe Logo" class="brand-logo-img" onerror="this.onerror=null; this.src='assets/logo.png';">
       <span>MI Wardrobe</span>
-    </a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.5; margin-left:2px;">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
     <nav class="header-center-nav" aria-label="Primary Navigation">
-      <a href="index.html#models" class="header-nav-link">Products</a>
-      <a href="index.html#operation" class="header-nav-link">Services</a>
-      <a href="materials.html" class="header-nav-link active">Materials</a>
-      <a href="index.html#visit" class="header-nav-link">News</a>
-      <a href="chat.html" class="header-nav-link">Chat with us</a>
+      <a href="index.html#models" class="header-nav-link" data-i18n="nav_products">Products</a>
+      <a href="index.html#operation" class="header-nav-link" data-i18n="nav_services">Services</a>
+      <a href="materials.html" class="header-nav-link active" data-i18n="nav_materials">Materials</a>
+      <a href="index.html#visit" class="header-nav-link" data-i18n="nav_news">News</a>
+      <a href="chat.html" class="header-nav-link" data-i18n="nav_chat">Chat with us</a>
     </nav>
     <div class="header-actions">
-      <a href="index.html" class="btn">&#8592; Back to showcase</a>
+      <a href="index.html" class="btn" data-i18n="back_showcase">&#8592; Back to showcase</a>
       <button type="button" class="theme-toggle-pill" id="theme-toggle-btn" onclick="toggleSiteTheme()" aria-label="Toggle Light/Dark Mode">
         <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"></circle>
@@ -127,72 +226,72 @@
 
   <main>
     <section class="hero">
-      <span class="eyebrow">Material Specification &amp; Craft</span>
-      <h1>Tactile furniture finishes. Industrial-grade mechanics.</h1>
-      <p class="lead">Every surface of MI Wardrobe is selected to balance quiet residential warmth on the outside with durable, low-friction mechanical precision inside the dual-carousel cavity.</p>
+      <span class="eyebrow" data-i18n="mat_eyebrow">Material Specification &amp; Craft</span>
+      <h1 data-i18n="mat_heading">Tactile furniture finishes. Industrial-grade mechanics.</h1>
+      <p class="lead" data-i18n="mat_lead">Every surface of MI Wardrobe is selected to balance quiet residential warmth on the outside with durable, low-friction mechanical precision inside the dual-carousel cavity.</p>
     </section>
 
     <div class="swatch-grid">
       <article class="material-card">
         <div class="swatch-banner swatch-exterior">
-          <span class="swatch-tag">01 / Exterior Shell &amp; Fascia</span>
+          <span class="swatch-tag" data-i18n="c1_tag">01 / Exterior Shell &amp; Fascia</span>
         </div>
         <div class="material-body">
           <div>
-            <h2>Matte White &amp; Deep Matte Black</h2>
-            <p>The outer structural panels feature a seamless, non-reflective architectural matte white finish with zero wood grain distraction, paired with a deep neutral matte black upper power fascia, plinth, and aperture framing.</p>
+            <h2 data-i18n="c1_title">Matte White &amp; Deep Matte Black</h2>
+            <p data-i18n="c1_desc">The outer structural panels feature a seamless, non-reflective architectural matte white finish with zero wood grain distraction, paired with a deep neutral matte black upper power fascia, plinth, and aperture framing.</p>
           </div>
           <div class="spec-list">
-            <div><strong>Surface Roughness</strong>0.80 &ndash; 0.88 (Soft Matte)</div>
-            <div><strong>Panel Core</strong>High-density furniture MDF</div>
+            <div><strong data-i18n="c1_s1_l">Surface Roughness</strong><span data-i18n="c1_s1_v">0.80 &ndash; 0.88 (Soft Matte)</span></div>
+            <div><strong data-i18n="c1_s2_l">Panel Core</strong><span data-i18n="c1_s2_v">High-density furniture MDF</span></div>
           </div>
         </div>
       </article>
 
       <article class="material-card">
         <div class="swatch-banner swatch-walnut">
-          <span class="swatch-tag">02 / Interior Cavity</span>
+          <span class="swatch-tag" data-i18n="c2_tag">02 / Interior Cavity</span>
         </div>
         <div class="material-body">
           <div>
-            <h2>Natural Dark Walnut Veneer</h2>
-            <p>All internal furniture surfaces&mdash;including the rear acoustic panel, internal floor, side walls, and ceiling&mdash;are finished in rich, warm dark walnut with natural vertical wood grain and a satin-matte protective seal.</p>
+            <h2 data-i18n="c2_title">Natural Dark Walnut Veneer</h2>
+            <p data-i18n="c2_desc">All internal furniture surfaces&mdash;including the rear acoustic panel, internal floor, side walls, and ceiling&mdash;are finished in rich, warm dark walnut with natural vertical wood grain and a satin-matte protective seal.</p>
           </div>
           <div class="spec-list">
-            <div><strong>Finish Type</strong>Satin-matte natural walnut</div>
-            <div><strong>Grain Orientation</strong>Continuous vertical bookmatch</div>
+            <div><strong data-i18n="c2_s1_l">Finish Type</strong><span data-i18n="c2_s1_v">Satin-matte natural walnut</span></div>
+            <div><strong data-i18n="c2_s2_l">Grain Orientation</strong><span data-i18n="c2_s2_v">Continuous vertical bookmatch</span></div>
           </div>
         </div>
       </article>
 
       <article class="material-card">
         <div class="swatch-banner swatch-metal">
-          <span class="swatch-tag">03 / Dual Carousel Hardware</span>
+          <span class="swatch-tag" data-i18n="c3_tag">03 / Dual Carousel Hardware</span>
         </div>
         <div class="material-body">
           <div>
-            <h2>Brushed Aluminium &amp; Machined Steel</h2>
-            <p>The upper and lower racetrack conveyor loops combine brushed anodised aluminium guide rails, CNC-machined steel ceiling collars, and powder-coated structural support columns engineered for quiet continuous rotation.</p>
+            <h2 data-i18n="c3_title">Brushed Aluminium &amp; Machined Steel</h2>
+            <p data-i18n="c3_desc">The upper and lower racetrack conveyor loops combine brushed anodised aluminium guide rails, CNC-machined steel ceiling collars, and powder-coated structural support columns engineered for quiet continuous rotation.</p>
           </div>
           <div class="spec-list">
-            <div><strong>Conveyor Rails</strong>6063-T6 Anodised Aluminium</div>
-            <div><strong>Support Columns</strong>Powder-coated structural steel</div>
+            <div><strong data-i18n="c3_s1_l">Conveyor Rails</strong><span data-i18n="c3_s1_v">6063-T6 Anodised Aluminium</span></div>
+            <div><strong data-i18n="c3_s2_l">Support Columns</strong><span data-i18n="c3_s2_v">Powder-coated structural steel</span></div>
           </div>
         </div>
       </article>
 
       <article class="material-card">
         <div class="swatch-banner swatch-glass">
-          <span class="swatch-tag">04 / Aperture &amp; Hangers</span>
+          <span class="swatch-tag" data-i18n="c4_tag">04 / Aperture &amp; Hangers</span>
         </div>
         <div class="material-body">
           <div>
-            <h2>Frosted Hazy Glass &amp; Smart Hangers</h2>
-            <p>Two central collection doors use lightly diffused hazy safety glass that softens the view of stored garments while glowing warmly when an outfit arrives. Custom hangers pair solid beechwood, matte ABS, and chrome hooks.</p>
+            <h2 data-i18n="c4_title">Frosted Hazy Glass &amp; Smart Hangers</h2>
+            <p data-i18n="c4_desc">Two central collection doors use lightly diffused hazy safety glass that softens the view of stored garments while glowing warmly when an outfit arrives. Custom hangers pair solid beechwood, matte ABS, and chrome hooks.</p>
           </div>
           <div class="spec-list">
-            <div><strong>Aperture Doors</strong>Tempered frosted safety glass</div>
-            <div><strong>Garment Hangers</strong>Beechwood, matte ABS &amp; chrome</div>
+            <div><strong data-i18n="c4_s1_l">Aperture Doors</strong><span data-i18n="c4_s1_v">Tempered frosted safety glass</span></div>
+            <div><strong data-i18n="c4_s2_l">Garment Hangers</strong><span data-i18n="c4_s2_v">Beechwood, matte ABS &amp; chrome</span></div>
           </div>
         </div>
       </article>
@@ -200,20 +299,189 @@
 
     <div class="lighting-banner">
       <div>
-        <span class="eyebrow" style="color:#E8D3AE;">Integrated Illumination</span>
-        <h3>3500K Warm-Neutral Architectural LED</h3>
-        <p>Recessed interior lighting is tuned to approximately 3500K warm-neutral white with high colour rendering (CRI &gt; 95), ensuring natural fabric colours and walnut tones look true to life without glare or harsh shadows.</p>
+        <span class="eyebrow" style="color:#E8D3AE;" data-i18n="light_eyebrow">Integrated Illumination</span>
+        <h3 data-i18n="light_title">3500K Warm-Neutral Architectural LED</h3>
+        <p data-i18n="light_desc">Recessed interior lighting is tuned to approximately 3500K warm-neutral white with high colour rendering (CRI &gt; 95), ensuring natural fabric colours and walnut tones look true to life without glare or harsh shadows.</p>
       </div>
-      <a href="index.html#scene-explosion" class="btn" style="background:#FFE8C8; color:#18181B; border-color:#FFE8C8;">Inspect in 3D Exploded View &#8594;</a>
+      <a href="index.html#scene-explosion" class="btn" style="background:#FFE8C8; color:#18181B; border-color:#FFE8C8; font-weight:600;" data-i18n="light_btn">Inspect in 3D Exploded View &#8594;</a>
     </div>
   </main>
 
   <footer>
-    <span>&copy; 2026 MI Wardrobe &middot; Material Specification</span>
-    <span>University project prototype</span>
+    <span>&copy; 2026 MI Wardrobe &middot; Warsaw, Poland</span>
+    <span data-i18n="footer_tag">Tailored Dressing Systems</span>
   </footer>
 
   <script>
+    const I18N = {
+      en: {
+        title: "Materials — MI Wardrobe",
+        nav_products: "Products",
+        nav_services: "Services",
+        nav_materials: "Materials",
+        nav_news: "News",
+        nav_chat: "Chat with us",
+        nav_about: "About Us",
+        settings_title: "Settings",
+        settings_lang: "Language",
+        back_showcase: "← Back to showcase",
+        mat_eyebrow: "Material Specification & Craft",
+        mat_heading: "Tactile furniture finishes. Industrial-grade mechanics.",
+        mat_lead: "Every surface of MI Wardrobe is selected to balance quiet residential warmth on the outside with durable, low-friction mechanical precision inside the dual-carousel cavity.",
+        c1_tag: "01 / Exterior Shell & Fascia",
+        c1_title: "Matte White & Deep Matte Black",
+        c1_desc: "The outer structural panels feature a seamless, non-reflective architectural matte white finish with zero wood grain distraction, paired with a deep neutral matte black upper power fascia, plinth, and aperture framing.",
+        c1_s1_l: "Surface Roughness",
+        c1_s1_v: "0.80 – 0.88 (Soft Matte)",
+        c1_s2_l: "Panel Core",
+        c1_s2_v: "High-density furniture MDF",
+        c2_tag: "02 / Interior Cavity",
+        c2_title: "Natural Dark Walnut Veneer",
+        c2_desc: "All internal furniture surfaces—including the rear acoustic panel, internal floor, side walls, and ceiling—are finished in rich, warm dark walnut with natural vertical wood grain and a satin-matte protective seal.",
+        c2_s1_l: "Finish Type",
+        c2_s1_v: "Satin-matte natural walnut",
+        c2_s2_l: "Grain Orientation",
+        c2_s2_v: "Continuous vertical bookmatch",
+        c3_tag: "03 / Dual Carousel Hardware",
+        c3_title: "Brushed Aluminium & Machined Steel",
+        c3_desc: "The upper and lower racetrack conveyor loops combine brushed anodised aluminium guide rails, CNC-machined steel ceiling collars, and powder-coated structural support columns engineered for quiet continuous rotation.",
+        c3_s1_l: "Conveyor Rails",
+        c3_s1_v: "6063-T6 Anodised Aluminium",
+        c3_s2_l: "Support Columns",
+        c3_s2_v: "Powder-coated structural steel",
+        c4_tag: "04 / Aperture & Hangers",
+        c4_title: "Frosted Hazy Glass & Smart Hangers",
+        c4_desc: "Two central collection doors use lightly diffused hazy safety glass that softens the view of stored garments while glowing warmly when an outfit arrives. Custom hangers pair solid beechwood, matte ABS, and chrome hooks.",
+        c4_s1_l: "Aperture Doors",
+        c4_s1_v: "Tempered frosted safety glass",
+        c4_s2_l: "Garment Hangers",
+        c4_s2_v: "Beechwood, matte ABS & chrome",
+        light_eyebrow: "Integrated Illumination",
+        light_title: "3500K Warm-Neutral Architectural LED",
+        light_desc: "Recessed interior lighting is tuned to approximately 3500K warm-neutral white with high colour rendering (CRI > 95), ensuring natural fabric colours and walnut tones look true to life without glare or harsh shadows.",
+        light_btn: "Inspect in 3D Exploded View →",
+        footer_tag: "Tailored Dressing Systems"
+      },
+      pl: {
+        title: "Materiały — MI Wardrobe",
+        nav_products: "Produkty",
+        nav_services: "Usługi",
+        nav_materials: "Materiały",
+        nav_news: "Aktualności",
+        nav_chat: "Napisz do nas",
+        nav_about: "O nas",
+        settings_title: "Ustawienia",
+        settings_lang: "Język",
+        back_showcase: "← Powrót do prezentacji",
+        mat_eyebrow: "Specyfikacja Materiałowa i Rzemiosło",
+        mat_heading: "Szlachetne wykończenia. Niezawodna mechanika.",
+        mat_lead: "Każda powierzchnia MI Wardrobe została dobrana tak, aby łączyć dyskretne ciepło domowego wnętrza z trwałością i cichą pracą mechanizmu karuzelowego.",
+        c1_tag: "01 / Obudowa Zewnętrzna i Fasada",
+        c1_title: "Matowa Biel i Głęboki Matowy Czarny",
+        c1_desc: "Zewnętrzne panele konstrukcyjne wyróżniają się gładkim, antyrefleksyjnym wykończeniem w kolorze matowej bieli, zestawionym z głęboką czernią górnej fasady zasilającej, cokołu oraz ramy okna odbiorczego.",
+        c1_s1_l: "Chropowatość",
+        c1_s1_v: "0.80 – 0.88 (Satynowy mat)",
+        c1_s2_l: "Rdzeń panelu",
+        c1_s2_v: "Wysokiej gęstości płyta MDF",
+        c2_tag: "02 / Wnętrze Garderoby",
+        c2_title: "Naturalny Fornir Orzech Ciemny",
+        c2_desc: "Wszystkie wewnętrzne powierzchnie mebla — tylna ścianka akustyczna, podłoga, boki i sufit — wykończone są szlachetnym ciemnym orzechem o naturalnym pionowym usłojeniu z ochronną powłoką satynową.",
+        c2_s1_l: "Rodzaj wykończenia",
+        c2_s1_v: "Satynowy orzech naturalny",
+        c2_s2_l: "Układ słojów",
+        c2_s2_v: "Ciągłe pasowanie pionowe",
+        c3_tag: "03 / Mechanizm Dwupoziomowej Karuzeli",
+        c3_title: "Szczotkowane Aluminium i Stal",
+        c3_desc: "Górne i dolne tory transportowe łączą prowadnice ze szczotkowanego aluminium anodowanego, precyzyjne kołnierze sufitowe CNC oraz proszkowo malowane kolumny nośne zaprojektowane do cichego ruchu ciągłego.",
+        c3_s1_l: "Szyny prowadzące",
+        c3_s1_v: "Anodowane aluminium 6063-T6",
+        c3_s2_l: "Kolumny wsporcze",
+        c3_s2_v: "Malowana proszkowo stal konstrukcyjna",
+        c4_tag: "04 / Drzwi Odbiorcze i Wieszaki",
+        c4_title: "Mleczne Szkło i Inteligentne Wieszaki",
+        c4_desc: "Dwoje centralnych drzwi odbiorczych wykonano z delikatnie rozpraszającego, matowego szkła bezpiecznego, które dyskretnie przysłania garderobę i podświetla się ciepłym blaskiem przy odbiorze ubrań.",
+        c4_s1_l: "Drzwi odbiorcze",
+        c4_s1_v: "Hartowane mleczne szkło bezpieczne",
+        c4_s2_l: "Wieszaki",
+        c4_s2_v: "Drewno bukowe, matowy ABS i chrom",
+        light_eyebrow: "Zintegrowane Oświetlenie",
+        light_title: "Ciepłobiałe Oświetlenie LED 3500K",
+        light_desc: "Wpuszczane oświetlenie wewnętrzne o temperaturze barwowej ok. 3500K i wysokim wskaźniku oddawania barw (CRI > 95) sprawia, że naturalne kolory tkanin i orzecha prezentują się wiernie i bez odblasków.",
+        light_btn: "Zobacz w widoku rozstrzelonym 3D →",
+        footer_tag: "Dedykowane Systemy Garderobiane"
+      }
+    };
+
+    let selectedFirstVisitLang = 'en';
+
+    function getSavedLanguage() {
+      let lang = null;
+      try { lang = localStorage.getItem('mi_lang'); } catch (e) {}
+      if (!lang) {
+        const m = document.cookie.match(/(?:^|;\s*)mi_lang=([^;]+)/);
+        if (m) lang = m[1];
+      }
+      return lang;
+    }
+
+    function setSiteLanguage(lang, persist = true) {
+      if (lang !== 'pl' && lang !== 'en') lang = 'en';
+      if (persist) {
+        try { localStorage.setItem('mi_lang', lang); } catch (e) {}
+        document.cookie = 'mi_lang=' + lang + '; max-age=31536000; path=/; SameSite=Lax';
+      }
+
+      document.body.classList.add('lang-fading');
+      setTimeout(() => {
+        const dict = I18N[lang] || I18N.en;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const k = el.dataset.i18n;
+          if (dict[k]) el.textContent = dict[k];
+        });
+        document.title = dict.title;
+        document.documentElement.lang = lang;
+
+        const btnEn = document.getElementById('btn-lang-en');
+        const btnPl = document.getElementById('btn-lang-pl');
+        if (btnEn && btnPl) {
+          btnEn.classList.toggle('active', lang === 'en');
+          btnPl.classList.toggle('active', lang === 'pl');
+        }
+        document.body.classList.remove('lang-fading');
+      }, 140);
+    }
+
+    function selectFirstVisitLang(lang) {
+      selectedFirstVisitLang = lang;
+      const bEn = document.getElementById('fv-btn-en');
+      const bPl = document.getElementById('fv-btn-pl');
+      if (bEn && bPl) {
+        bEn.classList.toggle('selected', lang === 'en');
+        bPl.classList.toggle('selected', lang === 'pl');
+      }
+    }
+
+    function saveFirstVisitLang() {
+      setSiteLanguage(selectedFirstVisitLang, true);
+      const modal = document.getElementById('first-visit-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function toggleSettingsPopover() {
+      const pop = document.getElementById('settings-popover');
+      if (pop) pop.classList.toggle('active');
+    }
+
+    document.addEventListener('click', function(e) {
+      const pop = document.getElementById('settings-popover');
+      const trigger = document.querySelector('.brand-wordmark-btn');
+      if (pop && pop.classList.contains('active')) {
+        if (!pop.contains(e.target) && (!trigger || !trigger.contains(e.target))) {
+          pop.classList.remove('active');
+        }
+      }
+    });
+
     function applySiteTheme(theme) {
       const root = document.documentElement;
       const sunIcon = document.getElementById('theme-icon-sun');
@@ -232,14 +500,26 @@
       }
       try { localStorage.setItem('mi_wardrobe_theme', theme); } catch (e) {}
     }
+
     function toggleSiteTheme() {
       const current = document.documentElement.getAttribute('data-theme') || 'dark';
       applySiteTheme(current === 'light' ? 'dark' : 'light');
     }
-    (function() {
-      let saved = 'dark';
-      try { saved = localStorage.getItem('mi_wardrobe_theme') || 'dark'; } catch (e) {}
-      applySiteTheme(saved);
+
+    (function initOnLoad() {
+      let savedTheme = 'dark';
+      try { savedTheme = localStorage.getItem('mi_wardrobe_theme') || 'dark'; } catch (e) {}
+      applySiteTheme(savedTheme);
+
+      const savedLang = getSavedLanguage();
+      if (savedLang) {
+        setSiteLanguage(savedLang, false);
+      } else {
+        const isPl = (navigator.language || '').toLowerCase().startsWith('pl');
+        selectFirstVisitLang(isPl ? 'pl' : 'en');
+        const modal = document.getElementById('first-visit-modal');
+        if (modal) modal.classList.add('active');
+      }
     })();
 
     window.addEventListener('scroll', function() {
